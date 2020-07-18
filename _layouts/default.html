@@ -1,7 +1,11 @@
 <!DOCTYPE html>
-<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+<html lang="{{ page.lang | default: site.lang | default: 'en' }}">
 
   {% include head.html %}
+
+  {% if page.d3 == "yes" %}
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  {% endif %}
 
   <body>
 
@@ -15,16 +19,28 @@
 
     {% include footer.html %}
 
+    {% if page.mathjax  == "yes" %}
+        <script>
+            MathJax = {
+              tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+              },
+              svg: {
+                fontCache: 'global'
+              },
+              scale: 4
+            };
+        </script>
+
+        <script type="text/javascript" id="MathJax-script" async
+                src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+        </script>
+    {% endif %}
+
+    {% for script_path in page.custom_js %}
+        <script src="/assets/js/{{script_path}}"></script>
+    {% endfor %}
   </body>
 
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    processEscapes: true
-  }
-});
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
 </html>
 
