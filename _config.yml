@@ -27,6 +27,8 @@ url: "https://gukov.dev" # the base hostname & protocol for your site, e.g. http
 #linkedin_username: gukov
 #github_username:  gukoff
 
+google_analytics: UA-89901556-1
+
 # Build settings
 theme: minima
 plugins:
