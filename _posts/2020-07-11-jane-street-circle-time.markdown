@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Jane Street puzzle: Circle Time!"
-date:   2020-07-18 16:00:00 +0200
+date:   2020-07-18 17:00:00 +0200
 categories: Jane Street puzzles
 d3: "yes"
 mathjax: "yes"

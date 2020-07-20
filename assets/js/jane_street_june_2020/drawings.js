@@ -57,13 +57,26 @@ function SvgPane(div_id, center_x, center_y, width, height) {
                                .style("stroke", function(d) { return d.stroke; });
     }
 
-    function drawText(coord, text, dx=0, dy=0) {
+    function drawText(coord, text, dx=0, dy=0, style='normal', size='15px') {
         svgContainer().append("text")
                       .attr('x', center_x + coord.x)
                       .attr('y', center_y - coord.y)
                       .attr('dx', dx)
                       .attr('dy', dy)
+                      .attr('font-style', style)
+                      .style('font-size', size)
                       .text(text);
+    }
+
+    function linear_sum(point1, point2, proportion) {
+        return {
+           'x': point1.x * proportion + point2.x * (1 - proportion),
+           'y': point1.y * proportion + point2.y * (1 - proportion),
+       }
+    }
+
+    function between(point1, point2) {
+        return linear_sum(point1, point2, 0.5);
     }
 
     function drawLine(from, to, width=2, color='black') {
@@ -102,12 +115,23 @@ function SvgPane(div_id, center_x, center_y, width, height) {
             'y': 2 * E.y - B.y,
         };
 
+        drawText(between(D, E), 'r', dx=-5, dy=13, style='italic', size='13px');
+        drawText(between(E, B), 'r', dx=-10, dy=10, style='italic', size='13px');
+        drawText(between(A, B), 'r', dx=-10, dy=4, style='italic', size='13px');
+        drawText(between(A, B), 'r', dx=-10, dy=4, style='italic', size='13px');
+        drawText(between(B, linear_sum(B, C, 1 / (1 + MAGIC))), 'r', dx=2, dy=-3, style='italic', size='13px');
+        drawText(between(C, linear_sum(B, C, 1 / (1 + MAGIC))), 'R', dx=-10, dy=-6, style='italic', size='13px');
+        drawText(linear_sum(C, O, 1.25), 'R', dx=-5, dy=15, style='italic', size='13px');
+
         drawText(O, 'O', dx=-15);
         drawText(A, 'A', dx=2, dy=-5);
         drawText(B, 'B', dx=3, dy=-3);
         drawText(C, 'C', dx=0, dy=-3);
         drawText(D, 'D', dx=2, dy=-2);
         drawText(E, 'E', dx=8, dy=2);
+
+        drawText(O, 'O', dx=-15);
+
 
         drawLine(O, {x: start_radius, y: 0}, width=1, color='grey');
         drawLine(O, {x: 0, y: start_radius}, width=1, color='grey');
