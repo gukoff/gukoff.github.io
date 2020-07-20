@@ -74,7 +74,7 @@ Remember how $X$ is a relation of the areas of 2 consecutive rings? Let's say th
 built of the circles of radius $r$, and the outer ring - of radius $R$. Then $X = \large (\frac{r}{R})^2$, 
 because [areas relate as squares of lengths](https://en.wikipedia.org/wiki/Square%E2%80%93cube_law).
 
-Finding $\frac{r}{R}$ is the cornerstone of this puzzle. 
+Finding $\large \frac{r}{R}$ is the cornerstone of this puzzle. 
 And all you need for it is... the Pythagorean theorem! 
 
 Look at the top-right quadrant of the picture. 
