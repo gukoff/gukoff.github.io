@@ -79,7 +79,7 @@ function SvgPane(div_id, center_x, center_y, width, height) {
         return linear_sum(point1, point2, 0.5);
     }
 
-    function drawLine(from, to, width=2, color='black') {
+    function drawLine(from, to, width=1.5, color='black') {
         svgContainer().append("line")
                       .attr("x1", center_x + from.x)
                       .attr("y1", center_y - from.y)
@@ -87,6 +87,15 @@ function SvgPane(div_id, center_x, center_y, width, height) {
                       .attr("y2", center_y - to.y)
                       .attr("stroke-width", width)
                       .attr("stroke", color);
+    }
+
+    function drawPoint(point, radius=3) {
+        svgContainer().append("circle")
+                      .attr("cx", center_x + point.x)
+                      .attr("cy", center_y - point.y)
+                      .attr("r", radius)
+                      .style("fill", 'black')
+                      .style("stroke", 'none');
     }
 
     function drawFigures(start_radius) {
@@ -115,13 +124,24 @@ function SvgPane(div_id, center_x, center_y, width, height) {
             'y': 2 * E.y - B.y,
         };
 
+        var B_C_touch = linear_sum(B, C, 1 / (1 + MAGIC));
+
+        drawPoint(O);
+        drawPoint(A);
+        drawPoint(B);
+        drawPoint(B_C_touch);
+        drawPoint(C);
+        drawPoint(D);
+        drawPoint(E);
+
         drawText(between(D, E), 'r', dx=-5, dy=13, style='italic', size='13px');
         drawText(between(E, B), 'r', dx=-10, dy=10, style='italic', size='13px');
         drawText(between(A, B), 'r', dx=-10, dy=4, style='italic', size='13px');
         drawText(between(A, B), 'r', dx=-10, dy=4, style='italic', size='13px');
-        drawText(between(B, linear_sum(B, C, 1 / (1 + MAGIC))), 'r', dx=2, dy=-3, style='italic', size='13px');
-        drawText(between(C, linear_sum(B, C, 1 / (1 + MAGIC))), 'R', dx=-10, dy=-6, style='italic', size='13px');
+        drawText(between(B, B_C_touch), 'r', dx=2, dy=-3, style='italic', size='13px');
+        drawText(between(C, B_C_touch), 'R', dx=-10, dy=-6, style='italic', size='13px');
         drawText(linear_sum(C, O, 1.25), 'R', dx=-5, dy=15, style='italic', size='13px');
+
 
         drawText(O, 'O', dx=-15);
         drawText(A, 'A', dx=2, dy=-5);
@@ -131,7 +151,6 @@ function SvgPane(div_id, center_x, center_y, width, height) {
         drawText(E, 'E', dx=8, dy=2);
 
         drawText(O, 'O', dx=-15);
-
 
         drawLine(O, {x: start_radius, y: 0}, width=1, color='grey');
         drawLine(O, {x: 0, y: start_radius}, width=1, color='grey');
