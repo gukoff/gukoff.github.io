@@ -60,10 +60,10 @@ Let the radius of the large circle be 1.
 It doesn’t affect the result in any way but will make the calculations more brief.
 
 Now the area of the outermost ring is easy to find. Every circle in this ring has a radius 3 times
-less than the radius of the big circle - $\frac{1}{3}$. This means, area of the ring is 
-$6 * \pi * (\frac{1}{3})^2 = \frac{2}{3}\pi$. The area of C is just $\pi$.
+less than the radius of the big circle - $\large \frac{1}{3}$. This means, area of the ring is 
+$6 * \pi * (\frac{1}{3})^2 = \frac{2}{3}\pi$. The area of the big circle is just $\pi$.
 
-The answer to the problem simplifies to  $\frac{\frac{2}{3}\pi}{1-X} / \pi = \frac{2}{3(1-X)}$.
+The answer to the problem simplifies to  $\large \frac{\frac{2}{3}\pi}{1-X} / \pi = \frac{2}{3(1-X)}$.
 If we knew $X$, we would know the answer.
 
 ---
@@ -71,7 +71,7 @@ If we knew $X$, we would know the answer.
 So, what is the value of $X$?
 
 Remember how $X$ is a relation of the areas of 2 consecutive rings? Let's say the inner ring is 
-built of the circles of radius $r$, and the outer ring - of radius $R$. Then $X = (\frac{r}{R})^2$, 
+built of the circles of radius $r$, and the outer ring - of radius $R$. Then $X = \large (\frac{r}{R})^2$, 
 because [areas relate as squares of lengths](https://en.wikipedia.org/wiki/Square%E2%80%93cube_law).
 
 Finding $\frac{r}{R}$ is the cornerstone of this puzzle. 
@@ -100,23 +100,26 @@ Notice 3 things here:
 
 Voila, we know all sides of $\bigtriangleup ABC$. Now apply the Pythagorean theorem and get the answer:
 
-$$\begin{align} 
-r^2 + (R - \sqrt{3}r)^2 = (r + R)^2 \\[1ex]
-3r^2 + 3R^2 - (4\sqrt{3} + 2)rR = 0 \\[1ex]
-3(\frac{r}{R})^2 - (4\sqrt{3} + 2)\frac{r}{R} + 3 = 0 \\[1ex]
-\frac{r}{R} = \frac{2\sqrt{3} + 1}{3} \pm \frac{2\sqrt{1+\sqrt{3}}}{3}
-\end{align}$$
+$r^2 + (R - \sqrt{3}r)^2 = (r + R)^2$
 
-Our quadratic equation has 2 roots, and these are exactly $\frac{r}{R}$ (the one that's less than $1$) and $\frac{R}{r}$.
+$3r^2 + 3R^2 - (4\sqrt{3} + 2)rR = 0$
+
+$3(\frac{r}{R})^2 - (4\sqrt{3} + 2)\frac{r}{R} + 3 = 0$
+
+$\Large{\frac{r}{R} = \frac{2\sqrt{3} + 1}{3} \pm \frac{2\sqrt{1+\sqrt{3}}}{3}}$
+
+
+Our quadratic equation has 2 roots. One of them is $\large\frac{r}{R}$ (the one that's less than $1$), and the other,
+interestingly enough, is $\large\frac{R}{r}$!
 
 ---
 
-Te rest is simple. We know that the answer is $\frac{2}{3(1-X)}$, $X = (\frac{r}{R})^2$ and 
-$\frac{r}{R} = \frac{2\sqrt{3} + 1}{3} - \frac{2\sqrt{1+\sqrt{3}}}{3}$. Combined, this gives us:
+Te rest is simple. We already know that the answer is $\large \frac{2}{3(1-X)}$, $\large X = (\frac{r}{R})^2$ and 
+$\large \frac{r}{R} = \frac{2\sqrt{3} + 1}{3} - \frac{2\sqrt{1+\sqrt{3}}}{3}$. 
+
+Combined, this gives us:
 
 
-$$\begin{gather} 
-\frac{2}{3(1-(\frac{2\sqrt{3} + 1}{3} - \frac{2\sqrt{1+\sqrt{3}}}{3})^2)} = \\[1ex]
-= \frac{1.5}{\sqrt{25 + 17 \sqrt{3}} - 2 \sqrt{3} - 2} \approx \\[3ex]
-\approx 0.783464
-\end{gather}$$
+$\Large \frac{2}{3(1-(\frac{2\sqrt{3} + 1}{3} - \frac{2\sqrt{1+\sqrt{3}}}{3})^2)} =$
+
+$\Large = \frac{1.5}{\sqrt{25 + 17 \sqrt{3}} - 2 \sqrt{3} - 2} \approx 0.783464$
