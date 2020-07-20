@@ -35,6 +35,11 @@ plugins:
   - jekyll-feed
   - jekyll-sitemap
 
+github_username: gukoff
+linkedin_username: gukov
+telegram_username: gukow
+stackoverflow_username: gukoff
+
 # Exclude from processing.
 # The following items will not be processed, by default.
 # Any item listed under the `exclude:` key here will be automatically added to
