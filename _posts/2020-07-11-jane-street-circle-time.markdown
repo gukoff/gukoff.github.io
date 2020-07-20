@@ -95,7 +95,7 @@ Notice 3 things here:
 
 3. $\bigtriangleup OAB = \bigtriangleup OEB$ because they have identical 2 sides and an angle. 
 
-   This means, $OA = OE = \sqrt{3}r \implies AC = OC - OE = \frac{2}{3} - \sqrt{3}r$
+   This means, $OA = OE = \sqrt{3}r$. In turn, $AC = OC - OA = \frac{2}{3} - \sqrt{3}r$
    <br><br>
 
 Voila, we know all sides of $\bigtriangleup ABC$. Now apply the Pythagorean theorem and get the answer:
