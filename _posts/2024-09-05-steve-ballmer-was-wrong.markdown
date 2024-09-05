@@ -13,33 +13,28 @@ A few days ago John Graham-Cumming posted about ["Steve Ballmer’s incorrect bi
 > 
 > _Should you accept to play this game?_
 
-Steve Ballmer [in this interview on YouTube](https://youtu.be/svCYbkS0Sjk?si=89kJu8Ukkr9QpkFX&t=34) tells that you should not play this game for 2 reasons:
+Steve Ballmer argues in [this YouTube interview](https://youtu.be/svCYbkS0Sjk?si=89kJu8Ukkr9QpkFX&t=34) that there are two reasons why you should not play this game:
 
-1. There are a lot of numbers that would lose you money, and the expected value is negative even if he picks values between 1 and 100 at random.
-2. He can also pick the number adversarially, i.e. pick the numbers that will take the longest for you to get with binary search.
+1. There are many numbers that would result in a loss, making the expected value negative even if he randomly picks numbers between 1 and 100.
+2. He can strategically pick numbers that would require the longest time for you to find using binary search.
 
-In his post, John [refutes](https://blog.jgc.org/2024/09/steve-ballmers-binary-search-interview.html) the first point and shows that if Ballmer picks the number randomly, the expected
-value of the game is positive: **$0.20**.
+However, John counters Ballmer's first point in his [blog post](https://blog.jgc.org/2024/09/steve-ballmers-binary-search-interview.html) by demonstrating that if Ballmer selects the number randomly, the expected value of the game is actually positive: **$0.20**.
 
-I will refute the second point and show that the expected
-value of the game is positive in general.
+I will refute the second point and demonstrate that the expected value of the game is positive regardless of Ballmer's strategy.
 
-You can win money no matter the Ballmer's strategy.
+## How can Ballmer pick numbers adversarially?
 
-## How can Ballmer choose numbers adversarially?
+Let's assume you always employ the binary search strategy to find the number. Out of the 100 numbers, there are 32 that would require you to ask 6 questions to make a guess.
 
-Let's say you always try to find the number using the binary search.There are 32 out of the 100 numbers, that you need to ask 6 questions to guess.
+If Ballmer is aware of your strategy, he can always select one of these "losing" numbers, resulting in a loss for you in every game.
 
-Assuming Ballmer knows your strategy, he can always pick one of these "losing" numbers, and you'll lose money on every game.
-
-This is true for any "fixed" search pattern. There will be at least 32
-numbers that lose you money, and Ballmer can pick one of them.
+This holds true for any "fixed" search pattern. There will always be at least 32 numbers that would result in a loss, and Ballmer can choose one of them.
 
 ## How can you counter?
 
 Here we're getting into the **game theory** territory.
 
-Instead of using a single fixed search pattern, you can prepare a set of different search patterns. Then in the beginning of the game draw one of these patterns with some probability and stick to it during the game.
+Instead of using a single fixed search pattern, you can prepare a set of different search patterns. Then at the beginning of the game, draw one of these patterns with some probability and stick to it during the game.
 
 > [In game theory](https://en.wikipedia.org/wiki/Strategy_(game_theory)#Pure_and_mixed_strategies), you call it a **mixed strategy** based on the **strategy set** of multiple **pure strategies**.
 
@@ -51,29 +46,24 @@ And this is exactly what we're looking for!
 
 ## How to find the winning mixed strategy?
 
-> Note: we're looking for _any_ winning strategy, not
-the _best_ winning strategy that has maximum expected value in the worst case, i.e. the [Nash equilibrium](https://en.wikipedia.org/wiki/Nash_equilibrium). If you're curious about the Nash equilibrium,Arthur O'Dwyer explored it for the game [up to 5 numbers](https://quuxplusone.github.io/blog/2024/09/04/the-game-is-flawed/).
+> Note: We are looking for _any_ winning strategy, not the _best_ winning strategy that has the maximum expected value in the worst case, i.e., the [Nash equilibrium](https://en.wikipedia.org/wiki/Nash_equilibrium). If you are curious about the Nash equilibrium, Arthur O'Dwyer explored it for the game [up to 5 numbers](https://quuxplusone.github.io/blog/2024/09/04/the-game-is-flawed/).
 
 Finding the mixed strategy that wins on every number can be viewed as a mathematical optimization problem.
 
-Every strategy can be described as a "win" vector $V = (v_1, .., v_{100})$, where $v_k$ is the expected win should Ballmer pick the number $k$. For example, the binary search could correspond to a vector with $v_{50} = 5$, $v_{25} = 4$ and $v_{0} = -1$.
+Every strategy can be described as a "win" vector $V = (v_1, .., v_{100})$, where $v_k$ is the expected win if Ballmer picks the number $k$. For example, the binary search could correspond to a vector with $v_{50} = 5$, $v_{25} = 4$, and $v_{0} = -1$.
 
-Suppose we have a set of pure strategies $\{V_1, V_2, ..., V_n\}$,
-and our mixed strategy chooses the strategy $V_k$ with probabiltiy $p_k$.
+Suppose we have a set of pure strategies $\{V_1, V_2, ..., V_n\}$, and our mixed strategy chooses the strategy $V_k$ with probability $p_k$.
 
-Then the corresponding "win" vector for the mixed strategy is
-just a linear combination of these vectors: $V_{mixed}=\sum_{i=1}^{n}{p_iV_i}$.
+Then the corresponding "win" vector for the mixed strategy is just a linear combination: $V_{mixed}=\sum_{i=1}^{n}{p_iV_i}$.
 
-In this interpretation, finding the winning strategy means to find some linear combination of the given vectors with 2 constraints:
+In this interpretation, finding the winning strategy means finding some linear combination of the given vectors with two constraints:
 
-- each element of the linear combination is positive (the strategy wins money, on average, for each number);
-- the coefficients of this linear combination are non-negative (as they correspond to probabilities).
+- Each element of the linear combination is positive (the strategy wins money, on average, for each number).
+- The coefficients of this linear combination are non-negative (as they correspond to probabilities).
 
-This is a typical [linear programming](https://en.wikipedia.org/wiki/Linear_programming) problem,
-and scipy [has an efficient solver](https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.linprog.html) for it!
+This is a typical [linear programming](https://en.wikipedia.org/wiki/Linear_programming) problem, and scipy [has an efficient solver](https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.linprog.html) for it.
 
-To find a strategy, I thought of a strategy set (various binary searches), fed it to `scipy.linprog()`,
-and voilà - the solver came up with a winning mixed strategy!
+To find a mixed strategy, I thought of a set of pure strategies (various binary searches), fed it to `scipy.linprog()`, and voilà - the solver came up with a winning strategy!
 
 ## Example winning strategy
 
@@ -98,8 +88,8 @@ The resulting mixed strategy goes like this:
 ...
 ```
 
-The full strategy has 60 lines that I omit for brevity. If you're curious, you can [view it on GitHub](https://github.com/gukoff/ballmer_puzzle?tab=readme-ov-file#winning-strategy).
+The complete strategy consists of 60 lines, which I have omitted for brevity. If you are interested, you can [view it on GitHub](https://github.com/gukoff/ballmer_puzzle?tab=readme-ov-file#winning-strategy).
 
 ## Conclusion
 
-If you consider winning (at least) 7 cents per game a good use of your time, you should absolutely play this game with Steve Ballmer next time he offers.
+If you find winning (at least) 7 cents per game worth your time, then you should definitely play this game with Steve Ballmer the next time he offers.
