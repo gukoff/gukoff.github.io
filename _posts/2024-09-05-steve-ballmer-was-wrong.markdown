@@ -63,7 +63,7 @@ In this interpretation, finding the winning strategy means finding some linear c
 
 This is a typical [linear programming](https://en.wikipedia.org/wiki/Linear_programming) problem, and scipy [has an efficient solver](https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.linprog.html) for it.
 
-To find a mixed strategy, I thought of a set of pure strategies (various binary searches), fed it to `scipy.linprog()`, and voilà - the solver came up with a winning strategy!
+To find a mixed strategy, I thought of a set of pure strategies (various binary searches), [fed it](https://github.com/gukoff/ballmer_puzzle/blob/main/main.py#L98) into `scipy.linprog()`, and voilà - the solver came up with a winning strategy!
 
 ## Example winning strategy
 
