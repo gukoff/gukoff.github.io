@@ -7,7 +7,7 @@ d3: "no"
 mathjax: "yes"
 ---
 
-A few days ago John Graham-Cumming posted about ["Steve Ballmer’s incorrect binary search interview question"](https://blog.jgc.org/2024/09/steve-ballmers-binary-search-interview.html). The Ballmer's favorite brain teaser goes like this:
+A few days ago John Graham-Cumming posted about ["Steve Ballmer’s incorrect binary search interview question"](https://blog.jgc.org/2024/09/steve-ballmers-binary-search-interview.html) which [drew a lot of attention](https://news.ycombinator.com/item?id=41434637) on Hacker News. The Ballmer's favorite brain teaser goes like this:
 
 >_I'm thinking of a number between 1 and 100. You can guess, after each guess I'll tell you whether you're high or low. You get it the first guess - I'll give you five bucks. Four bucks, three, two, one, zero, you pay me a buck, you pay me two, you pay me three_. 
 > 
