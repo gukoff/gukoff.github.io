@@ -47,7 +47,9 @@ And this is exactly what we're looking for!
 
 ## How to find the winning mixed strategy?
 
-> Note: We are looking for _any_ winning strategy, not the _best_ winning strategy that has the maximum expected value in the worst case, i.e., the [Nash equilibrium](https://en.wikipedia.org/wiki/Nash_equilibrium). If you are curious about the Nash equilibrium, Arthur O'Dwyer explored it for the game [up to 5 numbers](https://quuxplusone.github.io/blog/2024/09/04/the-game-is-flawed/).
+> Note: We are looking for _any_ winning strategy, not the _best_ winning strategy that has the maximum expected value in the worst case, i.e., the [Nash equilibrium](https://en.wikipedia.org/wiki/Nash_equilibrium).
+>
+> If you are curious about the Nash equilibrium, Arthur O'Dwyer explored the closed solutions for the game [up to 5 numbers](https://quuxplusone.github.io/blog/2024/09/04/the-game-is-flawed/), and Bo Waggoner approximated the equilibrium value [for the game of 100 numbers](https://bowaggoner.com/blahg/2024/09-06-adversarial-binary-search/) using [no-regret online learning](https://bowaggoner.com/courses/gradalg/notes/lect14-noregret.pdf).
 
 Finding the mixed strategy that wins on every number can be viewed as a mathematical optimization problem.
 
