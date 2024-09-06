@@ -6,7 +6,7 @@ permalink: /about/
 
 My name is **Konstantin Gukov**, and I live in Switzerland with my wife, son and a cat :)
 
-I am passionate about empowering others and solving problems, and it's even better when these two go hand in hand.
+I take joy in empowering others and solving problems, and it's even better when these two go hand in hand.
 
 Now at **Microsoft**, I mainly do projects for the Fortune 500 companies.
 These solutions use whatever technical stack best suits the problem,
