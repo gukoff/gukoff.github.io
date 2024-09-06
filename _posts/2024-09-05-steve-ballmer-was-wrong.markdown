@@ -70,27 +70,27 @@ To find a mixed strategy, I thought of a set of pure strategies (various binary 
 
 > Full code is at [gukoff/ballmer_puzzle](https://github.com/gukoff/ballmer_puzzle#winning-strategy).
 
-- Average win if Ballmer chooses randomly: **$0.12**
-- Worst win if Ballmer chooses adversarially: **$0.07**
+> Note: the initial result of $0.07 was significantly improved by Arthur O'Dwyer who [added](https://github.com/gukoff/ballmer_puzzle/pull/1) new pure strategies. 
+
+- Average win if Ballmer chooses randomly: **$0.16**
+- Worst win if Ballmer chooses adversarially: **$0.14**
 
 The resulting mixed strategy goes like this:
 
 ```
-- With probability 0.2120%: Binary search, first guess is 29. On each step, guess the middle element in the interval, in case of tie guess the left one.
-- With probability 0.0450%: Binary search, first guess is 33. On each step, guess the middle element in the interval, in case of tie guess the left one.
-- With probability 0.9843%: Binary search, first guess is 26. On each step, guess the middle element in the interval, in case of tie guess the right one.
-- With probability 0.6910%: Binary search, first guess is 28. On each step, guess the middle element in the interval, in case of tie guess the right one.
-- With probability 0.9686%: Binary search, first guess is 1. On each step, guess the rightmost element in the interval that won't increase the worst-case complexity.
-- With probability 0.7134%: Binary search, first guess is 18. On each step, guess the rightmost element in the interval that won't increase the worst-case complexity.
-- With probability 2.7288%: Binary search, first guess is 46. On each step, guess the rightmost element in the interval that won't increase the worst-case complexity.
-- With probability 2.6411%: Binary search, first guess is 36. On each step, guess the leftmost element in the interval that won't increase the worst-case complexity.
-- With probability 5.2209%: Binary search, first guess is 40. On each step, guess the leftmost element in the interval that won't increase the worst-case complexity.
+- With probability 0.4714%: Binary search, first guess 29. On each step, guess the middle element in the interval. In case of tie, guess the left one.
+- With probability 0.1691%: Binary search, first guess 33. On each step, guess the middle element in the interval. In case of tie, guess the left one.
+- With probability 0.1299%: Binary search, first guess 36. On each step, guess the middle element in the interval. In case of tie, guess the right one.
+- With probability 3.3341%: Binary search, first guess 37. On each step, guess the middle element in the interval. In case of tie, guess the right one.
+- With probability 1.7818%: Binary search, first guess is 43. On each step, guess the rightmost element in the interval that won't increase the worst-case complexity.
+- With probability 1.1608%: Binary search, first guess is 44. On each step, guess the leftmost element in the interval that won't increase the worst-case complexity.
+- With probability 2.1310%: Binary search, first guess is 42. On each step, guess the endmost element in the interval that won't increase the worst-case complexity.
 
 ...
 ```
 
-The complete strategy consists of 60 lines, which I have omitted for brevity. If you are interested, you can [view it on GitHub](https://github.com/gukoff/ballmer_puzzle?tab=readme-ov-file#winning-strategy).
+The complete strategy consists of 74 lines, which I have omitted for brevity. If you are interested, you can [view it on GitHub](https://github.com/gukoff/ballmer_puzzle?tab=readme-ov-file#winning-strategy).
 
 ## Conclusion
 
-If you find winning (on average) 7 cents per game worth your time, then you should definitely play this game with Steve Ballmer the next time he offers.
+If you find winning (on average) 14 cents per game worth your time, then you should definitely play this game with Steve Ballmer the next time he offers.
