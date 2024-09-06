@@ -24,11 +24,11 @@ I will refute the second point and demonstrate that the expected value of the ga
 
 ## How can Ballmer pick numbers adversarially?
 
-Let's assume you always employ the binary search strategy to find the number. Out of the 100 numbers, there are 32 that would require you to ask 6 questions to make a guess.
+Let's assume you always employ the binary search strategy to find the number. Out of the 100 numbers, there are 37 that would require you to ask 6 questions to make a guess.
 
 If Ballmer is aware of your strategy, he can always select one of these "losing" numbers, resulting in a loss for you in every game.
 
-This holds true for any "fixed" search pattern. There will always be at least 32 numbers that would result in a loss, and Ballmer can choose one of them.
+This holds true for any "fixed" search pattern. There will always be at least 37 numbers that would result in a loss, and Ballmer can choose one of them.
 
 ## How can you counter?
 
