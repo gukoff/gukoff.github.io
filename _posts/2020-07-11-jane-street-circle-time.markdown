@@ -14,7 +14,7 @@ Every month Jane Street, a quantitative trading firm, posts a math puzzle on the
 How cool is that?
 
 In June, they posted a
-[Circle Time](https://www.janestreet.com/puzzles/circle-time/)
+[Circle Time](https://www.janestreet.com/puzzles/circle-time-index/)
 puzzle which I found quite fun to solve. This is this kind of a puzzle which looks easy at first,
 hard when you start working at it, and easy again when you finally find the solution.
 
