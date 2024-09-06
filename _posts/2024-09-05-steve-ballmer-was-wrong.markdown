@@ -92,4 +92,4 @@ The complete strategy consists of 60 lines, which I have omitted for brevity. If
 
 ## Conclusion
 
-If you find winning (at least) 7 cents per game worth your time, then you should definitely play this game with Steve Ballmer the next time he offers.
+If you find winning (on average) 7 cents per game worth your time, then you should definitely play this game with Steve Ballmer the next time he offers.
