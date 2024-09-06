@@ -3,6 +3,7 @@ layout: post
 title: "Jane Street puzzle: Circle Time!"
 date: 2020-07-18 17:00:00 +0200
 categories: Jane Street puzzles
+comments: "yes"
 d3: "yes"
 mathjax: "yes"
 custom_js:

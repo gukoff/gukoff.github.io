@@ -3,6 +3,7 @@ layout: post
 title: "Pro Bono Interview Training"
 date: 2020-08-10 19:00:00 +0200
 categories: interview training
+comments: "no"
 d3: "no"
 mathjax: "no"
 ---
