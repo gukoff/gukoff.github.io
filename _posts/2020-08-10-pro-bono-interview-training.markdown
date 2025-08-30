@@ -12,7 +12,7 @@ Hey there. I can help you prepare for a technical interview - **for free**!
 
 I want to start conducting mock interviews, i.e. give a technical exercise for 45-60 minutes,
 share feedback, and, if appropriate, give advice for improvement.
-Drop me a line at [contact@gukov.dev](mailto:contact@gukov.dev), and we'll find out if I can help.
+Drop me a line at [konstantin@gukov.dev](mailto:konstantin@gukov.dev), and we'll find out if I can help.
 My bandwidth is limited, but I'll reserve for it a few hours a week.
 
 This idea has been on my mind for a while.
