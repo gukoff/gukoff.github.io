@@ -4,12 +4,8 @@ title: About
 permalink: /about/
 ---
 
-My name is **Konstantin Gukov**, and I live in Switzerland with my wife, son and a cat :)
+My name is **Konstantin Gukov**. I was born in Russia and have lived in Switzerland since 2018 with my wife, two sons, and a cat.
 
-I take joy in empowering others and solving problems, and it's even better when these two go hand in hand.
+I currently work at **Microsoft** in forward deployed engineering. I partner with Fortune 500 companies to turn complex business challenges into technical solutions and with Azure teams to keep Microsoft products aligned with customer needs. I enjoy empowering others and solving hard problems, and at Microsoft I get to do both.
 
-Now at **Microsoft**, I mainly do projects for the Fortune 500 companies.
-These solutions use whatever technical stack best suits the problem,
-but always use Azure infrastructure.
-
-Before I worked at **Google** in the Identity SRE team (responsible for [critical Google infrastructure](https://news.ycombinator.com/item?id=25472455)), and at **Yandex** doing product development for [Yandex.Travel](https://travel.yandex.ru) (great times!).
+Previously, I worked at **Google** as an SRE on [critical Google infrastructure](https://news.ycombinator.com/item?id=25472455), and at **Yandex** doing product development for [Yandex.Travel](https://travel.yandex.ru) and [Yandex.Search](https://yandex.com).
