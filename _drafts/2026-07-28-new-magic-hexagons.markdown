@@ -200,6 +200,10 @@ They looked completely different.
 <section class="hexagon-viewer" data-hexagon-viewer>
   <div class="hexagon-viewer__stage">
     <figure class="hexagon-viewer__panel hexagon-viewer__panel--solution">
+      <figcaption class="hexagon-viewer__title">
+        Magic hexagon
+      </figcaption>
+
       <a
         class="hexagon-viewer__image-link"
         data-solution-link
@@ -210,16 +214,29 @@ They looked completely different.
         <div
           class="hexagon-viewer__image-stack"
           data-solution-stack
-          aria-label="Magic hexagon"
-        ></div>
+        >
+          <canvas
+            class="hexagon-viewer__canvas"
+            data-solution-canvas
+            aria-hidden="true"
+          ></canvas>
 
-        <figcaption class="hexagon-viewer__label">
-          Magic hexagon
-        </figcaption>
+          <img
+            class="hexagon-viewer__vector"
+            data-solution-vector
+            src="/assets/svg/magic-hexagons/MagicHexagon-Order21-sum_zero.svg"
+            alt="Abnormal zero-sum magic hexagon of order 21"
+            decoding="async"
+          />
+        </div>
       </a>
     </figure>
 
     <figure class="hexagon-viewer__panel hexagon-viewer__panel--potential">
+      <figcaption class="hexagon-viewer__title">
+        Potential field
+      </figcaption>
+
       <a
         class="hexagon-viewer__image-link"
         data-potential-link
@@ -230,24 +247,46 @@ They looked completely different.
         <div
           class="hexagon-viewer__image-stack"
           data-potential-stack
-          aria-label="Potential field"
-        ></div>
+        >
+          <canvas
+            class="hexagon-viewer__canvas"
+            data-potential-canvas
+            aria-hidden="true"
+          ></canvas>
 
-        <figcaption class="hexagon-viewer__label">
-          Potential field
-        </figcaption>
+          <img
+            class="hexagon-viewer__vector"
+            data-potential-vector
+            src="/assets/svg/magic-hexagons/potential_MagicHexagon-Order21-sum_zero.svg"
+            alt="Potential field of the order 21 magic hexagon"
+            decoding="async"
+          />
+        </div>
       </a>
     </figure>
   </div>
 
   <div class="hexagon-viewer__controls">
-    <div class="hexagon-viewer__slider-row">
-      <label for="hexagon-order">
-        Order <output data-order-output for="hexagon-order">21</output>
-      </label>
+    <label class="hexagon-viewer__order" for="hexagon-order">
+      Order
+      <output data-order-output for="hexagon-order">21</output>
+    </label>
+
+    <div class="hexagon-viewer__slider-shell">
+      <div
+        class="hexagon-viewer__slider-rail"
+        aria-hidden="true"
+      ></div>
+
+      <div
+        class="hexagon-viewer__ticks"
+        data-slider-ticks
+        aria-hidden="true"
+      ></div>
 
       <input
         id="hexagon-order"
+        class="hexagon-viewer__slider"
         data-order-slider
         type="range"
         min="3"
@@ -255,6 +294,7 @@ They looked completely different.
         value="21"
         step="1"
         disabled
+        aria-label="Magic hexagon order"
       />
     </div>
 
@@ -263,21 +303,29 @@ They looked completely different.
       data-loading-status
       aria-live="polite"
     >
-      Loading diagrams…
+      Loading…
     </span>
   </div>
 
   <noscript>
     <div class="hexagon-viewer__noscript">
-      <img
-        src="/assets/svg/magic-hexagons/MagicHexagon-Order21-sum_zero.svg"
-        alt="Abnormal zero-sum magic hexagon of order 21"
-      />
+      <figure>
+        <figcaption>Magic hexagon</figcaption>
 
-      <img
-        src="/assets/svg/magic-hexagons/potential_MagicHexagon-Order21-sum_zero.svg"
-        alt="Potential field of the order 21 magic hexagon"
-      />
+        <img
+          src="/assets/svg/magic-hexagons/MagicHexagon-Order21-sum_zero.svg"
+          alt="Abnormal zero-sum magic hexagon of order 21"
+        />
+      </figure>
+
+      <figure>
+        <figcaption>Potential field</figcaption>
+
+        <img
+          src="/assets/svg/magic-hexagons/potential_MagicHexagon-Order21-sum_zero.svg"
+          alt="Potential field of the order 21 magic hexagon"
+        />
+      </figure>
     </div>
   </noscript>
 </section>
@@ -285,45 +333,74 @@ They looked completely different.
 <style>
   .hexagon-viewer {
     /*
-     * Main sizing controls.
-     *
-     * Change 75vw to make the viewer wider or narrower on desktop.
-     * The viewer remains centered around the article column.
+     * Main configurable dimensions.
      */
-    --viewer-desktop-width: 75vw;
-    --viewer-maximum-width: 1500px;
+    --viewer-width: 75vw;
+    --viewer-max-width: 1500px;
+    --slider-width: 24rem;
 
     /*
-     * Horizontal distance between the two diagrams.
+     * This must match the thumb dimensions below so that every tick
+     * aligns with an exact thumb-center position.
      */
-    --viewer-gap: clamp(0.2rem, 0.55vw, 0.65rem);
+    --slider-thumb-size: 18px;
+    --slider-track-height: 4px;
+    --slider-tick-height: 11px;
 
-    /*
-     * Maximum width of the compact controls below the images.
-     */
-    --viewer-controls-width: 32rem;
+    --viewer-gap: clamp(0.5rem, 1vw, 1rem);
+    --viewer-padding: clamp(0.65rem, 1.3vw, 1.25rem);
 
-    --viewer-muted: color-mix(
-      in srgb,
-      currentColor 65%,
-      transparent
-    );
+    --viewer-background-fallback: rgb(127 127 127 / 6%);
+    --viewer-background:
+      color-mix(in srgb, currentColor 5%, transparent);
 
-    --viewer-label-background: color-mix(
-      in srgb,
-      Canvas 84%,
-      transparent
-    );
+    --viewer-border:
+      color-mix(in srgb, currentColor 10%, transparent);
+
+    --viewer-muted:
+      color-mix(in srgb, currentColor 62%, transparent);
+
+    --slider-track:
+      color-mix(in srgb, currentColor 25%, transparent);
+
+    --slider-tick:
+      color-mix(in srgb, currentColor 48%, transparent);
+
+    --slider-tick-passed:
+      color-mix(in srgb, currentColor 76%, transparent);
+
+    --slider-thumb: currentColor;
+
+    container-type: inline-size;
 
     position: relative;
     left: 50%;
+
     width: min(
-      var(--viewer-desktop-width),
-      var(--viewer-maximum-width)
+      var(--viewer-width),
+      var(--viewer-max-width),
+      calc(100vw - 1rem)
     );
+
     max-width: none;
-    margin: 1.25rem 0;
+    box-sizing: border-box;
+
+    margin: 1.5rem 0;
+    padding: var(--viewer-padding);
+
     transform: translateX(-50%);
+
+    border: 1px solid var(--viewer-border);
+    border-radius: 0.9rem;
+
+    background: var(--viewer-background-fallback);
+    background: var(--viewer-background);
+  }
+
+  .hexagon-viewer *,
+  .hexagon-viewer *::before,
+  .hexagon-viewer *::after {
+    box-sizing: border-box;
   }
 
   .hexagon-viewer__stage {
@@ -334,154 +411,302 @@ They looked completely different.
   }
 
   .hexagon-viewer__panel {
-    position: relative;
     min-width: 0;
     margin: 0;
   }
 
+  .hexagon-viewer__title {
+    margin: 0 0 0.25rem;
+    padding: 0 0.25rem;
+
+    background: none;
+
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .hexagon-viewer__panel--solution
+    .hexagon-viewer__title {
+    text-align: right;
+  }
+
+  .hexagon-viewer__panel--potential
+    .hexagon-viewer__title {
+    text-align: left;
+  }
+
   .hexagon-viewer__image-link {
-    position: relative;
     display: block;
     color: inherit;
     text-decoration: none;
   }
 
   .hexagon-viewer__image-link:focus-visible {
+    border-radius: 0.35rem;
     outline: 3px solid currentColor;
     outline-offset: 3px;
   }
 
-  /*
-   * All SVGs are layered in the same container.
-   *
-   * Moving the slider only changes visibility. It does not change an
-   * image URL or start a new network request.
-   */
   .hexagon-viewer__image-stack {
     position: relative;
-    width: 100%;
 
-    /*
-     * Keep each diagram approximately square while preventing it from
-     * growing beyond the useful vertical space.
-     */
+    width: 100%;
     height: min(
-      calc(
-        (
-          min(
-            var(--viewer-desktop-width),
-            var(--viewer-maximum-width)
-          ) - var(--viewer-gap)
-        ) / 2
-      ),
-      calc(100svh - 7rem),
-      745px
+      47cqw,
+      calc(100svh - 10rem),
+      720px
     );
 
     contain: layout paint style;
   }
 
-  .hexagon-viewer__image {
+  .hexagon-viewer__canvas,
+  .hexagon-viewer__vector {
     position: absolute;
     inset: 0;
+
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: contain;
+  }
+
+  .hexagon-viewer__canvas {
+    z-index: 1;
+
+    /*
+     * Pixel dimensions are assigned by JavaScript. CSS dimensions
+     * remain responsive.
+     */
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
   }
 
-  .hexagon-viewer__image.is-active {
+  .hexagon-viewer__vector {
+    z-index: 2;
+    object-fit: contain;
     opacity: 1;
     visibility: visible;
   }
 
   /*
-   * Labels sit at the inner edges of the two panels.
-   *
-   * "Magic hexagon" is right-aligned toward the center.
-   * "Potential field" is left-aligned toward the center.
+   * While dragging, show the pre-rendered high-DPI canvas. There are
+   * deliberately no opacity transitions because they slow rapid input.
    */
-  .hexagon-viewer__label {
-    position: absolute;
-    top: 0.35rem;
-    z-index: 1;
-    max-width: calc(100% - 0.7rem);
-    padding: 0.22rem 0.48rem;
-    border-radius: 0.35rem;
-    background: var(--viewer-label-background);
-    backdrop-filter: blur(5px);
-    font-size: 0.85rem;
-    font-weight: 600;
-    line-height: 1.3;
+  .hexagon-viewer.is-raster-mode
+    .hexagon-viewer__canvas {
+    opacity: 1;
+    visibility: visible;
   }
 
-  .hexagon-viewer__panel--solution
-    .hexagon-viewer__label {
-    right: 0.35rem;
-    left: auto;
-    text-align: right;
+  .hexagon-viewer.is-raster-mode
+    .hexagon-viewer__vector {
+    opacity: 0;
+    visibility: hidden;
   }
 
-  .hexagon-viewer__panel--potential
-    .hexagon-viewer__label {
-    right: auto;
-    left: 0.35rem;
-    text-align: left;
-  }
-
-  /*
-   * Compact, centered controls. The slider no longer spans the entire
-   * viewer width.
-   */
   .hexagon-viewer__controls {
-    width: min(
-      100%,
-      var(--viewer-controls-width)
-    );
-    margin: 0.45rem auto 0;
+    display: grid;
+    grid-template-columns:
+      5rem
+      minmax(10rem, var(--slider-width))
+      7rem;
+
+    gap: 0.65rem;
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 0.4rem;
     padding: 0 0.25rem;
   }
 
-  .hexagon-viewer__slider-row {
-    display: grid;
-    grid-template-columns: auto minmax(12rem, 1fr);
-    gap: 0.8rem;
-    align-items: center;
-  }
+  .hexagon-viewer__order {
+    display: flex;
+    gap: 0.35rem;
+    align-items: baseline;
+    justify-content: flex-end;
 
-  .hexagon-viewer__slider-row label {
+    width: 5rem;
+
     white-space: nowrap;
+    font-size: 0.9rem;
     font-weight: 600;
     font-variant-numeric: tabular-nums;
   }
 
-  .hexagon-viewer__slider-row input[type="range"] {
-    width: 100%;
-    min-width: 0;
-    margin: 0;
-    cursor: pointer;
+  /*
+   * Prevent layout movement when 9 becomes 10.
+   */
+  .hexagon-viewer__order output {
+    display: inline-block;
+
+    width: 2ch;
+    min-width: 2ch;
+
+    text-align: right;
+    font-variant-numeric: tabular-nums;
   }
 
-  .hexagon-viewer__slider-row
-    input[type="range"]:disabled {
+  .hexagon-viewer__slider-shell {
+    position: relative;
+
+    width: 100%;
+    height: 28px;
+    min-width: 0;
+  }
+
+  /*
+   * The thumb center travels between these exact inset endpoints.
+   */
+  .hexagon-viewer__slider-rail,
+  .hexagon-viewer__ticks {
+    position: absolute;
+
+    left: calc(var(--slider-thumb-size) / 2);
+    right: calc(var(--slider-thumb-size) / 2);
+
+    pointer-events: none;
+  }
+
+  .hexagon-viewer__slider-rail {
+    top: 50%;
+    z-index: 0;
+
+    height: var(--slider-track-height);
+
+    transform: translateY(-50%);
+
+    border-radius: 999px;
+    background: var(--slider-track);
+  }
+
+  .hexagon-viewer__ticks {
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+  }
+
+  .hexagon-viewer__tick {
+    position: absolute;
+    top: 50%;
+    left: var(--tick-position);
+
+    width: 1px;
+    height: var(--slider-tick-height);
+
+    transform: translate(-50%, -50%);
+
+    border-radius: 1px;
+    background: var(--slider-tick);
+  }
+
+  .hexagon-viewer__tick.is-passed {
+    background: var(--slider-tick-passed);
+  }
+
+  .hexagon-viewer__tick:first-child,
+  .hexagon-viewer__tick:last-child {
+    width: 2px;
+    height: calc(var(--slider-tick-height) + 2px);
+  }
+
+  .hexagon-viewer__slider {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+
+    width: 100%;
+    height: 28px;
+    min-width: 0;
+
+    margin: 0;
+    padding: 0;
+
+    cursor: pointer;
+
+    appearance: none;
+    -webkit-appearance: none;
+
+    border: 0;
+    outline-offset: 3px;
+    background: transparent;
+  }
+
+  .hexagon-viewer__slider::-webkit-slider-runnable-track {
+    width: 100%;
+    height: var(--slider-track-height);
+
+    border: 0;
+    background: transparent;
+  }
+
+  .hexagon-viewer__slider::-webkit-slider-thumb {
+    width: var(--slider-thumb-size);
+    height: var(--slider-thumb-size);
+
+    margin-top: calc(
+      (
+        var(--slider-track-height) -
+        var(--slider-thumb-size)
+      ) / 2
+    );
+
+    appearance: none;
+    -webkit-appearance: none;
+
+    border: 2px solid Canvas;
+    border-radius: 50%;
+
+    background: var(--slider-thumb);
+    box-shadow: 0 0 0 1px rgb(0 0 0 / 18%);
+  }
+
+  .hexagon-viewer__slider::-moz-range-track {
+    width: 100%;
+    height: var(--slider-track-height);
+
+    border: 0;
+    background: transparent;
+  }
+
+  .hexagon-viewer__slider::-moz-range-progress {
+    height: var(--slider-track-height);
+
+    border: 0;
+    background: transparent;
+  }
+
+  .hexagon-viewer__slider::-moz-range-thumb {
+    width: var(--slider-thumb-size);
+    height: var(--slider-thumb-size);
+
+    border: 2px solid Canvas;
+    border-radius: 50%;
+
+    background: var(--slider-thumb);
+    box-shadow: 0 0 0 1px rgb(0 0 0 / 18%);
+  }
+
+  .hexagon-viewer__slider:disabled {
     cursor: progress;
-    opacity: 0.6;
+    opacity: 0.55;
   }
 
   .hexagon-viewer__loading {
     display: block;
-    min-height: 1.2em;
-    margin-top: 0.15rem;
+
+    width: 7rem;
+
     color: var(--viewer-muted);
+
     font-size: 0.75rem;
-    text-align: center;
+    text-align: left;
+    white-space: nowrap;
   }
 
-  .hexagon-viewer__loading[hidden] {
-    display: none;
+  .hexagon-viewer__loading.is-finished {
+    visibility: hidden;
   }
 
   .hexagon-viewer__noscript {
@@ -490,98 +715,98 @@ They looked completely different.
     gap: var(--viewer-gap);
   }
 
+  .hexagon-viewer__noscript figure {
+    margin: 0;
+  }
+
+  .hexagon-viewer__noscript figure:first-child figcaption {
+    text-align: right;
+  }
+
   .hexagon-viewer__noscript img {
     display: block;
     width: 100%;
     height: auto;
   }
 
-  /*
-   * On portrait phones, use the normal content width and stack the
-   * images. Each diagram gets almost the full mobile screen width.
-   */
   @media (max-width: 680px) {
     .hexagon-viewer {
-      left: auto;
-      width: 100%;
+      --viewer-width: calc(100vw - 0.75rem);
+      --slider-width: 100%;
+
       margin: 1rem 0;
-      transform: none;
+      padding: 0.65rem;
+
+      border-radius: 0.7rem;
     }
 
     .hexagon-viewer__stage,
     .hexagon-viewer__noscript {
       grid-template-columns: 1fr;
-      gap: 0.35rem;
+    }
+
+    .hexagon-viewer__title,
+    .hexagon-viewer__panel--solution
+      .hexagon-viewer__title,
+    .hexagon-viewer__panel--potential
+      .hexagon-viewer__title {
+      text-align: center;
     }
 
     .hexagon-viewer__image-stack {
-      height: min(100vw, 72svh);
+      height: min(92cqw, 70svh);
     }
 
-    /*
-     * Centering the captions is clearer when the panels are stacked.
-     */
-    .hexagon-viewer__panel--solution
-      .hexagon-viewer__label,
-    .hexagon-viewer__panel--potential
-      .hexagon-viewer__label {
-      right: auto;
-      left: 50%;
-      text-align: center;
-      transform: translateX(-50%);
-    }
-
-    .hexagon-viewer__controls {
-      width: 100%;
+    .hexagon-viewer__panel + .hexagon-viewer__panel {
       margin-top: 0.35rem;
     }
 
-    .hexagon-viewer__slider-row {
-      grid-template-columns: auto minmax(0, 1fr);
-      gap: 0.6rem;
+    .hexagon-viewer__controls {
+      grid-template-columns:
+        4.5rem
+        minmax(0, 1fr);
+
+      gap: 0.5rem;
+      justify-content: stretch;
+
+      margin-top: 0.5rem;
+    }
+
+    .hexagon-viewer__order {
+      width: 4.5rem;
+    }
+
+    .hexagon-viewer__loading {
+      grid-column: 1 / -1;
+
+      width: auto;
+      min-height: 1em;
+
+      text-align: center;
     }
   }
 
-  /*
-   * Landscape phones and small tablets can generally keep both images
-   * side by side.
-   */
-  @media (
-    max-height: 520px
-  ) and (
-    orientation: landscape
-  ) {
-    .hexagon-viewer {
-      left: 50%;
-      width: min(
-        var(--viewer-desktop-width),
-        var(--viewer-maximum-width)
-      );
-      transform: translateX(-50%);
-    }
-
+  @media (max-height: 520px) and (orientation: landscape) {
     .hexagon-viewer__stage {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .hexagon-viewer__image-stack {
-      height: calc(100svh - 4.5rem);
-    }
-
     .hexagon-viewer__panel--solution
-      .hexagon-viewer__label {
-      right: 0.35rem;
-      left: auto;
+      .hexagon-viewer__title {
       text-align: right;
-      transform: none;
     }
 
     .hexagon-viewer__panel--potential
-      .hexagon-viewer__label {
-      right: auto;
-      left: 0.35rem;
+      .hexagon-viewer__title {
       text-align: left;
-      transform: none;
+    }
+
+    .hexagon-viewer__panel + .hexagon-viewer__panel {
+      margin-top: 0;
+    }
+
+    .hexagon-viewer__image-stack {
+      height: calc(100svh - 6rem);
     }
   }
 </style>
@@ -600,15 +825,46 @@ They looked completely different.
     const maximumOrder = 21;
     const defaultOrder = 21;
 
+    /*
+     * Performance and quality controls.
+     *
+     * MAX_RASTER_DPR:
+     *   Maximum pixel density used while dragging. A value of 2 is
+     *   generally indistinguishable from SVG at ordinary viewing sizes.
+     *
+     * RASTER_MEMORY_MB:
+     *   Approximate memory budget for all 38 cached raster surfaces.
+     *   The actual DPR is reduced automatically if necessary.
+     */
+    const MAX_RASTER_DPR = 2;
+    const RASTER_MEMORY_MB = 192;
+
+    /*
+     * How long after the last input event to restore full vector SVGs.
+     * The native "change" event also restores them immediately on release.
+     */
+    const VECTOR_SETTLE_DELAY_MS = 90;
+
+    /*
+     * Rebuild cached rasters only when the viewer changes size enough
+     * that the old cache may look soft.
+     */
+    const RESIZE_REBUILD_THRESHOLD = 0.12;
+    const RESIZE_DEBOUNCE_MS = 250;
+
     const orders = Array.from(
       {
         length:
-          maximumOrder -
-          minimumOrder +
-          1
+          maximumOrder - minimumOrder + 1
       },
       (_, index) => minimumOrder + index
     );
+
+    const numberOfRasterSurfaces =
+      orders.length * 2;
+
+    const stepCount =
+      maximumOrder - minimumOrder;
 
     const solutionStack = viewer.querySelector(
       "[data-solution-stack]"
@@ -616,6 +872,22 @@ They looked completely different.
 
     const potentialStack = viewer.querySelector(
       "[data-potential-stack]"
+    );
+
+    const solutionCanvas = viewer.querySelector(
+      "[data-solution-canvas]"
+    );
+
+    const potentialCanvas = viewer.querySelector(
+      "[data-potential-canvas]"
+    );
+
+    const solutionVector = viewer.querySelector(
+      "[data-solution-vector]"
+    );
+
+    const potentialVector = viewer.querySelector(
+      "[data-potential-vector]"
     );
 
     const solutionLink = viewer.querySelector(
@@ -630,6 +902,10 @@ They looked completely different.
       "[data-order-slider]"
     );
 
+    const sliderTicks = viewer.querySelector(
+      "[data-slider-ticks]"
+    );
+
     const output = viewer.querySelector(
       "[data-order-output]"
     );
@@ -638,8 +914,26 @@ They looked completely different.
       "[data-loading-status]"
     );
 
-    const imageElements = [];
-    let loadedCount = 0;
+    const tickElements = [];
+    const sourceImages = new Map();
+
+    let rasterCache = new Map();
+
+    let currentOrder = defaultOrder;
+    let pendingRasterOrder = defaultOrder;
+
+    let rasterFrame = 0;
+    let settleTimer = 0;
+    let resizeTimer = 0;
+
+    let interactionToken = 0;
+    let cacheGeneration = 0;
+    let cacheReady = false;
+
+    let cachedSolutionWidth = 0;
+    let cachedSolutionHeight = 0;
+    let cachedPotentialWidth = 0;
+    let cachedPotentialHeight = 0;
 
     function solutionPath(order) {
       return (
@@ -653,6 +947,10 @@ They looked completely different.
         "/assets/svg/magic-hexagons/" +
         `potential_MagicHexagon-Order${order}-sum_zero.svg`
       );
+    }
+
+    function imageKey(type, order) {
+      return `${type}:${order}`;
     }
 
     function normalizeOrder(value) {
@@ -670,242 +968,880 @@ They looked completely different.
 
     function getInitialOrder() {
       const url = new URL(window.location.href);
-      const urlOrder = url.searchParams.get("order");
 
       return normalizeOrder(
-        urlOrder ?? defaultOrder
+        url.searchParams.get("order") ??
+          defaultOrder
       );
     }
 
-    const initialOrder = getInitialOrder();
-
-    function createImage({
-      order,
-      type,
-      src,
-      alt
-    }) {
-      const image = document.createElement("img");
-
-      image.className = "hexagon-viewer__image";
-      image.dataset.order = String(order);
-      image.dataset.type = type;
-      image.src = src;
-      image.alt = alt;
-
-      /*
-       * These are intentionally eager-loaded. The aim is to make every
-       * subsequent slider movement immediate.
-       */
-      image.loading = "eager";
-      image.decoding = "async";
-
-      if ("fetchPriority" in image) {
-        image.fetchPriority =
-          order === initialOrder
-            ? "high"
-            : "auto";
-      }
-
-      return image;
-    }
-
-    function waitForImage(image) {
+    function nextFrame() {
       return new Promise((resolve) => {
-        let completed = false;
-
-        function finish(success) {
-          if (completed) {
-            return;
-          }
-
-          completed = true;
-          loadedCount += 1;
-
-          loadingStatus.textContent =
-            `Loading diagrams… ` +
-            `${loadedCount}/${imageElements.length}`;
-
-          if (
-            success &&
-            typeof image.decode === "function"
-          ) {
-            image
-              .decode()
-              .catch(() => {})
-              .finally(resolve);
-          } else {
-            resolve();
-          }
-        }
-
-        if (image.complete) {
-          finish(image.naturalWidth > 0);
-          return;
-        }
-
-        image.addEventListener(
-          "load",
-          () => finish(true),
-          { once: true }
-        );
-
-        image.addEventListener(
-          "error",
-          () => finish(false),
-          { once: true }
-        );
+        requestAnimationFrame(resolve);
       });
     }
 
-    function buildImageStacks() {
+    function buildTicks() {
       for (const order of orders) {
-        const solutionImage = createImage({
-          order,
-          type: "solution",
-          src: solutionPath(order),
-          alt:
-            "Abnormal zero-sum magic hexagon " +
-            `of order ${order}`
-        });
+        const tick = document.createElement("span");
 
-        const potentialImage = createImage({
-          order,
-          type: "potential",
-          src: potentialPath(order),
-          alt:
-            "Potential field of the abnormal " +
-            `zero-sum magic hexagon of order ${order}`
-        });
+        const position =
+          ((order - minimumOrder) / stepCount) *
+          100;
 
-        solutionStack.appendChild(solutionImage);
-        potentialStack.appendChild(potentialImage);
+        tick.className = "hexagon-viewer__tick";
+        tick.dataset.order = String(order);
 
-        imageElements.push(
-          solutionImage,
-          potentialImage
+        tick.style.setProperty(
+          "--tick-position",
+          `${position}%`
+        );
+
+        sliderTicks.appendChild(tick);
+        tickElements.push(tick);
+      }
+    }
+
+    function updateTicks(selectedOrder) {
+      for (const tick of tickElements) {
+        const tickOrder = Number.parseInt(
+          tick.dataset.order,
+          10
+        );
+
+        tick.classList.toggle(
+          "is-passed",
+          tickOrder <= selectedOrder
         );
       }
     }
 
-    function setActiveImage(stack, order) {
-      const previousImage = stack.querySelector(
-        ".hexagon-viewer__image.is-active"
+    function updateOrderDisplay(order) {
+      slider.value = String(order);
+      output.value = String(order);
+      output.textContent = String(order);
+
+      updateTicks(order);
+    }
+
+    function setLoadingStatus(message) {
+      loadingStatus.classList.remove(
+        "is-finished"
       );
 
-      const nextImage = stack.querySelector(
-        `.hexagon-viewer__image[data-order="${order}"]`
+      loadingStatus.textContent = message;
+    }
+
+    function finishLoadingStatus(message) {
+      loadingStatus.textContent = message;
+
+      window.setTimeout(() => {
+        loadingStatus.classList.add(
+          "is-finished"
+        );
+      }, 900);
+    }
+
+    function createSourceImage(
+      type,
+      order,
+      priority
+    ) {
+      const url =
+        type === "solution"
+          ? solutionPath(order)
+          : potentialPath(order);
+
+      const image = new Image();
+
+      image.decoding = "async";
+      image.loading = "eager";
+
+      if ("fetchPriority" in image) {
+        image.fetchPriority = priority;
+      }
+
+      const promise = new Promise(
+        (resolve, reject) => {
+          image.addEventListener(
+            "load",
+            async () => {
+              /*
+               * decode() prepares as much of the source as the browser
+               * supports before raster-cache construction.
+               */
+              try {
+                await image.decode();
+              } catch {
+                /*
+                 * Some browsers reject decode() for an SVG that is
+                 * already ready to draw.
+                 */
+              }
+
+              resolve(image);
+            },
+            { once: true }
+          );
+
+          image.addEventListener(
+            "error",
+            () => {
+              reject(
+                new Error(`Could not load ${url}`)
+              );
+            },
+            { once: true }
+          );
+        }
       );
 
-      if (previousImage === nextImage) {
+      image.src = url;
+
+      sourceImages.set(
+        imageKey(type, order),
+        {
+          image,
+          promise,
+          url
+        }
+      );
+    }
+
+    async function preloadAllSources(
+      startingOrder
+    ) {
+      let completed = 0;
+      let failed = 0;
+
+      setLoadingStatus(
+        `Loading 0/${numberOfRasterSurfaces}`
+      );
+
+      for (const order of orders) {
+        createSourceImage(
+          "solution",
+          order,
+          order === startingOrder
+            ? "high"
+            : "auto"
+        );
+
+        createSourceImage(
+          "potential",
+          order,
+          order === startingOrder
+            ? "high"
+            : "auto"
+        );
+      }
+
+      await Promise.allSettled(
+        [...sourceImages.values()].map(
+          async (record) => {
+            try {
+              await record.promise;
+            } catch {
+              failed += 1;
+            } finally {
+              completed += 1;
+
+              setLoadingStatus(
+                `Loading ${completed}/${numberOfRasterSurfaces}`
+              );
+            }
+          }
+        )
+      );
+
+      return failed;
+    }
+
+    function getImageDimensions(image) {
+      const width =
+        image.naturalWidth ||
+        image.width ||
+        1000;
+
+      const height =
+        image.naturalHeight ||
+        image.height ||
+        1000;
+
+      return { width, height };
+    }
+
+    function calculateRasterDpr(
+      solutionRect,
+      potentialRect
+    ) {
+      const cssPixelsPerOrder =
+        solutionRect.width *
+          solutionRect.height +
+        potentialRect.width *
+          potentialRect.height;
+
+      const totalCssPixels =
+        cssPixelsPerOrder * orders.length;
+
+      const availableRasterPixels =
+        (
+          RASTER_MEMORY_MB *
+          1024 *
+          1024
+        ) / 4;
+
+      const budgetDpr =
+        Math.sqrt(
+          availableRasterPixels /
+          Math.max(totalCssPixels, 1)
+        );
+
+      return Math.max(
+        1,
+        Math.min(
+          window.devicePixelRatio || 1,
+          MAX_RASTER_DPR,
+          budgetDpr
+        )
+      );
+    }
+
+    function createRasterSurface(
+      cssWidth,
+      cssHeight,
+      dpr
+    ) {
+      const surface =
+        document.createElement("canvas");
+
+      surface.width = Math.max(
+        1,
+        Math.round(cssWidth * dpr)
+      );
+
+      surface.height = Math.max(
+        1,
+        Math.round(cssHeight * dpr)
+      );
+
+      return surface;
+    }
+
+    function drawContained(
+      context,
+      image,
+      targetWidth,
+      targetHeight
+    ) {
+      const {
+        width: sourceWidth,
+        height: sourceHeight
+      } = getImageDimensions(image);
+
+      const scale = Math.min(
+        targetWidth / sourceWidth,
+        targetHeight / sourceHeight
+      );
+
+      const drawWidth =
+        sourceWidth * scale;
+
+      const drawHeight =
+        sourceHeight * scale;
+
+      const drawX =
+        (targetWidth - drawWidth) / 2;
+
+      const drawY =
+        (targetHeight - drawHeight) / 2;
+
+      context.clearRect(
+        0,
+        0,
+        targetWidth,
+        targetHeight
+      );
+
+      context.imageSmoothingEnabled = true;
+      context.imageSmoothingQuality = "high";
+
+      context.drawImage(
+        image,
+        drawX,
+        drawY,
+        drawWidth,
+        drawHeight
+      );
+    }
+
+    function clearRasterCache() {
+      rasterCache.clear();
+      rasterCache = new Map();
+    }
+
+    async function buildRasterCache() {
+      const generation =
+        ++cacheGeneration;
+
+      cacheReady = false;
+      slider.disabled = true;
+
+      viewer.classList.remove(
+        "is-raster-mode"
+      );
+
+      await nextFrame();
+
+      const solutionRect =
+        solutionStack.getBoundingClientRect();
+
+      const potentialRect =
+        potentialStack.getBoundingClientRect();
+
+      const dpr = calculateRasterDpr(
+        solutionRect,
+        potentialRect
+      );
+
+      const newCache = new Map();
+      let completed = 0;
+
+      setLoadingStatus(
+        `Preparing 0/${numberOfRasterSurfaces}`
+      );
+
+      for (const order of orders) {
+        for (const type of [
+          "solution",
+          "potential"
+        ]) {
+          if (generation !== cacheGeneration) {
+            return;
+          }
+
+          const record = sourceImages.get(
+            imageKey(type, order)
+          );
+
+          if (!record) {
+            completed += 1;
+            continue;
+          }
+
+          let image;
+
+          try {
+            image = await record.promise;
+          } catch {
+            completed += 1;
+            continue;
+          }
+
+          const rect =
+            type === "solution"
+              ? solutionRect
+              : potentialRect;
+
+          const surface =
+            createRasterSurface(
+              rect.width,
+              rect.height,
+              dpr
+            );
+
+          const context =
+            surface.getContext(
+              "2d",
+              {
+                alpha: true,
+                desynchronized: true
+              }
+            );
+
+          if (context) {
+            drawContained(
+              context,
+              image,
+              surface.width,
+              surface.height
+            );
+
+            newCache.set(
+              imageKey(type, order),
+              surface
+            );
+          }
+
+          completed += 1;
+
+          setLoadingStatus(
+            `Preparing ${completed}/${numberOfRasterSurfaces}`
+          );
+
+          /*
+           * Yield periodically so initial page rendering and scrolling
+           * remain responsive while the cache is built.
+           */
+          if (completed % 3 === 0) {
+            await nextFrame();
+          }
+        }
+      }
+
+      if (generation !== cacheGeneration) {
         return;
       }
 
-      if (previousImage) {
-        previousImage.classList.remove(
-          "is-active"
-        );
+      clearRasterCache();
+      rasterCache = newCache;
 
-        previousImage.setAttribute(
-          "aria-hidden",
-          "true"
-        );
+      cachedSolutionWidth =
+        solutionRect.width;
+
+      cachedSolutionHeight =
+        solutionRect.height;
+
+      cachedPotentialWidth =
+        potentialRect.width;
+
+      cachedPotentialHeight =
+        potentialRect.height;
+
+      cacheReady = true;
+      slider.disabled = false;
+
+      renderRasterImmediately(currentOrder);
+
+      finishLoadingStatus(
+        `Ready · ${dpr.toFixed(1)}×`
+      );
+    }
+
+    function drawCachedSurface(
+      type,
+      order,
+      visibleCanvas
+    ) {
+      const surface = rasterCache.get(
+        imageKey(type, order)
+      );
+
+      if (!surface) {
+        return false;
       }
 
-      if (nextImage) {
-        nextImage.classList.add("is-active");
-        nextImage.removeAttribute("aria-hidden");
+      if (
+        visibleCanvas.width !==
+          surface.width ||
+        visibleCanvas.height !==
+          surface.height
+      ) {
+        visibleCanvas.width =
+          surface.width;
+
+        visibleCanvas.height =
+          surface.height;
+      }
+
+      const context =
+        visibleCanvas.getContext(
+          "2d",
+          {
+            alpha: true,
+            desynchronized: true
+          }
+        );
+
+      if (!context) {
+        return false;
+      }
+
+      context.clearRect(
+        0,
+        0,
+        visibleCanvas.width,
+        visibleCanvas.height
+      );
+
+      /*
+       * This copies an already-rendered bitmap. It does not ask the
+       * browser to parse or repaint the SVG.
+       */
+      context.drawImage(surface, 0, 0);
+
+      return true;
+    }
+
+    function renderRasterImmediately(order) {
+      if (!cacheReady) {
+        return;
+      }
+
+      const solutionDrawn =
+        drawCachedSurface(
+          "solution",
+          order,
+          solutionCanvas
+        );
+
+      const potentialDrawn =
+        drawCachedSurface(
+          "potential",
+          order,
+          potentialCanvas
+        );
+
+      if (
+        solutionDrawn &&
+        potentialDrawn
+      ) {
+        viewer.classList.add(
+          "is-raster-mode"
+        );
       }
     }
 
-    function updateViewer(
-      order,
-      updateUrl = true
+    function queueRasterRender(order) {
+      pendingRasterOrder = order;
+
+      if (rasterFrame) {
+        return;
+      }
+
+      /*
+       * At most one paint is performed per display frame. When many
+       * input events arrive between frames, only the newest order is
+       * rendered.
+       */
+      rasterFrame =
+        requestAnimationFrame(() => {
+          rasterFrame = 0;
+
+          renderRasterImmediately(
+            pendingRasterOrder
+          );
+        });
+    }
+
+    async function prepareVectorImage(
+      image,
+      url,
+      alt
     ) {
-      const normalizedOrder =
-        normalizeOrder(order);
+      image.alt = alt;
 
-      slider.value = String(normalizedOrder);
-      output.value = String(normalizedOrder);
-      output.textContent = String(normalizedOrder);
+      if (
+        image.getAttribute("src") !== url
+      ) {
+        image.src = url;
+      }
 
-      setActiveImage(
-        solutionStack,
-        normalizedOrder
-      );
+      try {
+        await image.decode();
+      } catch {
+        /*
+         * The canvas remains visible if a vector image cannot decode.
+         */
+      }
+    }
 
-      setActiveImage(
-        potentialStack,
-        normalizedOrder
-      );
-
+    function updateLinks(order) {
       solutionLink.href =
-        solutionPath(normalizedOrder);
+        solutionPath(order);
 
       potentialLink.href =
-        potentialPath(normalizedOrder);
+        potentialPath(order);
 
       solutionLink.setAttribute(
         "aria-label",
-        `Open the order ${normalizedOrder} ` +
+        `Open the order ${order} ` +
           "magic hexagon as a full-size SVG"
       );
 
       potentialLink.setAttribute(
         "aria-label",
-        `Open the order ${normalizedOrder} ` +
+        `Open the order ${order} ` +
           "potential field as a full-size SVG"
       );
+    }
 
-      if (updateUrl) {
-        const url = new URL(
-          window.location.href
-        );
+    function updateUrl(order) {
+      const url =
+        new URL(window.location.href);
 
-        url.searchParams.set(
-          "order",
-          String(normalizedOrder)
-        );
+      url.searchParams.set(
+        "order",
+        String(order)
+      );
 
-        window.history.replaceState(
-          {},
-          "",
-          url
+      /*
+       * Updating only after dragging settles avoids unnecessary history
+       * work inside the hot input path.
+       */
+      window.history.replaceState(
+        {},
+        "",
+        url
+      );
+    }
+
+    async function restoreVector(
+      order,
+      token
+    ) {
+      updateLinks(order);
+
+      await Promise.allSettled([
+        prepareVectorImage(
+          solutionVector,
+          solutionPath(order),
+          "Abnormal zero-sum magic " +
+            `hexagon of order ${order}`
+        ),
+
+        prepareVectorImage(
+          potentialVector,
+          potentialPath(order),
+          "Potential field of the " +
+            "abnormal zero-sum magic " +
+            `hexagon of order ${order}`
+        )
+      ]);
+
+      /*
+       * Ignore stale vector swaps when the user has already moved on.
+       */
+      if (
+        token !== interactionToken ||
+        order !== currentOrder
+      ) {
+        return;
+      }
+
+      updateUrl(order);
+
+      /*
+       * Keep the canvas visible until the browser has had a chance to
+       * paint the newly decoded vector.
+       */
+      await nextFrame();
+      await nextFrame();
+
+      if (
+        token === interactionToken &&
+        order === currentOrder
+      ) {
+        viewer.classList.remove(
+          "is-raster-mode"
         );
       }
     }
 
-    async function preloadAllImages() {
-      loadingStatus.textContent =
-        `Loading diagrams… 0/` +
-        `${imageElements.length}`;
+    function scheduleVectorRestore(order) {
+      window.clearTimeout(settleTimer);
 
-      await Promise.allSettled(
-        imageElements.map(waitForImage)
+      const token = interactionToken;
+
+      settleTimer = window.setTimeout(
+        () => {
+          restoreVector(order, token);
+        },
+        VECTOR_SETTLE_DELAY_MS
       );
-
-      slider.disabled = false;
-      loadingStatus.textContent =
-        "All orders loaded";
-
-      window.setTimeout(() => {
-        loadingStatus.hidden = true;
-      }, 1000);
     }
 
-    buildImageStacks();
+    function selectOrder(order) {
+      currentOrder =
+        normalizeOrder(order);
+
+      interactionToken += 1;
+
+      updateOrderDisplay(currentOrder);
+
+      /*
+       * Canvas mode enters immediately; drawing is coalesced to the
+       * next animation frame.
+       */
+      viewer.classList.add(
+        "is-raster-mode"
+      );
+
+      queueRasterRender(currentOrder);
+      scheduleVectorRestore(currentOrder);
+    }
+
+    function commitCurrentOrder() {
+      window.clearTimeout(settleTimer);
+
+      interactionToken += 1;
+
+      const token = interactionToken;
+
+      /*
+       * Ensure the latest raster is visible while the vector is being
+       * restored.
+       */
+      renderRasterImmediately(currentOrder);
+      restoreVector(currentOrder, token);
+    }
+
+    function cacheDimensionsChanged() {
+      const solutionRect =
+        solutionStack.getBoundingClientRect();
+
+      const potentialRect =
+        potentialStack.getBoundingClientRect();
+
+      function relativeDifference(
+        current,
+        cached
+      ) {
+        if (!cached) {
+          return 1;
+        }
+
+        return Math.abs(
+          current - cached
+        ) / cached;
+      }
+
+      return (
+        relativeDifference(
+          solutionRect.width,
+          cachedSolutionWidth
+        ) >
+          RESIZE_REBUILD_THRESHOLD ||
+        relativeDifference(
+          solutionRect.height,
+          cachedSolutionHeight
+        ) >
+          RESIZE_REBUILD_THRESHOLD ||
+        relativeDifference(
+          potentialRect.width,
+          cachedPotentialWidth
+        ) >
+          RESIZE_REBUILD_THRESHOLD ||
+        relativeDifference(
+          potentialRect.height,
+          cachedPotentialHeight
+        ) >
+          RESIZE_REBUILD_THRESHOLD
+      );
+    }
+
+    function scheduleCacheRebuild() {
+      window.clearTimeout(resizeTimer);
+
+      resizeTimer = window.setTimeout(
+        () => {
+          if (
+            cacheReady &&
+            cacheDimensionsChanged()
+          ) {
+            buildRasterCache();
+          }
+        },
+        RESIZE_DEBOUNCE_MS
+      );
+    }
+
+    async function initialize() {
+      buildTicks();
+
+      currentOrder = getInitialOrder();
+
+      updateOrderDisplay(currentOrder);
+      updateLinks(currentOrder);
+
+      /*
+       * Keep the initial vector images synchronized with ?order=.
+       */
+      await Promise.allSettled([
+        prepareVectorImage(
+          solutionVector,
+          solutionPath(currentOrder),
+          "Abnormal zero-sum magic " +
+            `hexagon of order ${currentOrder}`
+        ),
+
+        prepareVectorImage(
+          potentialVector,
+          potentialPath(currentOrder),
+          "Potential field of the " +
+            "abnormal zero-sum magic " +
+            `hexagon of order ${currentOrder}`
+        )
+      ]);
+
+      const failedSources =
+        await preloadAllSources(
+          currentOrder
+        );
+
+      await buildRasterCache();
+
+      if (failedSources > 0) {
+        loadingStatus.classList.remove(
+          "is-finished"
+        );
+
+        loadingStatus.textContent =
+          `${failedSources} unavailable`;
+      } else {
+        /*
+         * buildRasterCache leaves raster mode enabled so test it once,
+         * then return to full vector quality.
+         */
+        interactionToken += 1;
+
+        restoreVector(
+          currentOrder,
+          interactionToken
+        );
+      }
+    }
+
+    slider.addEventListener(
+      "input",
+      () => {
+        selectOrder(slider.value);
+      }
+    );
 
     /*
-     * Display the selected order immediately while the remaining SVGs
-     * continue loading.
+     * Native range inputs fire "change" on pointer release, allowing
+     * vector quality to return immediately rather than waiting for the
+     * debounce.
      */
-    updateViewer(initialOrder, false);
+    slider.addEventListener(
+      "change",
+      commitCurrentOrder
+    );
 
-    slider.addEventListener("input", () => {
-      updateViewer(slider.value);
-    });
+    slider.addEventListener(
+      "pointerdown",
+      () => {
+        if (cacheReady) {
+          viewer.classList.add(
+            "is-raster-mode"
+          );
 
-    preloadAllImages();
+          renderRasterImmediately(
+            currentOrder
+          );
+        }
+      }
+    );
+
+    const resizeObserver =
+      new ResizeObserver(
+        scheduleCacheRebuild
+      );
+
+    resizeObserver.observe(viewer);
+
+    initialize();
   })();
 </script>
 
