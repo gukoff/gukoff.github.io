@@ -200,10 +200,6 @@ They looked completely different.
 <section class="hexagon-viewer" data-hexagon-viewer>
   <div class="hexagon-viewer__stage">
     <figure class="hexagon-viewer__panel hexagon-viewer__panel--solution">
-      <figcaption class="hexagon-viewer__title">
-        Magic hexagon
-      </figcaption>
-
       <a
         class="hexagon-viewer__image-link"
         data-solution-link
@@ -216,14 +212,14 @@ They looked completely different.
           data-solution-stack
           aria-label="Magic hexagon"
         ></div>
+
+        <figcaption class="hexagon-viewer__label">
+          Magic hexagon
+        </figcaption>
       </a>
     </figure>
 
     <figure class="hexagon-viewer__panel hexagon-viewer__panel--potential">
-      <figcaption class="hexagon-viewer__title">
-        Potential field
-      </figcaption>
-
       <a
         class="hexagon-viewer__image-link"
         data-potential-link
@@ -236,54 +232,52 @@ They looked completely different.
           data-potential-stack
           aria-label="Potential field"
         ></div>
+
+        <figcaption class="hexagon-viewer__label">
+          Potential field
+        </figcaption>
       </a>
     </figure>
   </div>
 
   <div class="hexagon-viewer__controls">
-    <label class="hexagon-viewer__order" for="hexagon-order">
-      Order
-      <output data-order-output for="hexagon-order">21</output>
-    </label>
+    <div class="hexagon-viewer__slider-row">
+      <label for="hexagon-order">
+        Order <output data-order-output for="hexagon-order">21</output>
+      </label>
 
-    <input
-      id="hexagon-order"
-      class="hexagon-viewer__slider"
-      data-order-slider
-      type="range"
-      min="3"
-      max="21"
-      value="21"
-      step="1"
-      disabled
-    />
+      <input
+        id="hexagon-order"
+        data-order-slider
+        type="range"
+        min="3"
+        max="21"
+        value="21"
+        step="1"
+        disabled
+      />
+    </div>
 
     <span
       class="hexagon-viewer__loading"
       data-loading-status
       aria-live="polite"
     >
-      Loading…
+      Loading diagrams…
     </span>
   </div>
 
   <noscript>
     <div class="hexagon-viewer__noscript">
-      <figure>
-        <figcaption>Magic hexagon</figcaption>
-        <img
-          src="/assets/svg/magic-hexagons/MagicHexagon-Order21-sum_zero.svg"
-          alt="Abnormal zero-sum magic hexagon of order 21"
-        />
-      </figure>
+      <img
+        src="/assets/svg/magic-hexagons/MagicHexagon-Order21-sum_zero.svg"
+        alt="Abnormal zero-sum magic hexagon of order 21"
+      />
 
-      <figure>
-        <figcaption>Potential field</figcaption>
-        <img
-          src="/assets/svg/magic-hexagons/potential_MagicHexagon-Order21-sum_zero.svg"
-          alt="Potential field of the order 21 magic hexagon"
-        />
-      </figure>
+      <img
+        src="/assets/svg/magic-hexagons/potential_MagicHexagon-Order21-sum_zero.svg"
+        alt="Potential field of the order 21 magic hexagon"
+      />
     </div>
   </noscript>
 </section>
@@ -291,65 +285,45 @@ They looked completely different.
 <style>
   .hexagon-viewer {
     /*
-     * Main settings.
+     * Main sizing controls.
      *
-     * Change --viewer-width to make the section wider or narrower.
-     * Examples: 65vw, 70vw, 80vw, 1200px.
-     *
-     * --viewer-max-width prevents it becoming excessive on very large
-     * monitors.
+     * Change 75vw to make the viewer wider or narrower on desktop.
+     * The viewer remains centered around the article column.
      */
-    --viewer-width: 75vw;
-    --viewer-max-width: 1500px;
-    --slider-width: 24rem;
-
-    --viewer-gap: clamp(0.5rem, 1vw, 1rem);
-    --viewer-padding: clamp(0.65rem, 1.3vw, 1.25rem);
-
-    --viewer-background-fallback: rgb(127 127 127 / 6%);
-    --viewer-background:
-      color-mix(in srgb, currentColor 5%, transparent);
-
-    --viewer-border:
-      color-mix(in srgb, currentColor 10%, transparent);
-
-    --viewer-muted:
-      color-mix(in srgb, currentColor 62%, transparent);
+    --viewer-desktop-width: 75vw;
+    --viewer-maximum-width: 1500px;
 
     /*
-     * This lets the image height respond to the actual configured
-     * viewer width through cqw units.
+     * Horizontal distance between the two diagrams.
      */
-    container-type: inline-size;
+    --viewer-gap: clamp(0.2rem, 0.55vw, 0.65rem);
+
+    /*
+     * Maximum width of the compact controls below the images.
+     */
+    --viewer-controls-width: 32rem;
+
+    --viewer-muted: color-mix(
+      in srgb,
+      currentColor 65%,
+      transparent
+    );
+
+    --viewer-label-background: color-mix(
+      in srgb,
+      Canvas 84%,
+      transparent
+    );
 
     position: relative;
     left: 50%;
-
     width: min(
-      var(--viewer-width),
-      var(--viewer-max-width),
-      calc(100vw - 1rem)
+      var(--viewer-desktop-width),
+      var(--viewer-maximum-width)
     );
-
     max-width: none;
-    box-sizing: border-box;
-
-    margin: 1.5rem 0;
-    padding: var(--viewer-padding);
-
+    margin: 1.25rem 0;
     transform: translateX(-50%);
-
-    border: 1px solid var(--viewer-border);
-    border-radius: 0.9rem;
-
-    background: var(--viewer-background-fallback);
-    background: var(--viewer-background);
-  }
-
-  .hexagon-viewer *,
-  .hexagon-viewer *::before,
-  .hexagon-viewer *::after {
-    box-sizing: border-box;
   }
 
   .hexagon-viewer__stage {
@@ -360,40 +334,13 @@ They looked completely different.
   }
 
   .hexagon-viewer__panel {
+    position: relative;
     min-width: 0;
     margin: 0;
   }
 
-  /*
-   * Both titles sit close to the center:
-   *
-   *             Magic hexagon | Potential field
-   */
-  .hexagon-viewer__title {
-    margin: 0 0 0.25rem;
-    padding: 0 0.25rem;
-
-    font-size: 0.95rem;
-    font-weight: 600;
-    line-height: 1.35;
-
-    /*
-     * Deliberately no title background.
-     */
-    background: none;
-  }
-
-  .hexagon-viewer__panel--solution
-    .hexagon-viewer__title {
-    text-align: right;
-  }
-
-  .hexagon-viewer__panel--potential
-    .hexagon-viewer__title {
-    text-align: left;
-  }
-
   .hexagon-viewer__image-link {
+    position: relative;
     display: block;
     color: inherit;
     text-decoration: none;
@@ -402,23 +349,33 @@ They looked completely different.
   .hexagon-viewer__image-link:focus-visible {
     outline: 3px solid currentColor;
     outline-offset: 3px;
-    border-radius: 0.35rem;
   }
 
   /*
-   * All orders occupy the same layer. Slider movement only toggles
-   * visibility and never changes an image URL.
+   * All SVGs are layered in the same container.
    *
-   * 47cqw is approximately half of the viewer's inner width.
+   * Moving the slider only changes visibility. It does not change an
+   * image URL or start a new network request.
    */
   .hexagon-viewer__image-stack {
     position: relative;
-
     width: 100%;
+
+    /*
+     * Keep each diagram approximately square while preventing it from
+     * growing beyond the useful vertical space.
+     */
     height: min(
-      47cqw,
-      calc(100svh - 10rem),
-      720px
+      calc(
+        (
+          min(
+            var(--viewer-desktop-width),
+            var(--viewer-maximum-width)
+          ) - var(--viewer-gap)
+        ) / 2
+      ),
+      calc(100svh - 7rem),
+      745px
     );
 
     contain: layout paint style;
@@ -427,13 +384,10 @@ They looked completely different.
   .hexagon-viewer__image {
     position: absolute;
     inset: 0;
-
     display: block;
     width: 100%;
     height: 100%;
-
     object-fit: contain;
-
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -445,78 +399,89 @@ They looked completely different.
   }
 
   /*
-   * The three explicit grid columns remain the same width whether the
-   * status is visible or hidden and whether the order has one or two
-   * digits. This prevents slider jitter.
+   * Labels sit at the inner edges of the two panels.
+   *
+   * "Magic hexagon" is right-aligned toward the center.
+   * "Potential field" is left-aligned toward the center.
+   */
+  .hexagon-viewer__label {
+    position: absolute;
+    top: 0.35rem;
+    z-index: 1;
+    max-width: calc(100% - 0.7rem);
+    padding: 0.22rem 0.48rem;
+    border-radius: 0.35rem;
+    background: var(--viewer-label-background);
+    backdrop-filter: blur(5px);
+    font-size: 0.85rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .hexagon-viewer__panel--solution
+    .hexagon-viewer__label {
+    right: 0.35rem;
+    left: auto;
+    text-align: right;
+  }
+
+  .hexagon-viewer__panel--potential
+    .hexagon-viewer__label {
+    right: auto;
+    left: 0.35rem;
+    text-align: left;
+  }
+
+  /*
+   * Compact, centered controls. The slider no longer spans the entire
+   * viewer width.
    */
   .hexagon-viewer__controls {
-    display: grid;
-    grid-template-columns:
-      5rem
-      minmax(10rem, var(--slider-width))
-      7rem;
-
-    gap: 0.65rem;
-    align-items: center;
-    justify-content: center;
-
-    margin-top: 0.35rem;
+    width: min(
+      100%,
+      var(--viewer-controls-width)
+    );
+    margin: 0.45rem auto 0;
     padding: 0 0.25rem;
   }
 
-  .hexagon-viewer__order {
-    display: flex;
-    gap: 0.35rem;
-    align-items: baseline;
-    justify-content: flex-end;
+  .hexagon-viewer__slider-row {
+    display: grid;
+    grid-template-columns: auto minmax(12rem, 1fr);
+    gap: 0.8rem;
+    align-items: center;
+  }
 
-    width: 5rem;
+  .hexagon-viewer__slider-row label {
     white-space: nowrap;
-    font-size: 0.9rem;
     font-weight: 600;
     font-variant-numeric: tabular-nums;
   }
 
-  /*
-   * A fixed 2ch width prevents "9" → "10" from changing the label or
-   * control geometry.
-   */
-  .hexagon-viewer__order output {
-    display: inline-block;
-    width: 2ch;
-    min-width: 2ch;
-    text-align: right;
-    font-variant-numeric: tabular-nums;
-  }
-
-  .hexagon-viewer__slider {
+  .hexagon-viewer__slider-row input[type="range"] {
     width: 100%;
     min-width: 0;
     margin: 0;
     cursor: pointer;
   }
 
-  .hexagon-viewer__slider:disabled {
+  .hexagon-viewer__slider-row
+    input[type="range"]:disabled {
     cursor: progress;
-    opacity: 0.55;
+    opacity: 0.6;
   }
 
   .hexagon-viewer__loading {
     display: block;
-    width: 7rem;
-
+    min-height: 1.2em;
+    margin-top: 0.15rem;
     color: var(--viewer-muted);
     font-size: 0.75rem;
-    text-align: left;
-    white-space: nowrap;
+    text-align: center;
   }
 
-  /*
-   * Keep the grid column present when loading is complete. Using
-   * visibility rather than display:none avoids any layout movement.
-   */
-  .hexagon-viewer__loading.is-finished {
-    visibility: hidden;
+  .hexagon-viewer__loading[hidden] {
+    display: none;
   }
 
   .hexagon-viewer__noscript {
@@ -525,101 +490,98 @@ They looked completely different.
     gap: var(--viewer-gap);
   }
 
-  .hexagon-viewer__noscript figure {
-    margin: 0;
-  }
-
-  .hexagon-viewer__noscript figure:first-child figcaption {
-    text-align: right;
-  }
-
   .hexagon-viewer__noscript img {
     display: block;
     width: 100%;
     height: auto;
   }
 
+  /*
+   * On portrait phones, use the normal content width and stack the
+   * images. Each diagram gets almost the full mobile screen width.
+   */
   @media (max-width: 680px) {
     .hexagon-viewer {
-      --viewer-width: calc(100vw - 0.75rem);
-
+      left: auto;
+      width: 100%;
       margin: 1rem 0;
-      padding: 0.65rem;
-      border-radius: 0.7rem;
+      transform: none;
     }
 
     .hexagon-viewer__stage,
     .hexagon-viewer__noscript {
       grid-template-columns: 1fr;
+      gap: 0.35rem;
     }
 
-    .hexagon-viewer__title,
-    .hexagon-viewer__panel--solution
-      .hexagon-viewer__title,
-    .hexagon-viewer__panel--potential
-      .hexagon-viewer__title {
-      text-align: center;
+    .hexagon-viewer__image-stack {
+      height: min(100vw, 72svh);
     }
 
     /*
-     * On mobile, each image receives almost the full viewer width.
+     * Centering the captions is clearer when the panels are stacked.
      */
-    .hexagon-viewer__image-stack {
-      height: min(92cqw, 70svh);
-    }
-
-    .hexagon-viewer__panel + .hexagon-viewer__panel {
-      margin-top: 0.35rem;
+    .hexagon-viewer__panel--solution
+      .hexagon-viewer__label,
+    .hexagon-viewer__panel--potential
+      .hexagon-viewer__label {
+      right: auto;
+      left: 50%;
+      text-align: center;
+      transform: translateX(-50%);
     }
 
     .hexagon-viewer__controls {
-      grid-template-columns:
-        4.5rem
-        minmax(0, var(--slider-width));
-
-      gap: 0.5rem;
-      justify-content: stretch;
-
-      margin-top: 0.5rem;
+      width: 100%;
+      margin-top: 0.35rem;
     }
 
-    .hexagon-viewer__order {
-      width: 4.5rem;
-    }
-
-    .hexagon-viewer__loading {
-      grid-column: 1 / -1;
-      width: auto;
-      min-height: 1em;
-      text-align: center;
+    .hexagon-viewer__slider-row {
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 0.6rem;
     }
   }
 
   /*
-   * A short landscape viewport generally benefits from restoring the
-   * two-column layout.
+   * Landscape phones and small tablets can generally keep both images
+   * side by side.
    */
-  @media (max-height: 520px) and (orientation: landscape) {
+  @media (
+    max-height: 520px
+  ) and (
+    orientation: landscape
+  ) {
+    .hexagon-viewer {
+      left: 50%;
+      width: min(
+        var(--viewer-desktop-width),
+        var(--viewer-maximum-width)
+      );
+      transform: translateX(-50%);
+    }
+
     .hexagon-viewer__stage {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
+    .hexagon-viewer__image-stack {
+      height: calc(100svh - 4.5rem);
+    }
+
     .hexagon-viewer__panel--solution
-      .hexagon-viewer__title {
+      .hexagon-viewer__label {
+      right: 0.35rem;
+      left: auto;
       text-align: right;
+      transform: none;
     }
 
     .hexagon-viewer__panel--potential
-      .hexagon-viewer__title {
+      .hexagon-viewer__label {
+      right: auto;
+      left: 0.35rem;
       text-align: left;
-    }
-
-    .hexagon-viewer__panel + .hexagon-viewer__panel {
-      margin-top: 0;
-    }
-
-    .hexagon-viewer__image-stack {
-      height: calc(100svh - 6rem);
+      transform: none;
     }
   }
 </style>
@@ -641,7 +603,9 @@ They looked completely different.
     const orders = Array.from(
       {
         length:
-          maximumOrder - minimumOrder + 1
+          maximumOrder -
+          minimumOrder +
+          1
       },
       (_, index) => minimumOrder + index
     );
@@ -675,9 +639,7 @@ They looked completely different.
     );
 
     const imageElements = [];
-
-    let completedCount = 0;
-    let failedCount = 0;
+    let loadedCount = 0;
 
     function solutionPath(order) {
       return (
@@ -708,15 +670,14 @@ They looked completely different.
 
     function getInitialOrder() {
       const url = new URL(window.location.href);
-      const requestedOrder =
-        url.searchParams.get("order");
+      const urlOrder = url.searchParams.get("order");
 
       return normalizeOrder(
-        requestedOrder ?? defaultOrder
+        urlOrder ?? defaultOrder
       );
     }
 
-    const startingOrder = getInitialOrder();
+    const initialOrder = getInitialOrder();
 
     function createImage({
       order,
@@ -724,41 +685,77 @@ They looked completely different.
       src,
       alt
     }) {
-      const image =
-        document.createElement("img");
+      const image = document.createElement("img");
 
-      image.className =
-        "hexagon-viewer__image";
-
+      image.className = "hexagon-viewer__image";
       image.dataset.order = String(order);
       image.dataset.type = type;
-
       image.src = src;
       image.alt = alt;
 
       /*
-       * Force all SVGs to begin loading immediately.
+       * These are intentionally eager-loaded. The aim is to make every
+       * subsequent slider movement immediate.
        */
       image.loading = "eager";
       image.decoding = "async";
 
-      /*
-       * Give the initially visible pair priority while still beginning
-       * all other requests immediately.
-       */
       if ("fetchPriority" in image) {
         image.fetchPriority =
-          order === startingOrder
+          order === initialOrder
             ? "high"
             : "auto";
       }
 
-      image.setAttribute(
-        "aria-hidden",
-        "true"
-      );
-
       return image;
+    }
+
+    function waitForImage(image) {
+      return new Promise((resolve) => {
+        let completed = false;
+
+        function finish(success) {
+          if (completed) {
+            return;
+          }
+
+          completed = true;
+          loadedCount += 1;
+
+          loadingStatus.textContent =
+            `Loading diagrams… ` +
+            `${loadedCount}/${imageElements.length}`;
+
+          if (
+            success &&
+            typeof image.decode === "function"
+          ) {
+            image
+              .decode()
+              .catch(() => {})
+              .finally(resolve);
+          } else {
+            resolve();
+          }
+        }
+
+        if (image.complete) {
+          finish(image.naturalWidth > 0);
+          return;
+        }
+
+        image.addEventListener(
+          "load",
+          () => finish(true),
+          { once: true }
+        );
+
+        image.addEventListener(
+          "error",
+          () => finish(false),
+          { once: true }
+        );
+      });
     }
 
     function buildImageStacks() {
@@ -778,17 +775,11 @@ They looked completely different.
           src: potentialPath(order),
           alt:
             "Potential field of the abnormal " +
-            "zero-sum magic hexagon " +
-            `of order ${order}`
+            `zero-sum magic hexagon of order ${order}`
         });
 
-        solutionStack.appendChild(
-          solutionImage
-        );
-
-        potentialStack.appendChild(
-          potentialImage
-        );
+        solutionStack.appendChild(solutionImage);
+        potentialStack.appendChild(potentialImage);
 
         imageElements.push(
           solutionImage,
@@ -797,81 +788,16 @@ They looked completely different.
       }
     }
 
-    function updateLoadingStatus() {
-      loadingStatus.textContent =
-        `Loading ${completedCount}/${imageElements.length}`;
-    }
-
-    function waitForImage(image) {
-      return new Promise((resolve) => {
-        let finished = false;
-
-        async function complete(success) {
-          if (finished) {
-            return;
-          }
-
-          finished = true;
-          completedCount += 1;
-
-          if (!success) {
-            failedCount += 1;
-          }
-
-          updateLoadingStatus();
-
-          /*
-           * Loading places the SVG in the browser cache. decode() also
-           * asks the browser to prepare it for immediate display.
-           */
-          if (
-            success &&
-            typeof image.decode === "function"
-          ) {
-            try {
-              await image.decode();
-            } catch {
-              /*
-               * Some browsers reject decode() for an already displayable
-               * SVG. The loaded image is still usable.
-               */
-            }
-          }
-
-          resolve();
-        }
-
-        if (image.complete) {
-          complete(image.naturalWidth > 0);
-          return;
-        }
-
-        image.addEventListener(
-          "load",
-          () => complete(true),
-          { once: true }
-        );
-
-        image.addEventListener(
-          "error",
-          () => complete(false),
-          { once: true }
-        );
-      });
-    }
-
     function setActiveImage(stack, order) {
-      const previousImage =
-        stack.querySelector(
-          ".hexagon-viewer__image.is-active"
-        );
+      const previousImage = stack.querySelector(
+        ".hexagon-viewer__image.is-active"
+      );
 
-      const nextImage =
-        stack.querySelector(
-          `.hexagon-viewer__image[data-order="${order}"]`
-        );
+      const nextImage = stack.querySelector(
+        `.hexagon-viewer__image[data-order="${order}"]`
+      );
 
-      if (!nextImage || previousImage === nextImage) {
+      if (previousImage === nextImage) {
         return;
       }
 
@@ -886,8 +812,10 @@ They looked completely different.
         );
       }
 
-      nextImage.classList.add("is-active");
-      nextImage.removeAttribute("aria-hidden");
+      if (nextImage) {
+        nextImage.classList.add("is-active");
+        nextImage.removeAttribute("aria-hidden");
+      }
     }
 
     function updateViewer(
@@ -897,14 +825,9 @@ They looked completely different.
       const normalizedOrder =
         normalizeOrder(order);
 
-      slider.value =
-        String(normalizedOrder);
-
-      output.value =
-        String(normalizedOrder);
-
-      output.textContent =
-        String(normalizedOrder);
+      slider.value = String(normalizedOrder);
+      output.value = String(normalizedOrder);
+      output.textContent = String(normalizedOrder);
 
       setActiveImage(
         solutionStack,
@@ -935,8 +858,9 @@ They looked completely different.
       );
 
       if (updateUrl) {
-        const url =
-          new URL(window.location.href);
+        const url = new URL(
+          window.location.href
+        );
 
         url.searchParams.set(
           "order",
@@ -952,48 +876,34 @@ They looked completely different.
     }
 
     async function preloadAllImages() {
-      completedCount = 0;
-      failedCount = 0;
-
-      updateLoadingStatus();
+      loadingStatus.textContent =
+        `Loading diagrams… 0/` +
+        `${imageElements.length}`;
 
       await Promise.allSettled(
         imageElements.map(waitForImage)
       );
 
       slider.disabled = false;
-
-      if (failedCount > 0) {
-        loadingStatus.textContent =
-          `${failedCount} image` +
-          `${failedCount === 1 ? "" : "s"} unavailable`;
-        return;
-      }
-
       loadingStatus.textContent =
         "All orders loaded";
 
       window.setTimeout(() => {
-        loadingStatus.classList.add(
-          "is-finished"
-        );
-      }, 900);
+        loadingStatus.hidden = true;
+      }, 1000);
     }
 
     buildImageStacks();
 
     /*
-     * Display the chosen order immediately. The remaining images load
-     * and decode in parallel.
+     * Display the selected order immediately while the remaining SVGs
+     * continue loading.
      */
-    updateViewer(startingOrder, false);
+    updateViewer(initialOrder, false);
 
-    slider.addEventListener(
-      "input",
-      () => {
-        updateViewer(slider.value);
-      }
-    );
+    slider.addEventListener("input", () => {
+      updateViewer(slider.value);
+    });
 
     preloadAllImages();
   })();
