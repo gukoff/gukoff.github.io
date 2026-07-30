@@ -1,0 +1,18 @@
+MHX 1
+kind: filled
+order: 5
+magic: 61
+domain: -21..39
+source: generated via seed-5 search
+layout: rows are top-to-bottom; values in each row are left-to-right
+
+rows:
+-20 8 13 35 25
+-17 24 38 6 -21 31
+37 23 5 -15 -18 -3 32
+28 -5 9 10 7 20 0 -8
+33 15 -6 17 12 -16 -14 39 -19
+-4 -2 -10 34 -13 27 18 11
+4 -11 22 -9 26 -7 36
+29 1 21 -12 3 19
+-1 30 2 16 14

@@ -1,0 +1,20 @@
+MHX 1
+kind: filled
+order: 6
+magic: 546
+domain: 21..111
+source: MagicHexagon-Order6.svg
+layout: rows are top-to-bottom; values in each row are left-to-right
+
+rows:
+65 110 109 99 111 52
+96 67 68 79 64 66 106
+105 53 46 45 51 59 80 107
+101 72 57 33 25 32 47 71 108
+94 81 55 35 22 34 37 36 48 104
+85 73 60 29 23 21 24 31 61 70 69
+90 54 56 30 26 27 39 42 82 100
+97 75 44 28 41 40 49 74 98
+95 84 63 58 43 62 50 91
+92 78 38 76 83 77 102
+87 88 103 93 89 86

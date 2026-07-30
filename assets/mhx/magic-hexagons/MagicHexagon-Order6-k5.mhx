@@ -1,0 +1,20 @@
+MHX 1
+kind: filled
+order: 6
+magic: 455
+domain: 10..100
+source: generated via hypothesis_probes.py guided-k-basis (shift), seed=3
+layout: rows are top-to-bottom; values in each row are left-to-right
+
+rows:
+44 73 96 56 100 86
+88 68 53 78 67 39 62
+72 36 63 58 22 49 89 66
+81 93 60 15 11 30 29 38 98
+75 74 35 26 20 12 19 52 50 92
+95 34 45 21 17 24 16 31 41 80 51
+77 70 37 10 43 28 23 32 76 59
+33 99 71 18 25 27 40 57 85
+65 46 13 48 42 69 82 90
+91 47 55 97 64 14 87
+94 84 79 61 54 83

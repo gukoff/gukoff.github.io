@@ -1,0 +1,16 @@
+MHX 1
+kind: filled
+order: 4
+magic: 111
+domain: 3..39
+source: MagicHexagon-Order4-2a.svg
+layout: rows are top-to-bottom; values in each row are left-to-right
+
+rows:
+14 33 30 34
+39 6 24 20 22
+37 13 11 8 25 17
+21 23 7 9 3 10 38
+36 4 5 12 28 26
+35 16 18 27 15
+19 31 29 32

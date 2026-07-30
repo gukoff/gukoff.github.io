@@ -1,0 +1,18 @@
+MHX 1
+kind: filled
+order: 5
+magic: 305
+domain: 15..75
+source: MagicHexagon-Order5-max.svg
+layout: rows are top-to-bottom; values in each row are left-to-right
+
+rows:
+56 61 70 67 51
+55 45 36 48 53 68
+74 37 26 29 27 39 73
+62 42 33 19 16 31 38 64
+58 57 22 20 15 18 23 43 49
+63 47 28 21 17 30 34 65
+71 35 24 32 25 46 72
+59 44 40 41 52 69
+54 60 75 66 50

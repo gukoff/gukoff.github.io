@@ -1,0 +1,14 @@
+MHX 1
+kind: filled
+order: 3
+magic: 0
+domain: -9..9
+source: r3 signed-permutation exchange solver
+layout: rows are top-to-bottom; values in each row are left-to-right
+
+rows:
+-6 -3 9
+-2 7 -4 -1
+8 -5 0 5 -8
+1 4 -7 2
+-9 3 6
