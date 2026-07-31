@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "New magic hexagons and their beautiful potential fields"
+title: "New Magic Hexagons And Their Beautiful Potential Fields"
 date: 2026-07-28 00:00:00 +0200
 categories: math
 comments: "yes"
@@ -8,77 +8,55 @@ d3: "no"
 mathjax: "yes"
 ---
 
-# New magic hexagons and their beautiful potential fields
+What is so special about the number 19?
 
-A conversation with other alumni of the Yandex School of Data Analysis recently turned to the fact that the school was about to become 19 years old.
+This question came up in the conversation of YSDA alumni last month on the occasion of the school turning 19 years old.
+Someone pointed out that 19 is a twin prime. Someone else replied that 19 is the number of cells in the only non-trivial magic hexagon.
 
-As tends to happen when mathematicians encounter a number, we started asking what was special about it.
+Wait, a "magic hexagon"? I immediately got curious and went ahead to learn about this beast - and ended up discovering some new mathematics.
 
-Someone pointed out that 19 is a twin prime. Someone else replied that 19 is the number of cells in the only non-trivial normal magic hexagon.
+## Magic Squares and Magic Hexagons
 
-I had never heard of a magic hexagon, so I opened Wikipedia.
+If you ever dabbled in recreational mathematics, I bet you know about the magic squares.
+A magic square is a square grid of numbers where every row, column, and main diagonal adds up to the exact same total, known as the magic constant. A _normal_ magic square is the one that contains only consecutive numbers from 1 to n^2 on the grid, and typically this constraint is assumed.
 
-That small act of curiosity eventually led to a custom stochastic solver, several days of computation across 32 CPU cores, and new abnormal magic hexagons of orders up to 21. Along the way, I found that the seemingly chaotic solutions have an alternative representation that looks unexpectedly smooth: a landscape of gradients, hills, and valleys.
+[TODO: picture of magic square]
 
-This post is about that journey. It is also about a recurring lesson in both mathematics and software engineering: a difficult search problem can become much more tractable once you find the right representation.
+Magic squares were known for millennia and are very well-studied. By now, we have algorithms to construct normal magic squares of every order n > 2.
 
-## From magic squares to magic hexagons
+A magic hexagon applies the same idea to a hexagonal grid. Its cells form straight lines in three directions, and every such line must have the same sum. Similarly as with the squares, the hexagon is called normal if it contains consecutive numbers between 1 and 3n2 − 3n + 1 (this expression is the number of cells in the hexagonal grid).
 
-A magic square contains distinct integers arranged so that every row, column, and main diagonal has the same sum.
+[TODO: picture of normal magic hexagon for n=3]
 
-A magic hexagon applies the same idea to a hexagonal grid. Its cells form straight lines in three directions, and every such line must have the same sum.
+The example above is the only normal magic hexagon in existence (apart from the rotations and reflections). The proof is straightforward - for any order n>3, the numbers (1..3n2 − 3n + 1) can't be partitioned into 2n-1 rows with equal sums because 2n-1 simply doesn't divide the sum of these numbers.
 
-An order-(n) hexagon has side length (n) and contains
+To make things more interesting, let's look at the so called **abnormal magic hexagons**. We relax one of the constraints - we still require that the numbers on the grid are consecutive, but now they don't have to start at 1.
 
-[
-3n(n-1)+1
-]
+This relaxation suddenly allows many more solutions!
 
-cells.
+But finding these solutions is not an easy feat. Unlike with magic squares, there is no formulaic approach or deterministic algorithm. The only known way to find them is wandering through a brutally large search space. The largest known solution as of July 2026 was n=9 found by Klaus Meffert.
 
-The familiar non-trivial example has order 3 and therefore 19 cells. If those cells must contain exactly the numbers from 1 to 19, there is only one solution, apart from rotations and reflections.
+So... Are these solutions truly so hard to find? How about we try?
 
-That is the normal magic hexagon.
+## Making Observations
 
-[**Visualization 1 — The classical order-3 magic hexagon**
-Show the numbered 19-cell solution. Highlight one line in each of the three lattice directions and display their common sum.]
+There is a clear tension between the two independent constraints:
 
-The problem changes if we relax the interval of allowed numbers.
+1. The numbers are consecutive
+2. The line sums are equal (and lines have different lengths!)
 
-Instead of requiring the values to start at 1, we require only that they form some consecutive interval. Such objects are traditionally called **abnormal magic hexagons**.
+After some pondering, I thought it is logical there's no claar algorithm or formulaic solution.
+These constraints are so seemingly orthogonal that optimizing for one, without an insight,
+scrambles the progress towards the other one.
 
-The adjective sounds dramatic, but the definition is modest:
+Which made me think - can I reformulate the problem so that most constraints are satisfied automatically?
 
-* every cell contains a distinct integer;
-* the integers are consecutive;
-* every line has the same sum.
-
-This relaxation allows many more solutions. It does not make them easy to find.
-
-## A small problem with a large search space
-
-The definition is simple enough to encode in a constraint solver:
-
-1. create one integer variable per cell;
-2. require all values to be distinct;
-3. constrain them to form a consecutive interval;
-4. require every line to have the same sum.
-
-I tried this with OR-Tools CP-SAT.
-
-For small orders, a general-purpose constraint solver is useful. But the difficulty rises quickly. Even the next unknown orders resisted a straightforward formulation for hours.
-
-This is not surprising when you consider the search space. An order-(n) hexagon has (3n(n-1)+1) cells, and the solver is effectively looking for a highly constrained permutation of the same number of values.
-
-The line equations provide structure, but they overlap heavily. Moving one number changes several sums at once. Distinctness is global. Consecutiveness is global. Most partial assignments tell the solver very little about whether they can eventually be completed.
-
-At this point, the useful question was no longer:
-
+### Observation 1: 
 > How can I make the generic solver search faster?
 
 It was:
 
-> Can I reformulate the problem so that most constraints are satisfied automatically?
+> 
 
 That question led to two strong assumptions.
 
