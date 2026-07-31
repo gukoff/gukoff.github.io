@@ -20,13 +20,23 @@ Wait, a "magic hexagon"? I immediately got curious and went ahead to learn about
 If you ever dabbled in recreational mathematics, I bet you know about the magic squares.
 A magic square is a square grid of numbers where every row, column, and main diagonal adds up to the exact same total, known as the magic constant. A _normal_ magic square is the one that contains only consecutive numbers from 1 to n^2 on the grid, and typically this constraint is assumed.
 
-[TODO: picture of magic square]
+<object
+  type="image/svg+xml"
+  data="/assets/svg/magic-hexagons/magic-square-order5-interactive.svg"
+  style="display:block; width:50%; max-width:620px; height:auto; margin:auto;"
+  aria-label="Interactive order-5 magic square">
+</object>
 
 Magic squares were known for millennia and are very well-studied. By now, we have algorithms to construct normal magic squares of every order n > 2.
 
 A magic hexagon applies the same idea to a hexagonal grid. Its cells form straight lines in three directions, and every such line must have the same sum. Similarly as with the squares, the hexagon is called normal if it contains consecutive numbers between 1 and 3n2 − 3n + 1 (this expression is the number of cells in the hexagonal grid).
 
-[TODO: picture of normal magic hexagon for n=3]
+<object
+  type="image/svg+xml"
+  data="/assets/svg/magic-hexagons/Order3-interactive.svg"
+  style="display:block; width:50%; max-width:620px; height:auto; margin:auto;"
+  aria-label="Interactive order-3 magic hexagon">
+</object>
 
 The example above is the only normal magic hexagon in existence (apart from the rotations and reflections). The proof is straightforward - for any order n>3, the numbers (1..3n2 − 3n + 1) can't be partitioned into 2n-1 rows with equal sums because 2n-1 simply doesn't divide the sum of these numbers.
 
@@ -45,13 +55,39 @@ There is a clear tension between the two independent constraints:
 1. The numbers are consecutive
 2. The line sums are equal (and lines have different lengths!)
 
-After some pondering, I thought it is logical there's no claar algorithm or formulaic solution.
-These constraints are so seemingly orthogonal that optimizing for one, without an insight,
-scrambles the progress towards the other one.
+The prior art also showed that the search algorithm optimization -
+at least for one of the possible search algorithms - was pushed to the limit by the other people.
 
-Which made me think - can I reformulate the problem so that most constraints are satisfied automatically?
+So, how about we optimize the search space instead?
 
-### Observation 1: 
+### Observation 1: Antisymmetric hexagons are much simpler to solve
+
+First, let's restrict all numbers on the grid are be in the symmetric interval (-K...K) for some K.
+Notice that this is equivalent to lines sums being zero.
+
+Second, put the 0 in the middle of the grid, and require that the cells opposite each other under a 180-degree rotation contain opposite values.
+
+<object
+  type="image/svg+xml"
+  data="/assets/svg/magic-hexagons/antisymmetry-hexagon-interactive.svg"
+  style="display:block; width:50%; max-width:620px; height:auto; margin:auto;"
+  aria-label="Interactive antisymmetric order-3 magic hexagon">
+</object>
+
+Notice how this makes many constraints disappear.
+
+The central lines sum to 0 automatically, and every other line
+
+Because the number of cells is odd, the consecutive values can then be chosen symmetrically:
+
+[
+-K,-(K-1),\ldots,-1,0,1,\ldots,K.
+]
+
+I also imposed **antisymmetry**. 
+
+So if one cell contains (x), its antipodal cell contains (-x).
+
 > How can I make the generic solver search faster?
 
 It was:

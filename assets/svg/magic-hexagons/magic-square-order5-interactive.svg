@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 616 616"
+     width="616" height="616"
+     role="img"
+     aria-labelledby="title desc"
+     id="magic-square-order5">
+  <title id="title">Interactive 5 by 5 normal magic square</title>
+  <desc id="desc">Numbers 1 through 25 form a 5 by 5 normal magic square. Hover with a mouse, focus with a keyboard, or tap a cell to highlight its row, column, and any magic diagonals through it. Every highlighted full line sums to 65.</desc>
+  <metadata>
+    Interactive redraw generated for blog use. The square is the standard order-5 normal magic square using numbers 1 through 25.
+  </metadata>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --cell: #ffffff;
+      --ink: #1c232b;
+      --grid: #28313a;
+      --line-row: #d14f47;
+      --line-col: #3478c5;
+      --line-diag1: #24956a;
+      --line-diag2: #d18a2e;
+      --focus: #8b5cf6;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --cell: #161a20;
+        --ink: #f4f6f8;
+        --grid: #d6dbe1;
+        --line-row: #ff817a;
+        --line-col: #73a9ea;
+        --line-diag1: #63c99d;
+        --line-diag2: #f0b15b;
+        --focus: #c4a7ff;
+      }
+    }
+
+    #magic-square-order5 {
+      max-width: 100%;
+      height: auto;
+      overflow: visible;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    .cell-base { fill: var(--cell); }
+    .cell-wash { opacity: 0; pointer-events: none; transition: opacity 110ms ease-out; }
+    .wash-row { fill: var(--line-row); }
+    .wash-col { fill: var(--line-col); }
+    .wash-diag1 { fill: var(--line-diag1); }
+    .wash-diag2 { fill: var(--line-diag2); }
+    .cell-wash.on { opacity: .16; }
+
+    .axis {
+      fill: none;
+      stroke-width: 5;
+      stroke-linecap: round;
+      opacity: 0;
+      pointer-events: none;
+      vector-effect: non-scaling-stroke;
+      transition: opacity 110ms ease-out;
+    }
+    .axis.on { opacity: .82; }
+    #axis-row { stroke: var(--line-row); }
+    #axis-col { stroke: var(--line-col); }
+    #axis-diag1 { stroke: var(--line-diag1); }
+    #axis-diag2 { stroke: var(--line-diag2); }
+
+    .cell-outline {
+      fill: none;
+      stroke: var(--grid);
+      stroke-width: 2.4;
+      vector-effect: non-scaling-stroke;
+      pointer-events: none;
+      transition: stroke-width 100ms ease-out;
+    }
+    .cell-outline.selected { stroke-width: 4.0; }
+
+    .number {
+      fill: var(--ink);
+      font: 500 34px/1 Arial, Helvetica, sans-serif;
+      text-anchor: middle;
+      dominant-baseline: central;
+      pointer-events: none;
+      stroke: var(--cell);
+      stroke-width: 7;
+      paint-order: stroke fill;
+      vector-effect: non-scaling-stroke;
+    }
+
+    .hit-cell rect { fill: transparent; pointer-events: all; cursor: pointer; }
+    .hit-cell:focus { outline: none; }
+    .hit-cell:focus-visible rect {
+      stroke: var(--focus);
+      stroke-width: 5;
+      fill: transparent;
+      vector-effect: non-scaling-stroke;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cell-wash, .axis, .cell-outline { transition: none; }
+    }
+  </style>
+
+  <g id="base-cells">
+    <rect class="cell-base" x="48" y="48" width="104" height="104"/>
+    <rect class="cell-base" x="152" y="48" width="104" height="104"/>
+    <rect class="cell-base" x="256" y="48" width="104" height="104"/>
+    <rect class="cell-base" x="360" y="48" width="104" height="104"/>
+    <rect class="cell-base" x="464" y="48" width="104" height="104"/>
+    <rect class="cell-base" x="48" y="152" width="104" height="104"/>
+    <rect class="cell-base" x="152" y="152" width="104" height="104"/>
+    <rect class="cell-base" x="256" y="152" width="104" height="104"/>
+    <rect class="cell-base" x="360" y="152" width="104" height="104"/>
+    <rect class="cell-base" x="464" y="152" width="104" height="104"/>
+    <rect class="cell-base" x="48" y="256" width="104" height="104"/>
+    <rect class="cell-base" x="152" y="256" width="104" height="104"/>
+    <rect class="cell-base" x="256" y="256" width="104" height="104"/>
+    <rect class="cell-base" x="360" y="256" width="104" height="104"/>
+    <rect class="cell-base" x="464" y="256" width="104" height="104"/>
+    <rect class="cell-base" x="48" y="360" width="104" height="104"/>
+    <rect class="cell-base" x="152" y="360" width="104" height="104"/>
+    <rect class="cell-base" x="256" y="360" width="104" height="104"/>
+    <rect class="cell-base" x="360" y="360" width="104" height="104"/>
+    <rect class="cell-base" x="464" y="360" width="104" height="104"/>
+    <rect class="cell-base" x="48" y="464" width="104" height="104"/>
+    <rect class="cell-base" x="152" y="464" width="104" height="104"/>
+    <rect class="cell-base" x="256" y="464" width="104" height="104"/>
+    <rect class="cell-base" x="360" y="464" width="104" height="104"/>
+    <rect class="cell-base" x="464" y="464" width="104" height="104"/>
+  </g>
+
+  <g id="washes" pointer-events="none">
+    <rect id="c_0_0_row" class="cell-wash wash-row" x="48" y="48" width="104" height="104"/>
+    <rect id="c_0_0_col" class="cell-wash wash-col" x="48" y="48" width="104" height="104"/>
+    <rect id="c_0_0_diag1" class="cell-wash wash-diag1" x="48" y="48" width="104" height="104"/>
+    <rect id="c_0_1_row" class="cell-wash wash-row" x="152" y="48" width="104" height="104"/>
+    <rect id="c_0_1_col" class="cell-wash wash-col" x="152" y="48" width="104" height="104"/>
+    <rect id="c_0_2_row" class="cell-wash wash-row" x="256" y="48" width="104" height="104"/>
+    <rect id="c_0_2_col" class="cell-wash wash-col" x="256" y="48" width="104" height="104"/>
+    <rect id="c_0_3_row" class="cell-wash wash-row" x="360" y="48" width="104" height="104"/>
+    <rect id="c_0_3_col" class="cell-wash wash-col" x="360" y="48" width="104" height="104"/>
+    <rect id="c_0_4_row" class="cell-wash wash-row" x="464" y="48" width="104" height="104"/>
+    <rect id="c_0_4_col" class="cell-wash wash-col" x="464" y="48" width="104" height="104"/>
+    <rect id="c_0_4_diag2" class="cell-wash wash-diag2" x="464" y="48" width="104" height="104"/>
+    <rect id="c_1_0_row" class="cell-wash wash-row" x="48" y="152" width="104" height="104"/>
+    <rect id="c_1_0_col" class="cell-wash wash-col" x="48" y="152" width="104" height="104"/>
+    <rect id="c_1_1_row" class="cell-wash wash-row" x="152" y="152" width="104" height="104"/>
+    <rect id="c_1_1_col" class="cell-wash wash-col" x="152" y="152" width="104" height="104"/>
+    <rect id="c_1_1_diag1" class="cell-wash wash-diag1" x="152" y="152" width="104" height="104"/>
+    <rect id="c_1_2_row" class="cell-wash wash-row" x="256" y="152" width="104" height="104"/>
+    <rect id="c_1_2_col" class="cell-wash wash-col" x="256" y="152" width="104" height="104"/>
+    <rect id="c_1_3_row" class="cell-wash wash-row" x="360" y="152" width="104" height="104"/>
+    <rect id="c_1_3_col" class="cell-wash wash-col" x="360" y="152" width="104" height="104"/>
+    <rect id="c_1_3_diag2" class="cell-wash wash-diag2" x="360" y="152" width="104" height="104"/>
+    <rect id="c_1_4_row" class="cell-wash wash-row" x="464" y="152" width="104" height="104"/>
+    <rect id="c_1_4_col" class="cell-wash wash-col" x="464" y="152" width="104" height="104"/>
+    <rect id="c_2_0_row" class="cell-wash wash-row" x="48" y="256" width="104" height="104"/>
+    <rect id="c_2_0_col" class="cell-wash wash-col" x="48" y="256" width="104" height="104"/>
+    <rect id="c_2_1_row" class="cell-wash wash-row" x="152" y="256" width="104" height="104"/>
+    <rect id="c_2_1_col" class="cell-wash wash-col" x="152" y="256" width="104" height="104"/>
+    <rect id="c_2_2_row" class="cell-wash wash-row" x="256" y="256" width="104" height="104"/>
+    <rect id="c_2_2_col" class="cell-wash wash-col" x="256" y="256" width="104" height="104"/>
+    <rect id="c_2_2_diag1" class="cell-wash wash-diag1" x="256" y="256" width="104" height="104"/>
+    <rect id="c_2_2_diag2" class="cell-wash wash-diag2" x="256" y="256" width="104" height="104"/>
+    <rect id="c_2_3_row" class="cell-wash wash-row" x="360" y="256" width="104" height="104"/>
+    <rect id="c_2_3_col" class="cell-wash wash-col" x="360" y="256" width="104" height="104"/>
+    <rect id="c_2_4_row" class="cell-wash wash-row" x="464" y="256" width="104" height="104"/>
+    <rect id="c_2_4_col" class="cell-wash wash-col" x="464" y="256" width="104" height="104"/>
+    <rect id="c_3_0_row" class="cell-wash wash-row" x="48" y="360" width="104" height="104"/>
+    <rect id="c_3_0_col" class="cell-wash wash-col" x="48" y="360" width="104" height="104"/>
+    <rect id="c_3_1_row" class="cell-wash wash-row" x="152" y="360" width="104" height="104"/>
+    <rect id="c_3_1_col" class="cell-wash wash-col" x="152" y="360" width="104" height="104"/>
+    <rect id="c_3_1_diag2" class="cell-wash wash-diag2" x="152" y="360" width="104" height="104"/>
+    <rect id="c_3_2_row" class="cell-wash wash-row" x="256" y="360" width="104" height="104"/>
+    <rect id="c_3_2_col" class="cell-wash wash-col" x="256" y="360" width="104" height="104"/>
+    <rect id="c_3_3_row" class="cell-wash wash-row" x="360" y="360" width="104" height="104"/>
+    <rect id="c_3_3_col" class="cell-wash wash-col" x="360" y="360" width="104" height="104"/>
+    <rect id="c_3_3_diag1" class="cell-wash wash-diag1" x="360" y="360" width="104" height="104"/>
+    <rect id="c_3_4_row" class="cell-wash wash-row" x="464" y="360" width="104" height="104"/>
+    <rect id="c_3_4_col" class="cell-wash wash-col" x="464" y="360" width="104" height="104"/>
+    <rect id="c_4_0_row" class="cell-wash wash-row" x="48" y="464" width="104" height="104"/>
+    <rect id="c_4_0_col" class="cell-wash wash-col" x="48" y="464" width="104" height="104"/>
+    <rect id="c_4_0_diag2" class="cell-wash wash-diag2" x="48" y="464" width="104" height="104"/>
+    <rect id="c_4_1_row" class="cell-wash wash-row" x="152" y="464" width="104" height="104"/>
+    <rect id="c_4_1_col" class="cell-wash wash-col" x="152" y="464" width="104" height="104"/>
+    <rect id="c_4_2_row" class="cell-wash wash-row" x="256" y="464" width="104" height="104"/>
+    <rect id="c_4_2_col" class="cell-wash wash-col" x="256" y="464" width="104" height="104"/>
+    <rect id="c_4_3_row" class="cell-wash wash-row" x="360" y="464" width="104" height="104"/>
+    <rect id="c_4_3_col" class="cell-wash wash-col" x="360" y="464" width="104" height="104"/>
+    <rect id="c_4_4_row" class="cell-wash wash-row" x="464" y="464" width="104" height="104"/>
+    <rect id="c_4_4_col" class="cell-wash wash-col" x="464" y="464" width="104" height="104"/>
+    <rect id="c_4_4_diag1" class="cell-wash wash-diag1" x="464" y="464" width="104" height="104"/>
+  </g>
+
+  <g id="axes" pointer-events="none">
+    <line id="axis-row" class="axis" x1="48" y1="0" x2="568" y2="0"/>
+    <line id="axis-col" class="axis" x1="0" y1="48" x2="0" y2="568"/>
+    <line id="axis-diag1" class="axis" x1="48" y1="48" x2="568" y2="568"/>
+    <line id="axis-diag2" class="axis" x1="568" y1="48" x2="48" y2="568"/>
+  </g>
+
+  <g id="outlines" pointer-events="none">
+    <rect id="c_0_0_outline" class="cell-outline" x="48" y="48" width="104" height="104"/>
+    <rect id="c_0_1_outline" class="cell-outline" x="152" y="48" width="104" height="104"/>
+    <rect id="c_0_2_outline" class="cell-outline" x="256" y="48" width="104" height="104"/>
+    <rect id="c_0_3_outline" class="cell-outline" x="360" y="48" width="104" height="104"/>
+    <rect id="c_0_4_outline" class="cell-outline" x="464" y="48" width="104" height="104"/>
+    <rect id="c_1_0_outline" class="cell-outline" x="48" y="152" width="104" height="104"/>
+    <rect id="c_1_1_outline" class="cell-outline" x="152" y="152" width="104" height="104"/>
+    <rect id="c_1_2_outline" class="cell-outline" x="256" y="152" width="104" height="104"/>
+    <rect id="c_1_3_outline" class="cell-outline" x="360" y="152" width="104" height="104"/>
+    <rect id="c_1_4_outline" class="cell-outline" x="464" y="152" width="104" height="104"/>
+    <rect id="c_2_0_outline" class="cell-outline" x="48" y="256" width="104" height="104"/>
+    <rect id="c_2_1_outline" class="cell-outline" x="152" y="256" width="104" height="104"/>
+    <rect id="c_2_2_outline" class="cell-outline" x="256" y="256" width="104" height="104"/>
+    <rect id="c_2_3_outline" class="cell-outline" x="360" y="256" width="104" height="104"/>
+    <rect id="c_2_4_outline" class="cell-outline" x="464" y="256" width="104" height="104"/>
+    <rect id="c_3_0_outline" class="cell-outline" x="48" y="360" width="104" height="104"/>
+    <rect id="c_3_1_outline" class="cell-outline" x="152" y="360" width="104" height="104"/>
+    <rect id="c_3_2_outline" class="cell-outline" x="256" y="360" width="104" height="104"/>
+    <rect id="c_3_3_outline" class="cell-outline" x="360" y="360" width="104" height="104"/>
+    <rect id="c_3_4_outline" class="cell-outline" x="464" y="360" width="104" height="104"/>
+    <rect id="c_4_0_outline" class="cell-outline" x="48" y="464" width="104" height="104"/>
+    <rect id="c_4_1_outline" class="cell-outline" x="152" y="464" width="104" height="104"/>
+    <rect id="c_4_2_outline" class="cell-outline" x="256" y="464" width="104" height="104"/>
+    <rect id="c_4_3_outline" class="cell-outline" x="360" y="464" width="104" height="104"/>
+    <rect id="c_4_4_outline" class="cell-outline" x="464" y="464" width="104" height="104"/>
+  </g>
+
+  <g id="numbers" pointer-events="none">
+    <text class="number" x="100.0" y="100.0" aria-hidden="true">17</text>
+    <text class="number" x="204.0" y="100.0" aria-hidden="true">24</text>
+    <text class="number" x="308.0" y="100.0" aria-hidden="true">1</text>
+    <text class="number" x="412.0" y="100.0" aria-hidden="true">8</text>
+    <text class="number" x="516.0" y="100.0" aria-hidden="true">15</text>
+    <text class="number" x="100.0" y="204.0" aria-hidden="true">23</text>
+    <text class="number" x="204.0" y="204.0" aria-hidden="true">5</text>
+    <text class="number" x="308.0" y="204.0" aria-hidden="true">7</text>
+    <text class="number" x="412.0" y="204.0" aria-hidden="true">14</text>
+    <text class="number" x="516.0" y="204.0" aria-hidden="true">16</text>
+    <text class="number" x="100.0" y="308.0" aria-hidden="true">4</text>
+    <text class="number" x="204.0" y="308.0" aria-hidden="true">6</text>
+    <text class="number" x="308.0" y="308.0" aria-hidden="true">13</text>
+    <text class="number" x="412.0" y="308.0" aria-hidden="true">20</text>
+    <text class="number" x="516.0" y="308.0" aria-hidden="true">22</text>
+    <text class="number" x="100.0" y="412.0" aria-hidden="true">10</text>
+    <text class="number" x="204.0" y="412.0" aria-hidden="true">12</text>
+    <text class="number" x="308.0" y="412.0" aria-hidden="true">19</text>
+    <text class="number" x="412.0" y="412.0" aria-hidden="true">21</text>
+    <text class="number" x="516.0" y="412.0" aria-hidden="true">3</text>
+    <text class="number" x="100.0" y="516.0" aria-hidden="true">11</text>
+    <text class="number" x="204.0" y="516.0" aria-hidden="true">18</text>
+    <text class="number" x="308.0" y="516.0" aria-hidden="true">25</text>
+    <text class="number" x="412.0" y="516.0" aria-hidden="true">2</text>
+    <text class="number" x="516.0" y="516.0" aria-hidden="true">9</text>
+  </g>
+
+  <g id="hit-layer">
+    <g class="hit-cell" data-id="c_0_0" data-row="0" data-col="0" data-x="100.0" data-y="100.0" data-value="17" role="button" tabindex="0" aria-label="Cell 17, row 1, column 1. Hover or tap to highlight its lines.">
+      <rect x="48" y="48" width="104" height="104" rx="2" ry="2"/>
+      <title>Cell 17</title>
+    </g>
+    <g class="hit-cell" data-id="c_0_1" data-row="0" data-col="1" data-x="204.0" data-y="100.0" data-value="24" role="button" tabindex="0" aria-label="Cell 24, row 1, column 2. Hover or tap to highlight its lines.">
+      <rect x="152" y="48" width="104" height="104" rx="2" ry="2"/>
+      <title>Cell 24</title>
+    </g>
+    <g class="hit-cell" data-id="c_0_2" data-row="0" data-col="2" data-x="308.0" data-y="100.0" data-value="1" role="button" tabindex="0" aria-label="Cell 1, row 1, column 3. Hover or tap to highlight its lines.">
+      <rect x="256" y="48" width="104" height="104" rx="2" ry="2"/>
+      <title>Cell 1</title>
+    </g>
+    <g class="hit-cell" data-id="c_0_3" data-row="0" data-col="3" data-x="412.0" data-y="100.0" data-value="8" role="button" tabindex="0" aria-label="Cell 8, row 1, column 4. Hover or tap to highlight its lines.">
+      <rect x="360" y="48" width="104" height="104" rx="2" ry="2"/>
+      <title>Cell 8</title>
+    </g>
+    <g class="hit-cell" data-id="c_0_4" data-row="0" data-col="4" data-x="516.0" data-y="100.0" data-value="15" role="button" tabindex="0" aria-label="Cell 15, row 1, column 5. Hover or tap to highlight its lines.">
+      <rect x="464" y="48" width="104" height="104" rx="2" ry="2"/>
+      <title>Cell 15</title>
+    </g>
+    <g class="hit-cell" data-id="c_1_0" data-row="1" data-col="0" data-x="100.0" data-y="204.0" data-value="23" role="button" tabindex="0" aria-label="Cell 23, row 2, column 1. Hover or tap to highlight its lines.">
+      <rect x="48" y="152" width="104" height="104" rx="2" ry="2"/>
+      <title>Cell 23</title>
+    </g>
+    <g class="hit-cell" data-id="c_1_1" data-row="1" data-col="1" data-x="204.0" data-y="204.0" data-value="5" role="button" tabindex="0" aria-label="Cell 5, row 2, column 2. Hover or tap to highlight its lines.">
+      <rect x="152" y="152" width="104" height="104" rx="2" ry="2"/>
+      <title>Cell 5</title>
+    </g>
+    <g class="hit-cell" data-id="c_1_2" data-row="1" data-col="2" data-x="308.0" data-y="204.0" data-value="7" role="button" tabindex="0" aria-label="Cell 7, row 2, column 3. Hover or tap to highlight its lines.">
+      <rect x="256" y="152" width="104" height="104" rx="2" ry="2"/>
+      <title>Cell 7</title>
+    </g>
+    <g class="hit-cell" data-id="c_1_3" data-row="1" data-col="3" data-x="412.0" data-y="204.0" data-value="14" role="button" tabindex="0" aria-label="Cell 14, row 2, column 4. Hover or tap to highlight its lines.">
+      <rect x="360" y="152" width="104" height="104" rx="2" ry="2"/>
+      <title>Cell 14</title>
+    </g>
+    <g class="hit-cell" data-id="c_1_4" data-row="1" data-col="4" data-x="516.0" data-y="204.0" data-value="16" role="button" tabindex="0" aria-label="Cell 16, row 2, column 5. Hover or tap to highlight its lines.">
+      <rect x="464" y="152" width="104" height="104" rx="2" ry="2"/>
+      <title>Cell 16</title>
+    </g>
+    <g class="hit-cell" data-id="c_2_0" data-row="2" data-col="0" data-x="100.0" data-y="308.0" data-value="4" role="button" tabindex="0" aria-label="Cell 4, row 3, column 1. Hover or tap to highlight its lines.">
+      <rect x="48" y="256" width="104" height="104" rx="2" ry="2"/>
+      <title>Cell 4</title>
+    </g>
+    <g class="hit-cell" data-id="c_2_1" data-row="2" data-col="1" data-x="204.0" data-y="308.0" data-value="6" role="button" tabindex="0" aria-label="Cell 6, row 3, column 2. Hover or tap to highlight its lines.">
+      <rect x="152" y="256" width="104" height="104" rx="2" ry="2"/>
+      <title>Cell 6</title>
+    </g>
+    <g class="hit-cell" data-id="c_2_2" data-row="2" data-col="2" data-x="308.0" data-y="308.0" data-value="13" role="button" tabindex="0" aria-label="Cell 13, row 3, column 3. Hover or tap to highlight its lines.">
+      <rect x="256" y="256" width="104" height="104" rx="2" ry="2"/>
+      <title>Cell 13</title>
+    </g>
+    <g class="hit-cell" data-id="c_2_3" data-row="2" data-col="3" data-x="412.0" data-y="308.0" data-value="20" role="button" tabindex="0" aria-label="Cell 20, row 3, column 4. Hover or tap to highlight its lines.">
+      <rect x="360" y="256" width="104" height="104" rx="2" ry="2"/>
+      <title>Cell 20</title>
+    </g>
+    <g class="hit-cell" data-id="c_2_4" data-row="2" data-col="4" data-x="516.0" data-y="308.0" data-value="22" role="button" tabindex="0" aria-label="Cell 22, row 3, column 5. Hover or tap to highlight its lines.">
+      <rect x="464" y="256" width="104" height="104" rx="2" ry="2"/>
+      <title>Cell 22</title>
+    </g>
+    <g class="hit-cell" data-id="c_3_0" data-row="3" data-col="0" data-x="100.0" data-y="412.0" data-value="10" role="button" tabindex="0" aria-label="Cell 10, row 4, column 1. Hover or tap to highlight its lines.">
+      <rect x="48" y="360" width="104" height="104" rx="2" ry="2"/>
+      <title>Cell 10</title>
+    </g>
+    <g class="hit-cell" data-id="c_3_1" data-row="3" data-col="1" data-x="204.0" data-y="412.0" data-value="12" role="button" tabindex="0" aria-label="Cell 12, row 4, column 2. Hover or tap to highlight its lines.">
+      <rect x="152" y="360" width="104" height="104" rx="2" ry="2"/>
+      <title>Cell 12</title>
+    </g>
+    <g class="hit-cell" data-id="c_3_2" data-row="3" data-col="2" data-x="308.0" data-y="412.0" data-value="19" role="button" tabindex="0" aria-label="Cell 19, row 4, column 3. Hover or tap to highlight its lines.">
+      <rect x="256" y="360" width="104" height="104" rx="2" ry="2"/>
+      <title>Cell 19</title>
+    </g>
+    <g class="hit-cell" data-id="c_3_3" data-row="3" data-col="3" data-x="412.0" data-y="412.0" data-value="21" role="button" tabindex="0" aria-label="Cell 21, row 4, column 4. Hover or tap to highlight its lines.">
+      <rect x="360" y="360" width="104" height="104" rx="2" ry="2"/>
+      <title>Cell 21</title>
+    </g>
+    <g class="hit-cell" data-id="c_3_4" data-row="3" data-col="4" data-x="516.0" data-y="412.0" data-value="3" role="button" tabindex="0" aria-label="Cell 3, row 4, column 5. Hover or tap to highlight its lines.">
+      <rect x="464" y="360" width="104" height="104" rx="2" ry="2"/>
+      <title>Cell 3</title>
+    </g>
+    <g class="hit-cell" data-id="c_4_0" data-row="4" data-col="0" data-x="100.0" data-y="516.0" data-value="11" role="button" tabindex="0" aria-label="Cell 11, row 5, column 1. Hover or tap to highlight its lines.">
+      <rect x="48" y="464" width="104" height="104" rx="2" ry="2"/>
+      <title>Cell 11</title>
+    </g>
+    <g class="hit-cell" data-id="c_4_1" data-row="4" data-col="1" data-x="204.0" data-y="516.0" data-value="18" role="button" tabindex="0" aria-label="Cell 18, row 5, column 2. Hover or tap to highlight its lines.">
+      <rect x="152" y="464" width="104" height="104" rx="2" ry="2"/>
+      <title>Cell 18</title>
+    </g>
+    <g class="hit-cell" data-id="c_4_2" data-row="4" data-col="2" data-x="308.0" data-y="516.0" data-value="25" role="button" tabindex="0" aria-label="Cell 25, row 5, column 3. Hover or tap to highlight its lines.">
+      <rect x="256" y="464" width="104" height="104" rx="2" ry="2"/>
+      <title>Cell 25</title>
+    </g>
+    <g class="hit-cell" data-id="c_4_3" data-row="4" data-col="3" data-x="412.0" data-y="516.0" data-value="2" role="button" tabindex="0" aria-label="Cell 2, row 5, column 4. Hover or tap to highlight its lines.">
+      <rect x="360" y="464" width="104" height="104" rx="2" ry="2"/>
+      <title>Cell 2</title>
+    </g>
+    <g class="hit-cell" data-id="c_4_4" data-row="4" data-col="4" data-x="516.0" data-y="516.0" data-value="9" role="button" tabindex="0" aria-label="Cell 9, row 5, column 5. Hover or tap to highlight its lines.">
+      <rect x="464" y="464" width="104" height="104" rx="2" ry="2"/>
+      <title>Cell 9</title>
+    </g>
+  </g>
+
+
+  <script><![CDATA[
+    (function () {
+      const svg = document.getElementById('magic-square-order5');
+      const cells = Array.from(svg.querySelectorAll('.hit-cell'));
+      const axes = {
+        row: svg.getElementById('axis-row'),
+        col: svg.getElementById('axis-col'),
+        diag1: svg.getElementById('axis-diag1'),
+        diag2: svg.getElementById('axis-diag2')
+      };
+      const gridLeft = 48;
+      const gridRight = 568;
+      const gridTop = 48;
+      const gridBottom = 568;
+      const cellSize = 104;
+      let pinned = null;
+      let active = null;
+
+      function clearVisuals() {
+        svg.querySelectorAll('.cell-wash.on').forEach(el => el.classList.remove('on'));
+        svg.querySelectorAll('.cell-outline.selected').forEach(el => el.classList.remove('selected'));
+        Object.values(axes).forEach(el => el.classList.remove('on'));
+      }
+
+      function activateCell(el) {
+        if (!el) {
+          active = null;
+          clearVisuals();
+          return;
+        }
+        active = el;
+        clearVisuals();
+        const id = el.dataset.id;
+        const row = Number(el.dataset.row);
+        const col = Number(el.dataset.col);
+        const cx = Number(el.dataset.x);
+        const cy = Number(el.dataset.y);
+
+        // Outline selected cell
+        const outline = svg.getElementById(id + '_outline');
+        if (outline) outline.classList.add('selected');
+
+        // Highlight row cells
+        for (let c = 0; c < 5; c++) {
+          const node = svg.getElementById(`c_${row}_${c}_row`);
+          if (node) node.classList.add('on');
+        }
+        // Highlight column cells
+        for (let r = 0; r < 5; r++) {
+          const node = svg.getElementById(`c_${r}_${col}_col`);
+          if (node) node.classList.add('on');
+        }
+        // Main diagonal
+        const onDiag1 = row === col;
+        if (onDiag1) {
+          for (let i = 0; i < 5; i++) {
+            const node = svg.getElementById(`c_${i}_${i}_diag1`);
+            if (node) node.classList.add('on');
+          }
+        }
+        // Anti-diagonal
+        const onDiag2 = (row + col) === 4;
+        if (onDiag2) {
+          for (let i = 0; i < 5; i++) {
+            const node = svg.getElementById(`c_${i}_${4 - i}_diag2`);
+            if (node) node.classList.add('on');
+          }
+        }
+
+        // Strike-through axes
+        axes.row.setAttribute('x1', gridLeft);
+        axes.row.setAttribute('y1', cy);
+        axes.row.setAttribute('x2', gridRight);
+        axes.row.setAttribute('y2', cy);
+        axes.row.classList.add('on');
+
+        axes.col.setAttribute('x1', cx);
+        axes.col.setAttribute('y1', gridTop);
+        axes.col.setAttribute('x2', cx);
+        axes.col.setAttribute('y2', gridBottom);
+        axes.col.classList.add('on');
+
+        if (onDiag1) axes.diag1.classList.add('on');
+        if (onDiag2) axes.diag2.classList.add('on');
+      }
+
+      function showFromHover(el) {
+        if (pinned) return;
+        activateCell(el);
+      }
+
+      function clearHover() {
+        if (pinned) {
+          activateCell(pinned);
+        } else {
+          activateCell(null);
+        }
+      }
+
+      function togglePin(el) {
+        if (pinned === el) {
+          pinned = null;
+          activateCell(null);
+          return;
+        }
+        pinned = el;
+        activateCell(el);
+      }
+
+      cells.forEach(el => {
+        el.addEventListener('mouseenter', () => showFromHover(el));
+        el.addEventListener('mouseleave', clearHover);
+        el.addEventListener('focus', () => showFromHover(el));
+        el.addEventListener('blur', clearHover);
+        el.addEventListener('click', (ev) => {
+          ev.preventDefault();
+          togglePin(el);
+        });
+        el.addEventListener('keydown', (ev) => {
+          if (ev.key === 'Enter' || ev.key === ' ') {
+            ev.preventDefault();
+            togglePin(el);
+          } else if (ev.key === 'Escape') {
+            ev.preventDefault();
+            pinned = null;
+            activateCell(null);
+          }
+        });
+      });
+
+      svg.addEventListener('mouseleave', () => {
+        if (!pinned) activateCell(null);
+      });
+      svg.addEventListener('touchstart', () => {}, { passive: true });
+      document.addEventListener('keydown', (ev) => {
+        if (document.activeElement && svg.contains(document.activeElement)) {
+          if (ev.key === 'Escape') {
+            pinned = null;
+            activateCell(null);
+          }
+        }
+      });
+    })();
+  ]]></script>
+</svg>

@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 620 560"
+     width="620" height="560"
+     role="img"
+     aria-labelledby="title desc"
+     id="magic-hexagon-order3">
+  <title id="title">Interactive order-3 normal magic hexagon</title>
+  <desc id="desc">Numbers 1 through 19 form the unique normal magic hexagon of order 3. Hover with a mouse, focus with a keyboard, or tap a cell to highlight the three straight lines through it. Every such line sums to 38.</desc>
+  <metadata>
+    Number placement follows Wikimedia Commons “MagicHexagon-Order3-a.svg” by Atropos235,
+    licensed under CC BY-SA 3.0 / CC BY-SA 2.5 / GFDL 1.2. This interactive redraw adds
+    responsive styling and interaction. https://commons.wikimedia.org/wiki/File:MagicHexagon-Order3-a.svg
+  </metadata>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --cell: #ffffff;
+      --ink: #1c232b;
+      --grid: #28313a;
+      --line-a: #d14f47;
+      --line-b: #3478c5;
+      --line-c: #24956a;
+      --focus: #8b5cf6;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --cell: #161a20;
+        --ink: #f4f6f8;
+        --grid: #d6dbe1;
+        --line-a: #ff817a;
+        --line-b: #73a9ea;
+        --line-c: #63c99d;
+        --focus: #c4a7ff;
+      }
+    }
+
+    #magic-hexagon-order3 {
+      max-width: 100%;
+      height: auto;
+      overflow: visible;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    .cell-base { fill: var(--cell); }
+    .cell-wash { opacity: 0; pointer-events: none; transition: opacity 110ms ease-out; }
+    .wash-a { fill: var(--line-a); }
+    .wash-b { fill: var(--line-b); }
+    .wash-c { fill: var(--line-c); }
+    .cell-wash.on { opacity: .16; }
+
+    .axis {
+      fill: none;
+      stroke-width: 5;
+      stroke-linecap: round;
+      opacity: 0;
+      pointer-events: none;
+      vector-effect: non-scaling-stroke;
+      transition: opacity 110ms ease-out;
+    }
+    .axis.on { opacity: .82; }
+    #axis-a { stroke: var(--line-a); }
+    #axis-b { stroke: var(--line-b); }
+    #axis-c { stroke: var(--line-c); }
+
+    .cell-outline {
+      fill: none;
+      stroke: var(--grid);
+      stroke-width: 2.6;
+      vector-effect: non-scaling-stroke;
+      pointer-events: none;
+      transition: stroke-width 100ms ease-out;
+    }
+    .cell-outline.selected { stroke-width: 4.2; }
+
+    .number {
+      fill: var(--ink);
+      font: 500 36px/1 Arial, Helvetica, sans-serif;
+      text-anchor: middle;
+      dominant-baseline: central;
+      pointer-events: none;
+      /* A small cell-colored halo keeps the strike-through lines from obscuring digits. */
+      stroke: var(--cell);
+      stroke-width: 7;
+      paint-order: stroke fill;
+      vector-effect: non-scaling-stroke;
+    }
+
+    .hit-cell polygon { fill: transparent; pointer-events: all; cursor: pointer; }
+    .hit-cell:focus { outline: none; }
+    .hit-cell:focus-visible polygon {
+      stroke: var(--focus);
+      stroke-width: 5;
+      fill: transparent;
+      vector-effect: non-scaling-stroke;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cell-wash, .axis, .cell-outline { transition: none; }
+    }
+  </style>
+
+  <!-- Base cells -->
+  <g id="base-cells">
+    <polygon class="cell-base" points="216.47,44.00 263.23,71.00 263.23,125.00 216.47,152.00 169.70,125.00 169.70,71.00"/>
+    <polygon class="cell-base" points="310.00,44.00 356.77,71.00 356.77,125.00 310.00,152.00 263.23,125.00 263.23,71.00"/>
+    <polygon class="cell-base" points="403.53,44.00 450.30,71.00 450.30,125.00 403.53,152.00 356.77,125.00 356.77,71.00"/>
+    <polygon class="cell-base" points="169.70,125.00 216.47,152.00 216.47,206.00 169.70,233.00 122.94,206.00 122.94,152.00"/>
+    <polygon class="cell-base" points="263.23,125.00 310.00,152.00 310.00,206.00 263.23,233.00 216.47,206.00 216.47,152.00"/>
+    <polygon class="cell-base" points="356.77,125.00 403.53,152.00 403.53,206.00 356.77,233.00 310.00,206.00 310.00,152.00"/>
+    <polygon class="cell-base" points="450.30,125.00 497.06,152.00 497.06,206.00 450.30,233.00 403.53,206.00 403.53,152.00"/>
+    <polygon class="cell-base" points="122.94,206.00 169.70,233.00 169.70,287.00 122.94,314.00 76.17,287.00 76.17,233.00"/>
+    <polygon class="cell-base" points="216.47,206.00 263.23,233.00 263.23,287.00 216.47,314.00 169.70,287.00 169.70,233.00"/>
+    <polygon class="cell-base" points="310.00,206.00 356.77,233.00 356.77,287.00 310.00,314.00 263.23,287.00 263.23,233.00"/>
+    <polygon class="cell-base" points="403.53,206.00 450.30,233.00 450.30,287.00 403.53,314.00 356.77,287.00 356.77,233.00"/>
+    <polygon class="cell-base" points="497.06,206.00 543.83,233.00 543.83,287.00 497.06,314.00 450.30,287.00 450.30,233.00"/>
+    <polygon class="cell-base" points="169.70,287.00 216.47,314.00 216.47,368.00 169.70,395.00 122.94,368.00 122.94,314.00"/>
+    <polygon class="cell-base" points="263.23,287.00 310.00,314.00 310.00,368.00 263.23,395.00 216.47,368.00 216.47,314.00"/>
+    <polygon class="cell-base" points="356.77,287.00 403.53,314.00 403.53,368.00 356.77,395.00 310.00,368.00 310.00,314.00"/>
+    <polygon class="cell-base" points="450.30,287.00 497.06,314.00 497.06,368.00 450.30,395.00 403.53,368.00 403.53,314.00"/>
+    <polygon class="cell-base" points="216.47,368.00 263.23,395.00 263.23,449.00 216.47,476.00 169.70,449.00 169.70,395.00"/>
+    <polygon class="cell-base" points="310.00,368.00 356.77,395.00 356.77,449.00 310.00,476.00 263.23,449.00 263.23,395.00"/>
+    <polygon class="cell-base" points="403.53,368.00 450.30,395.00 450.30,449.00 403.53,476.00 356.77,449.00 356.77,395.00"/>
+  </g>
+
+  <!-- Direction-specific translucent highlights -->
+  <g id="washes" pointer-events="none">
+    <polygon id="c_0_-2_a" class="cell-wash wash-a" points="216.47,44.00 263.23,71.00 263.23,125.00 216.47,152.00 169.70,125.00 169.70,71.00"/>
+    <polygon id="c_0_-2_b" class="cell-wash wash-b" points="216.47,44.00 263.23,71.00 263.23,125.00 216.47,152.00 169.70,125.00 169.70,71.00"/>
+    <polygon id="c_0_-2_c" class="cell-wash wash-c" points="216.47,44.00 263.23,71.00 263.23,125.00 216.47,152.00 169.70,125.00 169.70,71.00"/>
+    <polygon id="c_1_-2_a" class="cell-wash wash-a" points="310.00,44.00 356.77,71.00 356.77,125.00 310.00,152.00 263.23,125.00 263.23,71.00"/>
+    <polygon id="c_1_-2_b" class="cell-wash wash-b" points="310.00,44.00 356.77,71.00 356.77,125.00 310.00,152.00 263.23,125.00 263.23,71.00"/>
+    <polygon id="c_1_-2_c" class="cell-wash wash-c" points="310.00,44.00 356.77,71.00 356.77,125.00 310.00,152.00 263.23,125.00 263.23,71.00"/>
+    <polygon id="c_2_-2_a" class="cell-wash wash-a" points="403.53,44.00 450.30,71.00 450.30,125.00 403.53,152.00 356.77,125.00 356.77,71.00"/>
+    <polygon id="c_2_-2_b" class="cell-wash wash-b" points="403.53,44.00 450.30,71.00 450.30,125.00 403.53,152.00 356.77,125.00 356.77,71.00"/>
+    <polygon id="c_2_-2_c" class="cell-wash wash-c" points="403.53,44.00 450.30,71.00 450.30,125.00 403.53,152.00 356.77,125.00 356.77,71.00"/>
+    <polygon id="c_-1_-1_a" class="cell-wash wash-a" points="169.70,125.00 216.47,152.00 216.47,206.00 169.70,233.00 122.94,206.00 122.94,152.00"/>
+    <polygon id="c_-1_-1_b" class="cell-wash wash-b" points="169.70,125.00 216.47,152.00 216.47,206.00 169.70,233.00 122.94,206.00 122.94,152.00"/>
+    <polygon id="c_-1_-1_c" class="cell-wash wash-c" points="169.70,125.00 216.47,152.00 216.47,206.00 169.70,233.00 122.94,206.00 122.94,152.00"/>
+    <polygon id="c_0_-1_a" class="cell-wash wash-a" points="263.23,125.00 310.00,152.00 310.00,206.00 263.23,233.00 216.47,206.00 216.47,152.00"/>
+    <polygon id="c_0_-1_b" class="cell-wash wash-b" points="263.23,125.00 310.00,152.00 310.00,206.00 263.23,233.00 216.47,206.00 216.47,152.00"/>
+    <polygon id="c_0_-1_c" class="cell-wash wash-c" points="263.23,125.00 310.00,152.00 310.00,206.00 263.23,233.00 216.47,206.00 216.47,152.00"/>
+    <polygon id="c_1_-1_a" class="cell-wash wash-a" points="356.77,125.00 403.53,152.00 403.53,206.00 356.77,233.00 310.00,206.00 310.00,152.00"/>
+    <polygon id="c_1_-1_b" class="cell-wash wash-b" points="356.77,125.00 403.53,152.00 403.53,206.00 356.77,233.00 310.00,206.00 310.00,152.00"/>
+    <polygon id="c_1_-1_c" class="cell-wash wash-c" points="356.77,125.00 403.53,152.00 403.53,206.00 356.77,233.00 310.00,206.00 310.00,152.00"/>
+    <polygon id="c_2_-1_a" class="cell-wash wash-a" points="450.30,125.00 497.06,152.00 497.06,206.00 450.30,233.00 403.53,206.00 403.53,152.00"/>
+    <polygon id="c_2_-1_b" class="cell-wash wash-b" points="450.30,125.00 497.06,152.00 497.06,206.00 450.30,233.00 403.53,206.00 403.53,152.00"/>
+    <polygon id="c_2_-1_c" class="cell-wash wash-c" points="450.30,125.00 497.06,152.00 497.06,206.00 450.30,233.00 403.53,206.00 403.53,152.00"/>
+    <polygon id="c_-2_0_a" class="cell-wash wash-a" points="122.94,206.00 169.70,233.00 169.70,287.00 122.94,314.00 76.17,287.00 76.17,233.00"/>
+    <polygon id="c_-2_0_b" class="cell-wash wash-b" points="122.94,206.00 169.70,233.00 169.70,287.00 122.94,314.00 76.17,287.00 76.17,233.00"/>
+    <polygon id="c_-2_0_c" class="cell-wash wash-c" points="122.94,206.00 169.70,233.00 169.70,287.00 122.94,314.00 76.17,287.00 76.17,233.00"/>
+    <polygon id="c_-1_0_a" class="cell-wash wash-a" points="216.47,206.00 263.23,233.00 263.23,287.00 216.47,314.00 169.70,287.00 169.70,233.00"/>
+    <polygon id="c_-1_0_b" class="cell-wash wash-b" points="216.47,206.00 263.23,233.00 263.23,287.00 216.47,314.00 169.70,287.00 169.70,233.00"/>
+    <polygon id="c_-1_0_c" class="cell-wash wash-c" points="216.47,206.00 263.23,233.00 263.23,287.00 216.47,314.00 169.70,287.00 169.70,233.00"/>
+    <polygon id="c_0_0_a" class="cell-wash wash-a" points="310.00,206.00 356.77,233.00 356.77,287.00 310.00,314.00 263.23,287.00 263.23,233.00"/>
+    <polygon id="c_0_0_b" class="cell-wash wash-b" points="310.00,206.00 356.77,233.00 356.77,287.00 310.00,314.00 263.23,287.00 263.23,233.00"/>
+    <polygon id="c_0_0_c" class="cell-wash wash-c" points="310.00,206.00 356.77,233.00 356.77,287.00 310.00,314.00 263.23,287.00 263.23,233.00"/>
+    <polygon id="c_1_0_a" class="cell-wash wash-a" points="403.53,206.00 450.30,233.00 450.30,287.00 403.53,314.00 356.77,287.00 356.77,233.00"/>
+    <polygon id="c_1_0_b" class="cell-wash wash-b" points="403.53,206.00 450.30,233.00 450.30,287.00 403.53,314.00 356.77,287.00 356.77,233.00"/>
+    <polygon id="c_1_0_c" class="cell-wash wash-c" points="403.53,206.00 450.30,233.00 450.30,287.00 403.53,314.00 356.77,287.00 356.77,233.00"/>
+    <polygon id="c_2_0_a" class="cell-wash wash-a" points="497.06,206.00 543.83,233.00 543.83,287.00 497.06,314.00 450.30,287.00 450.30,233.00"/>
+    <polygon id="c_2_0_b" class="cell-wash wash-b" points="497.06,206.00 543.83,233.00 543.83,287.00 497.06,314.00 450.30,287.00 450.30,233.00"/>
+    <polygon id="c_2_0_c" class="cell-wash wash-c" points="497.06,206.00 543.83,233.00 543.83,287.00 497.06,314.00 450.30,287.00 450.30,233.00"/>
+    <polygon id="c_-2_1_a" class="cell-wash wash-a" points="169.70,287.00 216.47,314.00 216.47,368.00 169.70,395.00 122.94,368.00 122.94,314.00"/>
+    <polygon id="c_-2_1_b" class="cell-wash wash-b" points="169.70,287.00 216.47,314.00 216.47,368.00 169.70,395.00 122.94,368.00 122.94,314.00"/>
+    <polygon id="c_-2_1_c" class="cell-wash wash-c" points="169.70,287.00 216.47,314.00 216.47,368.00 169.70,395.00 122.94,368.00 122.94,314.00"/>
+    <polygon id="c_-1_1_a" class="cell-wash wash-a" points="263.23,287.00 310.00,314.00 310.00,368.00 263.23,395.00 216.47,368.00 216.47,314.00"/>
+    <polygon id="c_-1_1_b" class="cell-wash wash-b" points="263.23,287.00 310.00,314.00 310.00,368.00 263.23,395.00 216.47,368.00 216.47,314.00"/>
+    <polygon id="c_-1_1_c" class="cell-wash wash-c" points="263.23,287.00 310.00,314.00 310.00,368.00 263.23,395.00 216.47,368.00 216.47,314.00"/>
+    <polygon id="c_0_1_a" class="cell-wash wash-a" points="356.77,287.00 403.53,314.00 403.53,368.00 356.77,395.00 310.00,368.00 310.00,314.00"/>
+    <polygon id="c_0_1_b" class="cell-wash wash-b" points="356.77,287.00 403.53,314.00 403.53,368.00 356.77,395.00 310.00,368.00 310.00,314.00"/>
+    <polygon id="c_0_1_c" class="cell-wash wash-c" points="356.77,287.00 403.53,314.00 403.53,368.00 356.77,395.00 310.00,368.00 310.00,314.00"/>
+    <polygon id="c_1_1_a" class="cell-wash wash-a" points="450.30,287.00 497.06,314.00 497.06,368.00 450.30,395.00 403.53,368.00 403.53,314.00"/>
+    <polygon id="c_1_1_b" class="cell-wash wash-b" points="450.30,287.00 497.06,314.00 497.06,368.00 450.30,395.00 403.53,368.00 403.53,314.00"/>
+    <polygon id="c_1_1_c" class="cell-wash wash-c" points="450.30,287.00 497.06,314.00 497.06,368.00 450.30,395.00 403.53,368.00 403.53,314.00"/>
+    <polygon id="c_-2_2_a" class="cell-wash wash-a" points="216.47,368.00 263.23,395.00 263.23,449.00 216.47,476.00 169.70,449.00 169.70,395.00"/>
+    <polygon id="c_-2_2_b" class="cell-wash wash-b" points="216.47,368.00 263.23,395.00 263.23,449.00 216.47,476.00 169.70,449.00 169.70,395.00"/>
+    <polygon id="c_-2_2_c" class="cell-wash wash-c" points="216.47,368.00 263.23,395.00 263.23,449.00 216.47,476.00 169.70,449.00 169.70,395.00"/>
+    <polygon id="c_-1_2_a" class="cell-wash wash-a" points="310.00,368.00 356.77,395.00 356.77,449.00 310.00,476.00 263.23,449.00 263.23,395.00"/>
+    <polygon id="c_-1_2_b" class="cell-wash wash-b" points="310.00,368.00 356.77,395.00 356.77,449.00 310.00,476.00 263.23,449.00 263.23,395.00"/>
+    <polygon id="c_-1_2_c" class="cell-wash wash-c" points="310.00,368.00 356.77,395.00 356.77,449.00 310.00,476.00 263.23,449.00 263.23,395.00"/>
+    <polygon id="c_0_2_a" class="cell-wash wash-a" points="403.53,368.00 450.30,395.00 450.30,449.00 403.53,476.00 356.77,449.00 356.77,395.00"/>
+    <polygon id="c_0_2_b" class="cell-wash wash-b" points="403.53,368.00 450.30,395.00 450.30,449.00 403.53,476.00 356.77,449.00 356.77,395.00"/>
+    <polygon id="c_0_2_c" class="cell-wash wash-c" points="403.53,368.00 450.30,395.00 450.30,449.00 403.53,476.00 356.77,449.00 356.77,395.00"/>
+  </g>
+
+  <!-- The three strike-through lines are above fills, but below outlines and digits. -->
+  <g id="axes" pointer-events="none">
+    <line id="axis-a" class="axis" x1="0" y1="0" x2="0" y2="0"/>
+    <line id="axis-b" class="axis" x1="0" y1="0" x2="0" y2="0"/>
+    <line id="axis-c" class="axis" x1="0" y1="0" x2="0" y2="0"/>
+  </g>
+
+  <g id="outlines" pointer-events="none">
+    <polygon id="c_0_-2_outline" class="cell-outline" points="216.47,44.00 263.23,71.00 263.23,125.00 216.47,152.00 169.70,125.00 169.70,71.00"/>
+    <polygon id="c_1_-2_outline" class="cell-outline" points="310.00,44.00 356.77,71.00 356.77,125.00 310.00,152.00 263.23,125.00 263.23,71.00"/>
+    <polygon id="c_2_-2_outline" class="cell-outline" points="403.53,44.00 450.30,71.00 450.30,125.00 403.53,152.00 356.77,125.00 356.77,71.00"/>
+    <polygon id="c_-1_-1_outline" class="cell-outline" points="169.70,125.00 216.47,152.00 216.47,206.00 169.70,233.00 122.94,206.00 122.94,152.00"/>
+    <polygon id="c_0_-1_outline" class="cell-outline" points="263.23,125.00 310.00,152.00 310.00,206.00 263.23,233.00 216.47,206.00 216.47,152.00"/>
+    <polygon id="c_1_-1_outline" class="cell-outline" points="356.77,125.00 403.53,152.00 403.53,206.00 356.77,233.00 310.00,206.00 310.00,152.00"/>
+    <polygon id="c_2_-1_outline" class="cell-outline" points="450.30,125.00 497.06,152.00 497.06,206.00 450.30,233.00 403.53,206.00 403.53,152.00"/>
+    <polygon id="c_-2_0_outline" class="cell-outline" points="122.94,206.00 169.70,233.00 169.70,287.00 122.94,314.00 76.17,287.00 76.17,233.00"/>
+    <polygon id="c_-1_0_outline" class="cell-outline" points="216.47,206.00 263.23,233.00 263.23,287.00 216.47,314.00 169.70,287.00 169.70,233.00"/>
+    <polygon id="c_0_0_outline" class="cell-outline" points="310.00,206.00 356.77,233.00 356.77,287.00 310.00,314.00 263.23,287.00 263.23,233.00"/>
+    <polygon id="c_1_0_outline" class="cell-outline" points="403.53,206.00 450.30,233.00 450.30,287.00 403.53,314.00 356.77,287.00 356.77,233.00"/>
+    <polygon id="c_2_0_outline" class="cell-outline" points="497.06,206.00 543.83,233.00 543.83,287.00 497.06,314.00 450.30,287.00 450.30,233.00"/>
+    <polygon id="c_-2_1_outline" class="cell-outline" points="169.70,287.00 216.47,314.00 216.47,368.00 169.70,395.00 122.94,368.00 122.94,314.00"/>
+    <polygon id="c_-1_1_outline" class="cell-outline" points="263.23,287.00 310.00,314.00 310.00,368.00 263.23,395.00 216.47,368.00 216.47,314.00"/>
+    <polygon id="c_0_1_outline" class="cell-outline" points="356.77,287.00 403.53,314.00 403.53,368.00 356.77,395.00 310.00,368.00 310.00,314.00"/>
+    <polygon id="c_1_1_outline" class="cell-outline" points="450.30,287.00 497.06,314.00 497.06,368.00 450.30,395.00 403.53,368.00 403.53,314.00"/>
+    <polygon id="c_-2_2_outline" class="cell-outline" points="216.47,368.00 263.23,395.00 263.23,449.00 216.47,476.00 169.70,449.00 169.70,395.00"/>
+    <polygon id="c_-1_2_outline" class="cell-outline" points="310.00,368.00 356.77,395.00 356.77,449.00 310.00,476.00 263.23,449.00 263.23,395.00"/>
+    <polygon id="c_0_2_outline" class="cell-outline" points="403.53,368.00 450.30,395.00 450.30,449.00 403.53,476.00 356.77,449.00 356.77,395.00"/>
+  </g>
+
+  <g id="numbers" pointer-events="none">
+    <text class="number" x="216.47" y="98.00" aria-hidden="true">3</text>
+    <text class="number" x="310.00" y="98.00" aria-hidden="true">17</text>
+    <text class="number" x="403.53" y="98.00" aria-hidden="true">18</text>
+    <text class="number" x="169.70" y="179.00" aria-hidden="true">19</text>
+    <text class="number" x="263.23" y="179.00" aria-hidden="true">7</text>
+    <text class="number" x="356.77" y="179.00" aria-hidden="true">1</text>
+    <text class="number" x="450.30" y="179.00" aria-hidden="true">11</text>
+    <text class="number" x="122.94" y="260.00" aria-hidden="true">16</text>
+    <text class="number" x="216.47" y="260.00" aria-hidden="true">2</text>
+    <text class="number" x="310.00" y="260.00" aria-hidden="true">5</text>
+    <text class="number" x="403.53" y="260.00" aria-hidden="true">6</text>
+    <text class="number" x="497.06" y="260.00" aria-hidden="true">9</text>
+    <text class="number" x="169.70" y="341.00" aria-hidden="true">12</text>
+    <text class="number" x="263.23" y="341.00" aria-hidden="true">4</text>
+    <text class="number" x="356.77" y="341.00" aria-hidden="true">8</text>
+    <text class="number" x="450.30" y="341.00" aria-hidden="true">14</text>
+    <text class="number" x="216.47" y="422.00" aria-hidden="true">10</text>
+    <text class="number" x="310.00" y="422.00" aria-hidden="true">13</text>
+    <text class="number" x="403.53" y="422.00" aria-hidden="true">15</text>
+  </g>
+
+  <!-- Transparent interaction layer. -->
+  <g id="hit-layer">
+    <g class="hit-cell" data-id="c_0_-2" data-q="0" data-r="-2" data-s="2" data-x="216.47" data-y="98.00" data-value="3" role="button" tabindex="0" aria-label="Cell 3. Hover or tap to highlight its three magic lines.">
+      <polygon points="216.47,44.00 263.23,71.00 263.23,125.00 216.47,152.00 169.70,125.00 169.70,71.00"/>
+      <title>Cell 3</title>
+    </g>
+    <g class="hit-cell" data-id="c_1_-2" data-q="1" data-r="-2" data-s="1" data-x="310.00" data-y="98.00" data-value="17" role="button" tabindex="0" aria-label="Cell 17. Hover or tap to highlight its three magic lines.">
+      <polygon points="310.00,44.00 356.77,71.00 356.77,125.00 310.00,152.00 263.23,125.00 263.23,71.00"/>
+      <title>Cell 17</title>
+    </g>
+    <g class="hit-cell" data-id="c_2_-2" data-q="2" data-r="-2" data-s="0" data-x="403.53" data-y="98.00" data-value="18" role="button" tabindex="0" aria-label="Cell 18. Hover or tap to highlight its three magic lines.">
+      <polygon points="403.53,44.00 450.30,71.00 450.30,125.00 403.53,152.00 356.77,125.00 356.77,71.00"/>
+      <title>Cell 18</title>
+    </g>
+    <g class="hit-cell" data-id="c_-1_-1" data-q="-1" data-r="-1" data-s="2" data-x="169.70" data-y="179.00" data-value="19" role="button" tabindex="0" aria-label="Cell 19. Hover or tap to highlight its three magic lines.">
+      <polygon points="169.70,125.00 216.47,152.00 216.47,206.00 169.70,233.00 122.94,206.00 122.94,152.00"/>
+      <title>Cell 19</title>
+    </g>
+    <g class="hit-cell" data-id="c_0_-1" data-q="0" data-r="-1" data-s="1" data-x="263.23" data-y="179.00" data-value="7" role="button" tabindex="0" aria-label="Cell 7. Hover or tap to highlight its three magic lines.">
+      <polygon points="263.23,125.00 310.00,152.00 310.00,206.00 263.23,233.00 216.47,206.00 216.47,152.00"/>
+      <title>Cell 7</title>
+    </g>
+    <g class="hit-cell" data-id="c_1_-1" data-q="1" data-r="-1" data-s="0" data-x="356.77" data-y="179.00" data-value="1" role="button" tabindex="0" aria-label="Cell 1. Hover or tap to highlight its three magic lines.">
+      <polygon points="356.77,125.00 403.53,152.00 403.53,206.00 356.77,233.00 310.00,206.00 310.00,152.00"/>
+      <title>Cell 1</title>
+    </g>
+    <g class="hit-cell" data-id="c_2_-1" data-q="2" data-r="-1" data-s="-1" data-x="450.30" data-y="179.00" data-value="11" role="button" tabindex="0" aria-label="Cell 11. Hover or tap to highlight its three magic lines.">
+      <polygon points="450.30,125.00 497.06,152.00 497.06,206.00 450.30,233.00 403.53,206.00 403.53,152.00"/>
+      <title>Cell 11</title>
+    </g>
+    <g class="hit-cell" data-id="c_-2_0" data-q="-2" data-r="0" data-s="2" data-x="122.94" data-y="260.00" data-value="16" role="button" tabindex="0" aria-label="Cell 16. Hover or tap to highlight its three magic lines.">
+      <polygon points="122.94,206.00 169.70,233.00 169.70,287.00 122.94,314.00 76.17,287.00 76.17,233.00"/>
+      <title>Cell 16</title>
+    </g>
+    <g class="hit-cell" data-id="c_-1_0" data-q="-1" data-r="0" data-s="1" data-x="216.47" data-y="260.00" data-value="2" role="button" tabindex="0" aria-label="Cell 2. Hover or tap to highlight its three magic lines.">
+      <polygon points="216.47,206.00 263.23,233.00 263.23,287.00 216.47,314.00 169.70,287.00 169.70,233.00"/>
+      <title>Cell 2</title>
+    </g>
+    <g class="hit-cell" data-id="c_0_0" data-q="0" data-r="0" data-s="0" data-x="310.00" data-y="260.00" data-value="5" role="button" tabindex="0" aria-label="Cell 5. Hover or tap to highlight its three magic lines.">
+      <polygon points="310.00,206.00 356.77,233.00 356.77,287.00 310.00,314.00 263.23,287.00 263.23,233.00"/>
+      <title>Cell 5</title>
+    </g>
+    <g class="hit-cell" data-id="c_1_0" data-q="1" data-r="0" data-s="-1" data-x="403.53" data-y="260.00" data-value="6" role="button" tabindex="0" aria-label="Cell 6. Hover or tap to highlight its three magic lines.">
+      <polygon points="403.53,206.00 450.30,233.00 450.30,287.00 403.53,314.00 356.77,287.00 356.77,233.00"/>
+      <title>Cell 6</title>
+    </g>
+    <g class="hit-cell" data-id="c_2_0" data-q="2" data-r="0" data-s="-2" data-x="497.06" data-y="260.00" data-value="9" role="button" tabindex="0" aria-label="Cell 9. Hover or tap to highlight its three magic lines.">
+      <polygon points="497.06,206.00 543.83,233.00 543.83,287.00 497.06,314.00 450.30,287.00 450.30,233.00"/>
+      <title>Cell 9</title>
+    </g>
+    <g class="hit-cell" data-id="c_-2_1" data-q="-2" data-r="1" data-s="1" data-x="169.70" data-y="341.00" data-value="12" role="button" tabindex="0" aria-label="Cell 12. Hover or tap to highlight its three magic lines.">
+      <polygon points="169.70,287.00 216.47,314.00 216.47,368.00 169.70,395.00 122.94,368.00 122.94,314.00"/>
+      <title>Cell 12</title>
+    </g>
+    <g class="hit-cell" data-id="c_-1_1" data-q="-1" data-r="1" data-s="0" data-x="263.23" data-y="341.00" data-value="4" role="button" tabindex="0" aria-label="Cell 4. Hover or tap to highlight its three magic lines.">
+      <polygon points="263.23,287.00 310.00,314.00 310.00,368.00 263.23,395.00 216.47,368.00 216.47,314.00"/>
+      <title>Cell 4</title>
+    </g>
+    <g class="hit-cell" data-id="c_0_1" data-q="0" data-r="1" data-s="-1" data-x="356.77" data-y="341.00" data-value="8" role="button" tabindex="0" aria-label="Cell 8. Hover or tap to highlight its three magic lines.">
+      <polygon points="356.77,287.00 403.53,314.00 403.53,368.00 356.77,395.00 310.00,368.00 310.00,314.00"/>
+      <title>Cell 8</title>
+    </g>
+    <g class="hit-cell" data-id="c_1_1" data-q="1" data-r="1" data-s="-2" data-x="450.30" data-y="341.00" data-value="14" role="button" tabindex="0" aria-label="Cell 14. Hover or tap to highlight its three magic lines.">
+      <polygon points="450.30,287.00 497.06,314.00 497.06,368.00 450.30,395.00 403.53,368.00 403.53,314.00"/>
+      <title>Cell 14</title>
+    </g>
+    <g class="hit-cell" data-id="c_-2_2" data-q="-2" data-r="2" data-s="0" data-x="216.47" data-y="422.00" data-value="10" role="button" tabindex="0" aria-label="Cell 10. Hover or tap to highlight its three magic lines.">
+      <polygon points="216.47,368.00 263.23,395.00 263.23,449.00 216.47,476.00 169.70,449.00 169.70,395.00"/>
+      <title>Cell 10</title>
+    </g>
+    <g class="hit-cell" data-id="c_-1_2" data-q="-1" data-r="2" data-s="-1" data-x="310.00" data-y="422.00" data-value="13" role="button" tabindex="0" aria-label="Cell 13. Hover or tap to highlight its three magic lines.">
+      <polygon points="310.00,368.00 356.77,395.00 356.77,449.00 310.00,476.00 263.23,449.00 263.23,395.00"/>
+      <title>Cell 13</title>
+    </g>
+    <g class="hit-cell" data-id="c_0_2" data-q="0" data-r="2" data-s="-2" data-x="403.53" data-y="422.00" data-value="15" role="button" tabindex="0" aria-label="Cell 15. Hover or tap to highlight its three magic lines.">
+      <polygon points="403.53,368.00 450.30,395.00 450.30,449.00 403.53,476.00 356.77,449.00 356.77,395.00"/>
+      <title>Cell 15</title>
+    </g>
+  </g>
+
+  <script><![CDATA[
+    (() => {
+      const root = document.documentElement;
+      const hitCells = [...root.querySelectorAll('.hit-cell')];
+      const axes = [
+        root.getElementById('axis-a'),
+        root.getElementById('axis-b'),
+        root.getElementById('axis-c')
+      ];
+      let lockedId = null;
+      let activeId = null;
+
+      const byId = new Map(hitCells.map(el => [el.dataset.id, el]));
+
+      function n(el, key) { return Number(el.dataset[key]); }
+
+      function setAxis(line, members) {
+        let bestA = members[0], bestB = members[0], bestD2 = -1;
+        for (let i = 0; i < members.length; i++) {
+          for (let j = i + 1; j < members.length; j++) {
+            const dx = n(members[j], 'x') - n(members[i], 'x');
+            const dy = n(members[j], 'y') - n(members[i], 'y');
+            const d2 = dx*dx + dy*dy;
+            if (d2 > bestD2) { bestD2 = d2; bestA = members[i]; bestB = members[j]; }
+          }
+        }
+        let x1 = n(bestA, 'x'), y1 = n(bestA, 'y');
+        let x2 = n(bestB, 'x'), y2 = n(bestB, 'y');
+        let dx = x2 - x1, dy = y2 - y1;
+        const len = Math.hypot(dx, dy) || 1;
+        dx /= len; dy /= len;
+        const extend = 47.52;
+        x1 -= dx * extend; y1 -= dy * extend;
+        x2 += dx * extend; y2 += dy * extend;
+        line.setAttribute('x1', x1.toFixed(2));
+        line.setAttribute('y1', y1.toFixed(2));
+        line.setAttribute('x2', x2.toFixed(2));
+        line.setAttribute('y2', y2.toFixed(2));
+        line.classList.add('on');
+      }
+
+      function clearVisuals() {
+        root.querySelectorAll('.cell-wash.on').forEach(el => el.classList.remove('on'));
+        root.querySelectorAll('.cell-outline.selected').forEach(el => el.classList.remove('selected'));
+        axes.forEach(a => a.classList.remove('on'));
+        activeId = null;
+      }
+
+      function show(cell) {
+        if (!cell) return;
+        clearVisuals();
+        activeId = cell.dataset.id;
+        const q = cell.dataset.q, r = cell.dataset.r, s = cell.dataset.s;
+        const aMembers = hitCells.filter(c => c.dataset.r === r); // horizontal
+        const bMembers = hitCells.filter(c => c.dataset.q === q); // down-right
+        const cMembers = hitCells.filter(c => c.dataset.s === s); // up-right
+
+        aMembers.forEach(c => root.getElementById(c.dataset.id + '_a').classList.add('on'));
+        bMembers.forEach(c => root.getElementById(c.dataset.id + '_b').classList.add('on'));
+        cMembers.forEach(c => root.getElementById(c.dataset.id + '_c').classList.add('on'));
+
+        root.getElementById(cell.dataset.id + '_outline').classList.add('selected');
+        setAxis(axes[0], aMembers);
+        setAxis(axes[1], bMembers);
+        setAxis(axes[2], cMembers);
+      }
+
+      function unlockAndClear() {
+        lockedId = null;
+        clearVisuals();
+      }
+
+      hitCells.forEach(cell => {
+        cell.addEventListener('pointerenter', e => {
+          if (e.pointerType === 'mouse' && lockedId === null) show(cell);
+        });
+        cell.addEventListener('pointerleave', e => {
+          if (e.pointerType === 'mouse' && lockedId === null && activeId === cell.dataset.id) clearVisuals();
+        });
+        cell.addEventListener('click', e => {
+          e.stopPropagation();
+          if (lockedId === cell.dataset.id) {
+            unlockAndClear();
+          } else {
+            lockedId = cell.dataset.id;
+            show(cell);
+          }
+        });
+        cell.addEventListener('focus', () => {
+          if (lockedId === null) show(cell);
+        });
+        cell.addEventListener('blur', () => {
+          if (lockedId === null && activeId === cell.dataset.id) clearVisuals();
+        });
+        cell.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            if (lockedId === cell.dataset.id) unlockAndClear();
+            else { lockedId = cell.dataset.id; show(cell); }
+          } else if (e.key === 'Escape') {
+            unlockAndClear();
+            cell.blur();
+          }
+        });
+      });
+
+      root.addEventListener('click', () => unlockAndClear());
+      root.addEventListener('keydown', e => { if (e.key === 'Escape') unlockAndClear(); });
+    })();
+  ]]></script>
+</svg>

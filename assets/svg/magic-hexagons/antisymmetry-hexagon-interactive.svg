@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 620 560"
+     width="620" height="560"
+     role="img"
+     aria-labelledby="title desc"
+     id="antisymmetry-hexagon">
+  <title id="title">Interactive antisymmetry hexagon</title>
+  <desc id="desc">A hexagon illustrating antisymmetry. The center cell with 0 is always highlighted in grey. Hover with a mouse, focus with a keyboard, or tap a cell to highlight that number and the symmetrically opposite number, which is its negative. One horizontal guide line is shown through each highlighted cell.</desc>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --cell: #ffffff;
+      --cell-center: #d9dde3;
+      --ink: #1c232b;
+      --ink-center: #111418;
+      --grid: #28313a;
+      --accent: #4f74d6;
+      --accent-strong: #3557b8;
+      --line: #4f74d6;
+      --focus: #8b5cf6;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --cell: #161a20;
+        --cell-center: #5d6672;
+        --ink: #f4f6f8;
+        --ink-center: #ffffff;
+        --grid: #d6dbe1;
+        --accent: #82aef3;
+        --accent-strong: #a8c5ff;
+        --line: #82aef3;
+        --focus: #c4a7ff;
+      }
+    }
+
+    #antisymmetry-hexagon {
+      max-width: 100%;
+      height: auto;
+      overflow: visible;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    .cell-base { fill: var(--cell); }
+    .cell-base.center { fill: var(--cell-center); }
+
+    .pair-wash {
+      fill: var(--accent);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 110ms ease-out;
+    }
+    .pair-wash.on { opacity: .20; }
+
+    .axis {
+      fill: none;
+      stroke: var(--line);
+      stroke-width: 5;
+      stroke-linecap: round;
+      opacity: 0;
+      pointer-events: none;
+      vector-effect: non-scaling-stroke;
+      transition: opacity 110ms ease-out;
+    }
+    .axis.on { opacity: .88; }
+
+    .cell-outline {
+      fill: none;
+      stroke: var(--grid);
+      stroke-width: 2.6;
+      vector-effect: non-scaling-stroke;
+      pointer-events: none;
+      transition: stroke-width 100ms ease-out, stroke 100ms ease-out;
+    }
+    .cell-outline.active {
+      stroke: var(--accent-strong);
+      stroke-width: 4.2;
+    }
+    .cell-outline.center {
+      stroke-width: 3.2;
+    }
+
+    .number {
+      fill: var(--ink);
+      font: 500 34px/1 Arial, Helvetica, sans-serif;
+      text-anchor: middle;
+      dominant-baseline: central;
+      pointer-events: none;
+      stroke: var(--cell);
+      stroke-width: 7;
+      paint-order: stroke fill;
+      vector-effect: non-scaling-stroke;
+      transition: fill 100ms ease-out;
+    }
+    .number.center {
+      fill: var(--ink-center);
+      stroke: var(--cell-center);
+      font-weight: 700;
+    }
+    .number.active {
+      fill: var(--accent-strong);
+    }
+    .number.center.active {
+      fill: var(--ink-center);
+    }
+
+    .hit-cell polygon { fill: transparent; pointer-events: all; cursor: pointer; }
+    .hit-cell:focus { outline: none; }
+    .hit-cell:focus-visible polygon {
+      stroke: var(--focus);
+      stroke-width: 5;
+      fill: transparent;
+      vector-effect: non-scaling-stroke;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pair-wash, .axis, .cell-outline, .number { transition: none; }
+    }
+  </style>
+
+  <g id="base-cells">
+    <polygon class="cell-base" points="216.47,44.00 263.24,71.00 263.24,125.00 216.47,152.00 169.70,125.00 169.70,71.00"/>
+    <polygon class="cell-base" points="310.00,44.00 356.77,71.00 356.77,125.00 310.00,152.00 263.23,125.00 263.23,71.00"/>
+    <polygon class="cell-base" points="403.53,44.00 450.30,71.00 450.30,125.00 403.53,152.00 356.76,125.00 356.76,71.00"/>
+    <polygon class="cell-base" points="169.70,125.00 216.47,152.00 216.47,206.00 169.70,233.00 122.93,206.00 122.93,152.00"/>
+    <polygon class="cell-base" points="263.23,125.00 310.00,152.00 310.00,206.00 263.23,233.00 216.46,206.00 216.46,152.00"/>
+    <polygon class="cell-base" points="356.77,125.00 403.54,152.00 403.54,206.00 356.77,233.00 310.00,206.00 310.00,152.00"/>
+    <polygon class="cell-base" points="450.30,125.00 497.07,152.00 497.07,206.00 450.30,233.00 403.53,206.00 403.53,152.00"/>
+    <polygon class="cell-base" points="122.94,206.00 169.71,233.00 169.71,287.00 122.94,314.00 76.17,287.00 76.17,233.00"/>
+    <polygon class="cell-base" points="216.47,206.00 263.24,233.00 263.24,287.00 216.47,314.00 169.70,287.00 169.70,233.00"/>
+    <polygon class="cell-base center" points="310.00,206.00 356.77,233.00 356.77,287.00 310.00,314.00 263.23,287.00 263.23,233.00"/>
+    <polygon class="cell-base" points="403.53,206.00 450.30,233.00 450.30,287.00 403.53,314.00 356.76,287.00 356.76,233.00"/>
+    <polygon class="cell-base" points="497.06,206.00 543.83,233.00 543.83,287.00 497.06,314.00 450.29,287.00 450.29,233.00"/>
+    <polygon class="cell-base" points="169.70,287.00 216.47,314.00 216.47,368.00 169.70,395.00 122.93,368.00 122.93,314.00"/>
+    <polygon class="cell-base" points="263.23,287.00 310.00,314.00 310.00,368.00 263.23,395.00 216.46,368.00 216.46,314.00"/>
+    <polygon class="cell-base" points="356.77,287.00 403.54,314.00 403.54,368.00 356.77,395.00 310.00,368.00 310.00,314.00"/>
+    <polygon class="cell-base" points="450.30,287.00 497.07,314.00 497.07,368.00 450.30,395.00 403.53,368.00 403.53,314.00"/>
+    <polygon class="cell-base" points="216.47,368.00 263.24,395.00 263.24,449.00 216.47,476.00 169.70,449.00 169.70,395.00"/>
+    <polygon class="cell-base" points="310.00,368.00 356.77,395.00 356.77,449.00 310.00,476.00 263.23,449.00 263.23,395.00"/>
+    <polygon class="cell-base" points="403.53,368.00 450.30,395.00 450.30,449.00 403.53,476.00 356.76,449.00 356.76,395.00"/>
+  </g>
+
+  <g id="washes" pointer-events="none">
+    <polygon id="c_0_0_wash" class="pair-wash" points="216.47,44.00 263.24,71.00 263.24,125.00 216.47,152.00 169.70,125.00 169.70,71.00"/>
+    <polygon id="c_0_1_wash" class="pair-wash" points="310.00,44.00 356.77,71.00 356.77,125.00 310.00,152.00 263.23,125.00 263.23,71.00"/>
+    <polygon id="c_0_2_wash" class="pair-wash" points="403.53,44.00 450.30,71.00 450.30,125.00 403.53,152.00 356.76,125.00 356.76,71.00"/>
+    <polygon id="c_1_0_wash" class="pair-wash" points="169.70,125.00 216.47,152.00 216.47,206.00 169.70,233.00 122.93,206.00 122.93,152.00"/>
+    <polygon id="c_1_1_wash" class="pair-wash" points="263.23,125.00 310.00,152.00 310.00,206.00 263.23,233.00 216.46,206.00 216.46,152.00"/>
+    <polygon id="c_1_2_wash" class="pair-wash" points="356.77,125.00 403.54,152.00 403.54,206.00 356.77,233.00 310.00,206.00 310.00,152.00"/>
+    <polygon id="c_1_3_wash" class="pair-wash" points="450.30,125.00 497.07,152.00 497.07,206.00 450.30,233.00 403.53,206.00 403.53,152.00"/>
+    <polygon id="c_2_0_wash" class="pair-wash" points="122.94,206.00 169.71,233.00 169.71,287.00 122.94,314.00 76.17,287.00 76.17,233.00"/>
+    <polygon id="c_2_1_wash" class="pair-wash" points="216.47,206.00 263.24,233.00 263.24,287.00 216.47,314.00 169.70,287.00 169.70,233.00"/>
+    <polygon id="c_2_2_wash" class="pair-wash" points="310.00,206.00 356.77,233.00 356.77,287.00 310.00,314.00 263.23,287.00 263.23,233.00"/>
+    <polygon id="c_2_3_wash" class="pair-wash" points="403.53,206.00 450.30,233.00 450.30,287.00 403.53,314.00 356.76,287.00 356.76,233.00"/>
+    <polygon id="c_2_4_wash" class="pair-wash" points="497.06,206.00 543.83,233.00 543.83,287.00 497.06,314.00 450.29,287.00 450.29,233.00"/>
+    <polygon id="c_3_0_wash" class="pair-wash" points="169.70,287.00 216.47,314.00 216.47,368.00 169.70,395.00 122.93,368.00 122.93,314.00"/>
+    <polygon id="c_3_1_wash" class="pair-wash" points="263.23,287.00 310.00,314.00 310.00,368.00 263.23,395.00 216.46,368.00 216.46,314.00"/>
+    <polygon id="c_3_2_wash" class="pair-wash" points="356.77,287.00 403.54,314.00 403.54,368.00 356.77,395.00 310.00,368.00 310.00,314.00"/>
+    <polygon id="c_3_3_wash" class="pair-wash" points="450.30,287.00 497.07,314.00 497.07,368.00 450.30,395.00 403.53,368.00 403.53,314.00"/>
+    <polygon id="c_4_0_wash" class="pair-wash" points="216.47,368.00 263.24,395.00 263.24,449.00 216.47,476.00 169.70,449.00 169.70,395.00"/>
+    <polygon id="c_4_1_wash" class="pair-wash" points="310.00,368.00 356.77,395.00 356.77,449.00 310.00,476.00 263.23,449.00 263.23,395.00"/>
+    <polygon id="c_4_2_wash" class="pair-wash" points="403.53,368.00 450.30,395.00 450.30,449.00 403.53,476.00 356.76,449.00 356.76,395.00"/>
+  </g>
+
+  <g id="axes" pointer-events="none">
+    <line id="axis-1" class="axis" x1="0" y1="0" x2="0" y2="0"/>
+    <line id="axis-2" class="axis" x1="0" y1="0" x2="0" y2="0"/>
+  </g>
+
+  <g id="outlines" pointer-events="none">
+    <polygon id="c_0_0_outline" class="cell-outline" points="216.47,44.00 263.24,71.00 263.24,125.00 216.47,152.00 169.70,125.00 169.70,71.00"/>
+    <polygon id="c_0_1_outline" class="cell-outline" points="310.00,44.00 356.77,71.00 356.77,125.00 310.00,152.00 263.23,125.00 263.23,71.00"/>
+    <polygon id="c_0_2_outline" class="cell-outline" points="403.53,44.00 450.30,71.00 450.30,125.00 403.53,152.00 356.76,125.00 356.76,71.00"/>
+    <polygon id="c_1_0_outline" class="cell-outline" points="169.70,125.00 216.47,152.00 216.47,206.00 169.70,233.00 122.93,206.00 122.93,152.00"/>
+    <polygon id="c_1_1_outline" class="cell-outline" points="263.23,125.00 310.00,152.00 310.00,206.00 263.23,233.00 216.46,206.00 216.46,152.00"/>
+    <polygon id="c_1_2_outline" class="cell-outline" points="356.77,125.00 403.54,152.00 403.54,206.00 356.77,233.00 310.00,206.00 310.00,152.00"/>
+    <polygon id="c_1_3_outline" class="cell-outline" points="450.30,125.00 497.07,152.00 497.07,206.00 450.30,233.00 403.53,206.00 403.53,152.00"/>
+    <polygon id="c_2_0_outline" class="cell-outline" points="122.94,206.00 169.71,233.00 169.71,287.00 122.94,314.00 76.17,287.00 76.17,233.00"/>
+    <polygon id="c_2_1_outline" class="cell-outline" points="216.47,206.00 263.24,233.00 263.24,287.00 216.47,314.00 169.70,287.00 169.70,233.00"/>
+    <polygon id="c_2_2_outline" class="cell-outline center" points="310.00,206.00 356.77,233.00 356.77,287.00 310.00,314.00 263.23,287.00 263.23,233.00"/>
+    <polygon id="c_2_3_outline" class="cell-outline" points="403.53,206.00 450.30,233.00 450.30,287.00 403.53,314.00 356.76,287.00 356.76,233.00"/>
+    <polygon id="c_2_4_outline" class="cell-outline" points="497.06,206.00 543.83,233.00 543.83,287.00 497.06,314.00 450.29,287.00 450.29,233.00"/>
+    <polygon id="c_3_0_outline" class="cell-outline" points="169.70,287.00 216.47,314.00 216.47,368.00 169.70,395.00 122.93,368.00 122.93,314.00"/>
+    <polygon id="c_3_1_outline" class="cell-outline" points="263.23,287.00 310.00,314.00 310.00,368.00 263.23,395.00 216.46,368.00 216.46,314.00"/>
+    <polygon id="c_3_2_outline" class="cell-outline" points="356.77,287.00 403.54,314.00 403.54,368.00 356.77,395.00 310.00,368.00 310.00,314.00"/>
+    <polygon id="c_3_3_outline" class="cell-outline" points="450.30,287.00 497.07,314.00 497.07,368.00 450.30,395.00 403.53,368.00 403.53,314.00"/>
+    <polygon id="c_4_0_outline" class="cell-outline" points="216.47,368.00 263.24,395.00 263.24,449.00 216.47,476.00 169.70,449.00 169.70,395.00"/>
+    <polygon id="c_4_1_outline" class="cell-outline" points="310.00,368.00 356.77,395.00 356.77,449.00 310.00,476.00 263.23,449.00 263.23,395.00"/>
+    <polygon id="c_4_2_outline" class="cell-outline" points="403.53,368.00 450.30,395.00 450.30,449.00 403.53,476.00 356.76,449.00 356.76,395.00"/>
+  </g>
+
+  <g id="numbers" pointer-events="none">
+    <text id="c_0_0_number" class="number" x="216.47" y="98.00" aria-hidden="true">-6</text>
+    <text id="c_0_1_number" class="number" x="310.00" y="98.00" aria-hidden="true">-3</text>
+    <text id="c_0_2_number" class="number" x="403.53" y="98.00" aria-hidden="true">9</text>
+    <text id="c_1_0_number" class="number" x="169.70" y="179.00" aria-hidden="true">-2</text>
+    <text id="c_1_1_number" class="number" x="263.23" y="179.00" aria-hidden="true">7</text>
+    <text id="c_1_2_number" class="number" x="356.77" y="179.00" aria-hidden="true">-4</text>
+    <text id="c_1_3_number" class="number" x="450.30" y="179.00" aria-hidden="true">-1</text>
+    <text id="c_2_0_number" class="number" x="122.94" y="260.00" aria-hidden="true">8</text>
+    <text id="c_2_1_number" class="number" x="216.47" y="260.00" aria-hidden="true">-5</text>
+    <text id="c_2_2_number" class="number center" x="310.00" y="260.00" aria-hidden="true">0</text>
+    <text id="c_2_3_number" class="number" x="403.53" y="260.00" aria-hidden="true">5</text>
+    <text id="c_2_4_number" class="number" x="497.06" y="260.00" aria-hidden="true">-8</text>
+    <text id="c_3_0_number" class="number" x="169.70" y="341.00" aria-hidden="true">1</text>
+    <text id="c_3_1_number" class="number" x="263.23" y="341.00" aria-hidden="true">4</text>
+    <text id="c_3_2_number" class="number" x="356.77" y="341.00" aria-hidden="true">-7</text>
+    <text id="c_3_3_number" class="number" x="450.30" y="341.00" aria-hidden="true">2</text>
+    <text id="c_4_0_number" class="number" x="216.47" y="422.00" aria-hidden="true">-9</text>
+    <text id="c_4_1_number" class="number" x="310.00" y="422.00" aria-hidden="true">3</text>
+    <text id="c_4_2_number" class="number" x="403.53" y="422.00" aria-hidden="true">6</text>
+  </g>
+
+  <g id="hit-layer">
+    <g class="hit-cell" data-id="c_0_0" data-opposite="c_4_2" data-row="0" role="button" tabindex="0" aria-label="Cell -6. The symmetrically opposite cell contains 6. Hover or tap to highlight the antisymmetric pair.">
+      <polygon points="216.47,44.00 263.24,71.00 263.24,125.00 216.47,152.00 169.70,125.00 169.70,71.00"/>
+      <title>-6</title>
+    </g>
+    <g class="hit-cell" data-id="c_0_1" data-opposite="c_4_1" data-row="0" role="button" tabindex="0" aria-label="Cell -3. The symmetrically opposite cell contains 3. Hover or tap to highlight the antisymmetric pair.">
+      <polygon points="310.00,44.00 356.77,71.00 356.77,125.00 310.00,152.00 263.23,125.00 263.23,71.00"/>
+      <title>-3</title>
+    </g>
+    <g class="hit-cell" data-id="c_0_2" data-opposite="c_4_0" data-row="0" role="button" tabindex="0" aria-label="Cell 9. The symmetrically opposite cell contains -9. Hover or tap to highlight the antisymmetric pair.">
+      <polygon points="403.53,44.00 450.30,71.00 450.30,125.00 403.53,152.00 356.76,125.00 356.76,71.00"/>
+      <title>9</title>
+    </g>
+    <g class="hit-cell" data-id="c_1_0" data-opposite="c_3_3" data-row="1" role="button" tabindex="0" aria-label="Cell -2. The symmetrically opposite cell contains 2. Hover or tap to highlight the antisymmetric pair.">
+      <polygon points="169.70,125.00 216.47,152.00 216.47,206.00 169.70,233.00 122.93,206.00 122.93,152.00"/>
+      <title>-2</title>
+    </g>
+    <g class="hit-cell" data-id="c_1_1" data-opposite="c_3_2" data-row="1" role="button" tabindex="0" aria-label="Cell 7. The symmetrically opposite cell contains -7. Hover or tap to highlight the antisymmetric pair.">
+      <polygon points="263.23,125.00 310.00,152.00 310.00,206.00 263.23,233.00 216.46,206.00 216.46,152.00"/>
+      <title>7</title>
+    </g>
+    <g class="hit-cell" data-id="c_1_2" data-opposite="c_3_1" data-row="1" role="button" tabindex="0" aria-label="Cell -4. The symmetrically opposite cell contains 4. Hover or tap to highlight the antisymmetric pair.">
+      <polygon points="356.77,125.00 403.54,152.00 403.54,206.00 356.77,233.00 310.00,206.00 310.00,152.00"/>
+      <title>-4</title>
+    </g>
+    <g class="hit-cell" data-id="c_1_3" data-opposite="c_3_0" data-row="1" role="button" tabindex="0" aria-label="Cell -1. The symmetrically opposite cell contains 1. Hover or tap to highlight the antisymmetric pair.">
+      <polygon points="450.30,125.00 497.07,152.00 497.07,206.00 450.30,233.00 403.53,206.00 403.53,152.00"/>
+      <title>-1</title>
+    </g>
+    <g class="hit-cell" data-id="c_2_0" data-opposite="c_2_4" data-row="2" role="button" tabindex="0" aria-label="Cell 8. The symmetrically opposite cell contains -8. Hover or tap to highlight the antisymmetric pair.">
+      <polygon points="122.94,206.00 169.71,233.00 169.71,287.00 122.94,314.00 76.17,287.00 76.17,233.00"/>
+      <title>8</title>
+    </g>
+    <g class="hit-cell" data-id="c_2_1" data-opposite="c_2_3" data-row="2" role="button" tabindex="0" aria-label="Cell -5. The symmetrically opposite cell contains 5. Hover or tap to highlight the antisymmetric pair.">
+      <polygon points="216.47,206.00 263.24,233.00 263.24,287.00 216.47,314.00 169.70,287.00 169.70,233.00"/>
+      <title>-5</title>
+    </g>
+    <g class="hit-cell" data-id="c_2_2" data-opposite="c_2_2" data-row="2" role="button" tabindex="0" aria-label="Cell 0. The symmetrically opposite cell contains 0. Hover or tap to highlight the antisymmetric pair.">
+      <polygon points="310.00,206.00 356.77,233.00 356.77,287.00 310.00,314.00 263.23,287.00 263.23,233.00"/>
+      <title>0</title>
+    </g>
+    <g class="hit-cell" data-id="c_2_3" data-opposite="c_2_1" data-row="2" role="button" tabindex="0" aria-label="Cell 5. The symmetrically opposite cell contains -5. Hover or tap to highlight the antisymmetric pair.">
+      <polygon points="403.53,206.00 450.30,233.00 450.30,287.00 403.53,314.00 356.76,287.00 356.76,233.00"/>
+      <title>5</title>
+    </g>
+    <g class="hit-cell" data-id="c_2_4" data-opposite="c_2_0" data-row="2" role="button" tabindex="0" aria-label="Cell -8. The symmetrically opposite cell contains 8. Hover or tap to highlight the antisymmetric pair.">
+      <polygon points="497.06,206.00 543.83,233.00 543.83,287.00 497.06,314.00 450.29,287.00 450.29,233.00"/>
+      <title>-8</title>
+    </g>
+    <g class="hit-cell" data-id="c_3_0" data-opposite="c_1_3" data-row="3" role="button" tabindex="0" aria-label="Cell 1. The symmetrically opposite cell contains -1. Hover or tap to highlight the antisymmetric pair.">
+      <polygon points="169.70,287.00 216.47,314.00 216.47,368.00 169.70,395.00 122.93,368.00 122.93,314.00"/>
+      <title>1</title>
+    </g>
+    <g class="hit-cell" data-id="c_3_1" data-opposite="c_1_2" data-row="3" role="button" tabindex="0" aria-label="Cell 4. The symmetrically opposite cell contains -4. Hover or tap to highlight the antisymmetric pair.">
+      <polygon points="263.23,287.00 310.00,314.00 310.00,368.00 263.23,395.00 216.46,368.00 216.46,314.00"/>
+      <title>4</title>
+    </g>
+    <g class="hit-cell" data-id="c_3_2" data-opposite="c_1_1" data-row="3" role="button" tabindex="0" aria-label="Cell -7. The symmetrically opposite cell contains 7. Hover or tap to highlight the antisymmetric pair.">
+      <polygon points="356.77,287.00 403.54,314.00 403.54,368.00 356.77,395.00 310.00,368.00 310.00,314.00"/>
+      <title>-7</title>
+    </g>
+    <g class="hit-cell" data-id="c_3_3" data-opposite="c_1_0" data-row="3" role="button" tabindex="0" aria-label="Cell 2. The symmetrically opposite cell contains -2. Hover or tap to highlight the antisymmetric pair.">
+      <polygon points="450.30,287.00 497.07,314.00 497.07,368.00 450.30,395.00 403.53,368.00 403.53,314.00"/>
+      <title>2</title>
+    </g>
+    <g class="hit-cell" data-id="c_4_0" data-opposite="c_0_2" data-row="4" role="button" tabindex="0" aria-label="Cell -9. The symmetrically opposite cell contains 9. Hover or tap to highlight the antisymmetric pair.">
+      <polygon points="216.47,368.00 263.24,395.00 263.24,449.00 216.47,476.00 169.70,449.00 169.70,395.00"/>
+      <title>-9</title>
+    </g>
+    <g class="hit-cell" data-id="c_4_1" data-opposite="c_0_1" data-row="4" role="button" tabindex="0" aria-label="Cell 3. The symmetrically opposite cell contains -3. Hover or tap to highlight the antisymmetric pair.">
+      <polygon points="310.00,368.00 356.77,395.00 356.77,449.00 310.00,476.00 263.23,449.00 263.23,395.00"/>
+      <title>3</title>
+    </g>
+    <g class="hit-cell" data-id="c_4_2" data-opposite="c_0_0" data-row="4" role="button" tabindex="0" aria-label="Cell 6. The symmetrically opposite cell contains -6. Hover or tap to highlight the antisymmetric pair.">
+      <polygon points="403.53,368.00 450.30,395.00 450.30,449.00 403.53,476.00 356.76,449.00 356.76,395.00"/>
+      <title>6</title>
+    </g>
+  </g>
+
+  <script><![CDATA[
+    (function () {
+      const svg = document.getElementById('antisymmetry-hexagon');
+      const cells = Array.from(svg.querySelectorAll('.hit-cell'));
+      const axis1 = svg.getElementById('axis-1');
+      const axis2 = svg.getElementById('axis-2');
+      let pinned = null;
+
+      const rowExtents = {"0": [169.7, 450.3, 98.0], "1": [122.93, 497.07, 179.0], "2": [76.17, 543.83, 260.0], "3": [122.93, 497.07, 341.0], "4": [169.7, 450.3, 422.0]};
+
+      function findCell(id) {
+        return cells.find(node => node.dataset.id === id) || null;
+      }
+
+      function setLine(axis, row) {
+        const ext = rowExtents[String(row)];
+        if (!ext) {
+          axis.classList.remove('on');
+          return;
+        }
+        axis.setAttribute('x1', ext[0]);
+        axis.setAttribute('y1', ext[2]);
+        axis.setAttribute('x2', ext[1]);
+        axis.setAttribute('y2', ext[2]);
+        axis.classList.add('on');
+      }
+
+      function clearVisuals() {
+        svg.querySelectorAll('.pair-wash.on').forEach(el => el.classList.remove('on'));
+        svg.querySelectorAll('.cell-outline.active').forEach(el => el.classList.remove('active'));
+        svg.querySelectorAll('.number.active').forEach(el => el.classList.remove('active'));
+        axis1.classList.remove('on');
+        axis2.classList.remove('on');
+      }
+
+      function activateById(id) {
+        clearVisuals();
+        if (!id) return;
+        const el = findCell(id);
+        if (!el) return;
+        const other = findCell(el.dataset.opposite);
+        const pair = [el, other].filter(Boolean);
+
+        pair.forEach(node => {
+          const cid = node.dataset.id;
+          const wash = svg.getElementById(cid + '_wash');
+          const outline = svg.getElementById(cid + '_outline');
+          const number = svg.getElementById(cid + '_number');
+          if (wash) wash.classList.add('on');
+          if (outline) outline.classList.add('active');
+          if (number) number.classList.add('active');
+        });
+
+        const row1 = Number(el.dataset.row);
+        const row2 = other ? Number(other.dataset.row) : row1;
+        setLine(axis1, row1);
+        if (row2 !== row1) setLine(axis2, row2);
+        else axis2.classList.remove('on');
+      }
+
+      function hoverCell(el) {
+        if (pinned) return;
+        activateById(el.dataset.id);
+      }
+
+      function clearHover() {
+        if (pinned) activateById(pinned.dataset.id);
+        else clearVisuals();
+      }
+
+      function togglePin(el) {
+        if (pinned === el) {
+          pinned = null;
+          clearVisuals();
+        } else {
+          pinned = el;
+          activateById(el.dataset.id);
+        }
+      }
+
+      cells.forEach(el => {
+        el.addEventListener('mouseenter', () => hoverCell(el));
+        el.addEventListener('mouseleave', clearHover);
+        el.addEventListener('focus', () => hoverCell(el));
+        el.addEventListener('blur', clearHover);
+        el.addEventListener('click', (ev) => {
+          ev.preventDefault();
+          togglePin(el);
+        });
+        el.addEventListener('keydown', (ev) => {
+          if (ev.key === 'Enter' || ev.key === ' ') {
+            ev.preventDefault();
+            togglePin(el);
+          } else if (ev.key === 'Escape') {
+            ev.preventDefault();
+            pinned = null;
+            clearVisuals();
+          }
+        });
+      });
+
+      svg.addEventListener('mouseleave', () => {
+        if (!pinned) clearVisuals();
+      });
+    })();
+  ]]></script>
+</svg>
