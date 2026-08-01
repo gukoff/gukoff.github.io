@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "New Magic Hexagons And Their Beautiful Potential Fields"
+title: "There Are, Indeed, Magic Hexagons Of All Orders"
 date: 2026-07-28 00:00:00 +0200
 categories: math
 comments: "yes"
@@ -13,12 +13,14 @@ What is so special about the number 19?
 This question came up in the conversation of YSDA alumni last month on the occasion of the school turning 19 years old.
 Someone pointed out that 19 is a twin prime. Someone else replied that 19 is the number of cells in the only non-trivial magic hexagon.
 
-Wait, a "magic hexagon"? I immediately got curious and went ahead to learn about this beast - and ended up discovering some new mathematics.
+Wait, a "magic hexagon"? Let's find out, shall we?
+
+To foreshadow, this is a story about making a mathematical discovery - first without, then with the AI.
 
 ## Magic Squares and Magic Hexagons
 
-If you ever dabbled in recreational mathematics, I bet you know about the magic squares.
-A magic square is a square grid of numbers where every row, column, and main diagonal adds up to the exact same total, known as the magic constant. A _normal_ magic square is the one that contains only consecutive numbers from 1 to n^2 on the grid, and typically this constraint is assumed.
+You probably know about the magic squares.
+A magic square is a square grid of numbers where every row, column, and main diagonal adds up to the exact same total, known as the magic constant. It's also typical to assume the numbers should be consecutive (i.e. from 1 to n^2) - otherwise we'd put the same number into all cells, which is a very boring way to fill it.
 
 <object
   type="image/svg+xml"
@@ -29,7 +31,7 @@ A magic square is a square grid of numbers where every row, column, and main dia
 
 Magic squares were known for millennia and are very well-studied. By now, we have algorithms to construct normal magic squares of every order n > 2.
 
-A magic hexagon applies the same idea to a hexagonal grid. Its cells form straight lines in three directions, and every such line must have the same sum. Similarly as with the squares, the hexagon is called normal if it contains consecutive numbers between 1 and 3n2 − 3n + 1 (this expression is the number of cells in the hexagonal grid).
+A **magic hexagon** applies the same idea to a hexagonal grid. Its cells form straight lines in three directions, and every such line must have the same sum. Like with the squares, the hexagon is called normal if it contains consecutive numbers between 1 and 3n2 − 3n + 1 (this expression is the number of cells in the hexagonal grid).
 
 <object
   type="image/svg+xml"
@@ -38,34 +40,31 @@ A magic hexagon applies the same idea to a hexagonal grid. Its cells form straig
   aria-label="Interactive order-3 magic hexagon">
 </object>
 
-The example above is the only normal magic hexagon in existence (apart from the rotations and reflections). The proof is straightforward - for any order n>3, the numbers (1..3n2 − 3n + 1) can't be partitioned into 2n-1 rows with equal sums because 2n-1 simply doesn't divide the sum of these numbers.
+On the example above you can see only normal magic hexagon in existence - well, apart from its rotations and reflections. The proof is straightforward - for any order n>3, the numbers (1..3n2 − 3n + 1) can't be partitioned into 2n-1 rows with equal sums because 2n-1 simply doesn't divide the sum of these numbers.
 
-To make things more interesting, let's look at the so called **abnormal magic hexagons**. We relax one of the constraints - we still require that the numbers on the grid are consecutive, but now they don't have to start at 1.
+Well, ending the story here is no fun. To make things more interesting, let's look at the so called **abnormal magic hexagons**. Here we relax one of the constraints - we still require that the numbers on the grid are consecutive, but now they don't have to start at 1.
 
-This relaxation suddenly allows many more solutions!
+This relaxation suddenly allows new solutions to appear!
 
-But finding these solutions is not an easy feat. Unlike with magic squares, there is no formulaic approach or deterministic algorithm. The only known way to find them is wandering through a brutally large search space. The largest known solution as of July 2026 was n=9 found by Klaus Meffert.
+But finding these solutions is not an easy feat. Unlike with magic squares, there is no formulaic approach or deterministic algorithm, and the only known way to find them is wandering through a brutally large search space. The largest known solution as of July 2026 was a hexagon of order n=9 found by Klaus Meffert in 2024.
 
-So... Are these solutions truly so hard to find? How about we try?
+So... What makes these solutions truly so hard to find? How about we try?
 
-## Making Observations
+## Chapter 1: Making Observations
 
 There is a clear tension between the two independent constraints:
 
 1. The numbers are consecutive
 2. The line sums are equal (and lines have different lengths!)
 
-The prior art also showed that the search algorithm optimization -
-at least for one of the possible search algorithms - was pushed to the limit by the other people.
+The prior art solutions that I found showed that people tried optimizing different search algorthims. This made me think that the next step should in optimizing the search space itself.
 
-So, how about we optimize the search space instead?
-
-### Observation 1: Antisymmetric hexagons are much simpler to solve
+### Observation 1: Antisymmetric hexagons have much simpler constraints
 
 First, let's restrict all numbers on the grid are be in the symmetric interval (-K...K) for some K.
-Notice that this is equivalent to lines sums being zero.
+Notice that this is equivalent to lines sums being 0.
 
-Second, put the 0 in the middle of the grid, and require that the cells opposite each other under a 180-degree rotation contain opposite values.
+Second, put the 0 in the middle of the grid, and require that the cells opposite each other under a 180-degree rotation contain opposite values. So if one cell contains (x), its antipodal cell contains (-x).
 
 <object
   type="image/svg+xml"
@@ -74,73 +73,22 @@ Second, put the 0 in the middle of the grid, and require that the cells opposite
   aria-label="Interactive antisymmetric order-3 magic hexagon">
 </object>
 
-Notice how this makes many constraints disappear.
+Notice how this makes many constraints disappear. The lines crossing the center sum to 0 automatically because all numbers cancel out. The other lines are the opposites of their mirrored lines, so if one sums to 0, the other sums to 0 automatically a well.
 
-The central lines sum to 0 automatically, and every other line
-
-Because the number of cells is odd, the consecutive values can then be chosen symmetrically:
-
-[
--K,-(K-1),\ldots,-1,0,1,\ldots,K.
-]
-
-I also imposed **antisymmetry**. 
-
-So if one cell contains (x), its antipodal cell contains (-x).
-
-> How can I make the generic solver search faster?
-
-It was:
-
-> 
-
-That question led to two strong assumptions.
-
-## Zero sums and antisymmetry
-
-I restricted the search to hexagons whose lines sum to zero.
-
-Because the number of cells is odd, the consecutive values can then be chosen symmetrically:
-
-[
--K,-(K-1),\ldots,-1,0,1,\ldots,K.
-]
-
-I also imposed **antisymmetry**. The center contains zero, and cells opposite each other under a 180-degree rotation contain opposite values.
-
-So if one cell contains (x), its antipodal cell contains (-x).
-
-[**Visualization 2 — Antisymmetry**
-Show an empty hexagon with the center marked (0). Select several antipodal cell pairs and label them (x/-x), (y/-y), and (z/-z).]
-
-These assumptions remove a great deal of freedom. They also introduce the risk that no large solutions satisfy them.
-
-There was no theorem promising that this restricted family would continue indefinitely. It was simply a plausible place to search.
+But while simplifying the constraints, we also introduce the risk that no  solutions satisfy them.
+It was simply a plausible place to search.
 
 But once I looked at zero-sum hexagons, another structure appeared.
 
-## A local move that preserves every line sum
+### Observation 2: Every zero-sum hexagon is a repetirion of the same 6-point ring
 
-Take the six cells surrounding any interior point and add the alternating pattern
+Consider any hexagon. Take the six cells surrounding any interior point and add the alternating pattern $$[-1,+1,-1,+1,-1,+1]$$. Leave the central cell unchanged.
 
-[
--1,+1,-1,+1,-1,+1.
-]
+Notice that every straight line that intersects this pattern receives either no contribution or two opposite contributions. Its total therefore remains unchanged. Thus you can add any multiple of this pattern without affecting any line sum.
 
-Leave the central cell unchanged.
-
-Every straight line that intersects this pattern receives either no contribution or two opposite contributions. Its total therefore remains unchanged.
-
-You can add any multiple of this pattern without affecting any line sum.
+These local alternating rings form a basis - you can build any zero-sum hexagon as a linear combination of these rings. I will omit the proof fr brevity, but it is fairly straightforward - go by induction and "peel" these rings from the hexagon, starting from outer layer.
 
 [**Visualization 3 — The alternating-ring move**
-Show one central cell surrounded by six cells labelled (-1,+1,-1,+1,-1,+1). Draw the three line directions through the pattern, demonstrating that each receives contributions summing to zero.]
-
-This is the hexagonal equivalent of a null operation: it changes the values but preserves the invariant we care about.
-
-More importantly, these local alternating rings form a basis for the entire vector space of zero-line-sum hexagonal arrays. Place one ring around each cell of a hexagon one order smaller. Every zero-sum field can be produced by assigning coefficients to those rings, and those coefficients are unique.
-
-I call the array of coefficients the **potential field**.
 
 An order-(n) zero-sum hexagon therefore has two equivalent representations:
 
@@ -153,63 +101,16 @@ But it solves all line-sum constraints by construction.
 
 Instead of searching among arbitrary arrangements and repeatedly repairing broken lines, we can search entirely inside the space where every line already sums to zero.
 
-That is a substantial change.
+## Chapter 2: Looking in the reduced search space
 
-## Searching inside the valid space
+Around the same time, I had been helping to presolve problems for the Midnight Code Cup, a programming competition in which using LLMs is explicitly encouraged. Many of the tasks in this competition are optimization problems. My main takeaway from that LLMs can be unusually effective at helping develop **domain-specific** solvers.
 
-This pattern appears in many engineering problems.
+Not long ago, my first reaction would be to feed this problem to a general constraint solver such as OR-Tools. Now, I went to GPT-5.6, and gave it the problem, the antisymmetry restriction, and the potential-field representation. It additionally connected the structure to **Heffter arrays**: combinatorial arrangements of signed integers with prescribed zero-sum conditions. The problems are not identical, but the connection suggested better ways to organize values and exchange them while controlling the affected sums.
 
-A compiler transforms a program into an intermediate representation where analysis is easier. A database changes its physical layout to make the important queries cheap. An optimization algorithm uses coordinates that encode some constraints automatically.
+The resulting program abandoned the generic constraint-solver approach in favor of custom simulated annealing. I've done some due diligence with several optimization rounds: asked to use numba for the hot loops, identified memory allocation/randomization bottlenecks with `perf`, and soone we squeezed another 50% of performance from the program.
 
-The representation does not alter the underlying problem. It changes which parts of the problem are expensive.
-
-Here, the potential field turns the line equations from active constraints into an invariant. The remaining task is to find coefficients whose derived cell values are precisely the consecutive integers from (-K) to (K).
-
-That is still a formidable combinatorial problem, but it is a much better one to give to a specialized search algorithm.
-
-## LLMs as optimization collaborators
-
-Around the same time, I had been helping to presolve problems for the Midnight Code Cup, a programming competition in which using LLMs is explicitly encouraged.
-
-Many of its tasks are optimization problems. My main lesson from that experience was not that LLMs replace optimization solvers. It was that they can be unusually effective at helping develop **domain-specific** solvers.
-
-A general-purpose solver sees variables and constraints. An LLM can also reason about the geometry, invent move sets, connect the problem to related mathematical objects, and generate optimized implementation ideas.
-
-So I gave the problem, the antisymmetry restriction, and the potential-field representation to Codex 5.3.
-
-It proposed several search strategies and produced a solver that found solutions through order 12.
-
-I then asked GPT-5.6 Sol to attack the same problem. It connected the structure to **Heffter arrays**: combinatorial arrangements of signed integers with prescribed zero-sum conditions. The problems are not identical, but the connection suggested better ways to organize values and exchange them while controlling the affected sums.
-
-The resulting program abandoned the generic constraint-solver approach in favor of custom simulated annealing.
-
-It represented a candidate as a signed permutation and repeatedly performed carefully selected exchanges. Each move changed only a small part of the state, allowing its effect on the objective to be computed incrementally.
-
-The hot loop was compiled with Numba. We profiled it with `perf`, removed allocations, wrote cheaper random-selection code, adjusted the move distribution, and added specialized finishing phases for states that were close to a solution.
-
-This was not a case of asking an AI for a theorem and receiving one.
-
-It was a rapid engineering loop:
-
-1. the models proposed abstractions, hypotheses, and algorithms;
-2. I tested them;
-3. profiling exposed the actual bottlenecks;
-4. we revised the implementation;
-5. large searches revealed which ideas survived contact with the problem.
-
-In this setting, specialized code decisively outperformed my original OR-Tools model because it exploited details that were invisible to a general-purpose solver.
-
-## Reaching order 21
-
-After several rounds of optimization, I ran a multi-day search campaign across 32 CPU cores.
-
-It found abnormal zero-sum, antisymmetric magic hexagons of orders up to 21.
-
-The visible solutions are difficult to read as anything but permutations of numbers. Even when colored by magnitude, neighboring cells appear almost unrelated. Large positive and negative values are scattered across the grid with little obvious local structure.
-
-Then I visualized their potential fields.
-
-They looked completely different.
+Then I left it run on my home server for a few days across ~24 CPU cores.
+This combination of the optimized search agorithm and the reduced search space worked very well, and soon I discovered the magic hexagons of orders up to n=21.
 
 <section class="hexagon-viewer" data-hexagon-viewer>
   <div class="hexagon-viewer__stage">
@@ -1859,52 +1760,13 @@ They looked completely different.
   })();
 </script>
 
-[**Interactive visualization — Solutions and potentials**
-Place two SVGs side by side. The left side shows the abnormal magic hexagon, with cells colored by value. The right side shows its order-((n-1)) potential field using the same type of magnitude scale. Add a slider or selector for orders 3 through 21. Preserve the selected order in the URL so individual examples can be linked.]
+I found it very intriguing how the solution fields look chaotic and noisy, while. The potentials resemble terrain maps with broad slopes, ridges, and smooth transitions.
 
-The solution fields look noisy. The potentials resemble terrain maps.
+## Chapter 2: Expanding to all orders, or AI to the rescue
 
-They contain broad slopes, basins, ridges, and smooth transitions. Adjacent potential values are often much closer than distant ones. The field appears dominated by low-frequency structure, even though the derived values are a permutation of a large consecutive interval.
+Repeatedly finding solutions for larger and larger orders naturally raises a conjecture that:
 
-That contrast is the most intriguing result of the project.
-
-## Why can a smooth potential produce a chaotic solution?
-
-The word “potential” is more than a metaphor.
-
-Each visible cell receives contributions from several nearby alternating-ring basis elements. The transformation from potentials to cell values therefore behaves somewhat like a discrete differential operator: local relationships between nearby coefficients determine the output.
-
-Differential operators can turn a smooth field into a rapidly varying one. A gradual slope in the underlying potential may produce positive values in some positions and negative values in neighboring positions, depending on how the local basis contributions combine.
-
-[**Visualization 5 — From potential to cell value**
-Select one output cell and show the nearby basis coefficients that contribute to it. Animate or diagram their signed contributions being added to produce the visible number.]
-
-This explains how smooth potentials and irregular outputs can coexist.
-
-It does not explain why the solver finds smooth potentials in the first place.
-
-There are at least two plausible interpretations.
-
-The first is mathematical: perhaps consecutive zero-sum hexagons inherently require substantial low-frequency structure in this basis.
-
-The second is algorithmic: perhaps simulated annealing has a bias toward smooth potential fields. Large-scale gradients may be easier to create and preserve through local exchanges than highly oscillatory configurations.
-
-The current collection of solutions cannot distinguish these possibilities. Every large example was produced by related search algorithms, so the dataset reflects both the mathematics and the solver.
-
-A useful next experiment would be to run deliberately different search procedures and compare the spectral or local-smoothness properties of their potential fields.
-
-[**Optional visualization — Smoothness by order**
-Plot a smoothness metric for each solution, such as the mean squared difference between adjacent potential cells. Compare multiple independent runs and, when available, multiple solver families.]
-
-If smoothness remains stable across unrelated methods, it becomes evidence of an intrinsic property. If it changes substantially, it is probably a fingerprint of the search.
-
-Either answer would be interesting.
-
-## From computation toward proof
-
-Finding many examples naturally raises a larger question:
-
-> Do abnormal consecutive magic hexagons exist for infinitely many orders?
+> Abnormal consecutive magic hexagons exist for all orders n>3
 
 The computations do not answer it. Twenty consecutive successes are evidence that the phenomenon is not isolated, but they are not a proof.
 
