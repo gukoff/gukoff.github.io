@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "There Are Magic Hexagons of Every Order"
-date: 2026-08-02 00:00:00 +0200
+date: 2026-08-02 12:00:00 +0200
 categories: math
 comments: "yes"
 d3: "no"
