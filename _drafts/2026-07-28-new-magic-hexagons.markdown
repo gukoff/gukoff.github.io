@@ -105,9 +105,11 @@ An order-$n$ zero-sum hexagon therefore has two equivalent representations:
 
 [**Visualization 3 — Potential fields**]
 
-The potential representation satisfies every line-sum constraint by construction.It does not, however, guarantee that the visible values are distinct and consecutive. Those remain difficult global conditions.
+This representation also plays well with antisymmetry. The potential field of an antisymmetric hexagon is itself symmetric.
 
-Instead of searching among arbitrary arrangements and repeatedly repairing broken lines, we can now search entirely inside the space where every line already sums to zero.
+The potential representation also satisfies every line-sum constraint by construction.It does not, however, guarantee that the visible values are distinct and consecutive. Those remain difficult global conditions.
+
+So instead of searching among arbitrary arrangements and repeatedly repairing broken lines, we can now search entirely inside the space where every line already sums to zero. Which might - or might not - be a smaller search space for the solver.
 
 ## Chapter 2: Finding New Hexagons (AI Writes Code)
 
@@ -315,22 +317,26 @@ Please note that while I claim the proof to be complete, it was not independentl
 
 ## Chapter 4: Reflections
 
-I started this project with AI as a co-pilot and myself very much in the driver's seat. By the end, I was closer to a passenger: the AI was doing much of the creative work, while I nudged it toward directions that felt promising and pulled it back when it became stuck.
+I started this project with AI as a co-pilot and myself very much in the driver's seat. By the end, I was more of a passenger: the AI was doing much of the creative work, while I nudged it toward directions that felt promising.
 
-I am glad that some ideas born in my human brain turned out to be instrumental. Antisymmetry plays a major role in the final construction. The potential fields - well, not so much. Yet their unexpected smoothness remains interesting in every solution I found, and perhaps they still have something to teach us.
+I am glad that some ideas born in my human brain turned out to be instrumental. Antisymmetry plays a major role in the final construction, the potential fields - well, not so much. Yet their unexpected smoothness remains interesting, and perhaps there's more to discover.
 
 ---
 
-GPT-5.6 Sol is a remarkably capable mathematical reasoner, but it has a double-edged tendency toward tunnel vision. It can go very deep in a chosen direction. When that direction is right, this is incredibly powerful. When it is wrong, you had better keep an arbiter in the loop - another model or, in my case, a human - to remind it of the bigger picture and notice when progress has quietly stopped.
+GPT-5.6 Sol is a remarkably capable mathematical reasoner, but it has a double-edged tendency toward tunnel vision. It can go very deep in a chosen direction. When that direction is right, this is incredibly powerful. When it is wrong, you had better keep an arbiter in the loop - another model or, in my case, a human - to remind it of a bigger picture and notice when progress has stalled.
+
+---
 
 It was essential that the model had access to Internet, because it looked up the related mathematical papers which I couldn't possibly provide in advance.
-It was one of the reasons why I used the Web interface GPT instead of Codex (another big reason being that I wanted to this to be more of a mental exercise during my time off and not spend a lot of time in front of the computer). But for a serious proof campaign, I would prefer to orchestrate a process with multiple models, remove myself from the loop and give the model access to internet search through a service such as [exa.ai](https://exa.ai/).
+It was one of the reasons why I used the Web interface GPT instead of Codex, another big reason being that I wanted to keep it a mental exercise during my time off and not spend a lot of time in front of the computer. But for a serious proof campaign, I would go for an orchestration with multiple models, removing myself from the loop and giving the models access to internet search through a service such as [exa.ai](https://exa.ai/).
 
 ---
 
 In software engineering, code review became a bottleneck once LLMs made code generation cheap. Statically typed languages, static analysis and testing suddenly mattered more than ever because they could take some of the growing burden of correctness verification away from humans.
 
-Mathematics now faces a similar problem. AI can produce candidate theories and proofs faster than people can responsibly verify them. This is why Lean and other machine-verifiable proof systems must be an enormous boon to the community, offering a way to scale verification along with generation.
+Mathematics now faces a similar problem. AI can produce candidate theories and proofs faster than people can responsibly verify them. Lean and other machine-verifiable proof systems must be an enormous boon to the community, offering a way to scale verification along with generation.
+
+---
 
 This story began with an interest in number 19 and ended with a construction of magic hexagons for every order. The remaining challenge is to make the proof machine-verifiable - [Aristotle](https://aristotle.harmonic.fun/) has some work to do.
 
