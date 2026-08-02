@@ -14,10 +14,19 @@ This question came up in a conversation among YSDA alumni last month, on the occ
 
 Wait, what is a "magic hexagon"? Let's find out, shall we?
 
+<aside class="article-disclaimer" aria-labelledby="article-disclaimer-title">
+  <h2 id="article-disclaimer-title">A note on AI-assisted mathematics</h2>
 
-> Recently, we have heard a lot about AI miraculously proving and disproving long-standing conjectures, often without much explanation of how it was done.
-> 
-> This story offers a look inside the process of making such a mathematical discovery.
+  <p>
+    Recently, we have heard a lot about AI miraculously proving and disproving
+    long-standing conjectures, often without much explanation of how it was done.
+  </p>
+
+  <p>
+    This story offers a look inside the process of making such a mathematical
+    discovery.
+  </p>
+</aside>
 
 ## Magic Squares and Magic Hexagons
 
@@ -52,7 +61,7 @@ But finding them is not easy. Unlike with magic squares, there was no formulaic 
 So... what makes these solutions so hard to find? And how about we try?
 
 
-## Chapter 1: Making Observations (So Far, Without AI)
+## Chapter 1: Making Observations (With Human Brain)
 
 There is a clear tension between two independent constraints:
 
@@ -62,7 +71,7 @@ There is a clear tension between two independent constraints:
 The prior solutions I found suggested that people had already tried several search algorithms and likely optimized them well.
 That made me think that, if I wanted to advance the field, I should focus not on making the search faster, but on making the search space smaller.
 
-### Observation 1: Antisymmetric hexagons have much simpler constraints
+### Observation: Antisymmetric hexagons are much simpler
 
 First, let's restrict the numbers on the grid to the symmetric interval $-K,\ldots,K$ for some $K$. If all line sums are equal, this is equivalent to requiring that every line sum be zero.
 
@@ -81,7 +90,7 @@ Of course, simplifying the constraints introduces a risk: perhaps no solutions s
 
 But once I started thinking about zero-sum hexagons, another structure appeared.
 
-### Observation 2: Every zero-sum hexagon is a repetition of the same 6-point ring
+### Observation: Every zero-sum hexagon is a repetition of the same 6-point ring
 
 Consider any hexagonal grid, zero-sum or not. Take the six cells surrounding any interior point and add the alternating pattern $$[-1,+1,-1,+1,-1,+1].$$ Leave the central cell unchanged.
 
@@ -89,24 +98,24 @@ Every straight line that intersects this ring receives either no contribution or
 
 These local alternating rings form a basis: every zero-sum hexagon can be built as a unique linear combination of them. I will omit the proof for brevity, but the idea is fairly straightforward. Starting at the outer layer, choose ring coefficients that cancel its cells, then peel the layer away and continue inward by induction.
 
-[**Visualization 3 — The alternating-ring move**
-
 An order-$n$ zero-sum hexagon therefore has two equivalent representations:
 
 - its visible cell values;
 - an order-$(n-1)$ potential field, recording how much of each local ring it contains.
 
+[**Visualization 3 — Potential fields**]
+
 The potential representation satisfies every line-sum constraint by construction.It does not, however, guarantee that the visible values are distinct and consecutive. Those remain difficult global conditions.
 
 Instead of searching among arbitrary arrangements and repeatedly repairing broken lines, we can now search entirely inside the space where every line already sums to zero.
 
-## Chapter 2: Finding New Hexagons (With AI For Coding)
+## Chapter 2: Finding New Hexagons (AI Writes Code)
 
-Around the same time, I had been helping to pre-solve problems for the [Midnight Code Cup 2026](https://midnightcodecup.org/), a programming competition in which using LLMs is explicitly encouraged. Many of its tasks are optimization problems. My main takeaway was that LLMs can be unusually effective at developing domain-specific solvers, leaving general-purpose tools such as Z3 and OR-Tools far behind.
+Around the same time, I had been helping to pre-solve problems for the [Midnight Code Cup 2026](https://midnightcodecup.org/), a programming competition in which using LLMs is explicitly encouraged. Many of its tasks are optimization problems. My main takeaway was that LLMs can be unusually effective at developing domain-specific solvers, leaving general-purpose tools such as [Z3](https://github.com/z3prover/z3) and [OR-Tools](https://github.com/google/or-tools) far behind.
 
 So instead of reaching for another generic constraint solver, I went to GPT-5.6 Sol and gave it more freedom with the problem. I pointed out the antisymmetry restriction and the potential-field representation. The model searched for related concepts and connected the problem to Heffter arrays: combinatorial arrangements of signed integers with prescribed zero-sum conditions. The problems are not identical, but the connection suggested better ways to organize values and exchange them while controlling the affected sums.
 
-The resulting program abandoned the generic constraint-solver approach in favor of custom simulated annealing.I then did some due diligence through several rounds of optimization: asked the model to use Numba for the hot loops, identified memory-allocation and random-number-generation bottlenecks with `perf`, and eventually squeezed another 50% of performance out of the program.
+The resulting program abandoned the generic constraint-solver approach in favor of custom simulated annealing. I then did some due diligence through several rounds of optimization: asked the model to use Numba for the hot loops, identified memory-allocation and random-number-generation bottlenecks with `perf`, and eventually squeezed another 50% of performance out of the program.
 
 Then I left it running on my home server for a few days across roughly 24 CPU cores.
 
@@ -249,7 +258,7 @@ The cell values look chaotic and noisy. Their potential fields do not. They rese
 
 I did not yet know whether this smoothness was a clue or merely an artifact of the search. Either way, it was difficult to look at those landscapes and not suspect that some larger structure was hiding underneath.
 
-## Chapter 3: Expanding To All Orders (With AI As Mathematician)
+## Chapter 3: Finding All Hexagons (AI Runs The Show)
 
 Repeatedly finding larger solutions naturally suggested a conjecture:
 
@@ -261,8 +270,8 @@ But inspired by the recent successes of AI in mathematics, I was curious to see 
 
 I decided to try two AI systems:
 
-- GPT-5.6 Sol, the strongest general-purpose model available to me through my personal subscription;
-- Aristotle, a Lean-oriented theorem-proving agent.
+- [GPT-5.6 Sol](https://en.wikipedia.org/wiki/GPT-5.6), the strongest general-purpose model available to me through my personal subscription;
+- [Aristotle](https://aristotle.harmonic.fun/), a Lean-oriented theorem-proving agent.
 
 First, I gave GPT-5.6 Sol (high) the problem statement, the known solutions, and several additional intuitions. It proposed more hypotheses and possible constructions, then started reducing the problem to smaller pieces.The work gained traction. I still felt very much in the driver's seat: learning unfamiliar mathematical machinery, checking the arguments, and steering a process I could mostly follow.
 
@@ -280,9 +289,22 @@ At this point it is important to separate the uniform construction from the fini
 
 Then I pushed again, this time for simplicity and determinism. Sure enough, GPT-5.6 Sol (high) repeatedly found redundancies in the construction and replaced them with a cleaner deterministic algorithm.
 
-After days of reasoning, the conjecture was solved. The result is constructive: it does not merely assert that these hexagons exist, but gives an algorithm for building them. Combined with the finite witnesses, it covers every order $n>3$.
+It took dozens of long conversations and days of reasoning, but the conjecture was solved. The result is constructive: it does not merely assert that these hexagons exist, but gives an algorithm for building them. Combined with the finite witnesses, it covers every order $n>3$.
 
-The proof has not yet been formalized in Lean at the time of writing - which is an important next step. But the construction is executable, and you can use it to generate a magic hexagon of any desired order yourself.
+<aside class="article-disclaimer" aria-labelledby="article-disclaimer-title">
+  <h2 id="article-disclaimer-title">The final conversation</h2>
+
+  <p>
+    Here is the thread that led to the breakthrough and subsequent simplifications.
+  </p>
+
+  <p>
+    <a href="https://chatgpt.com/share/6a6f47f2-1650-83eb-8246-8662c452a13d" target="_blank" rel="noopener">View the conversation in a new tab</a>
+  </p>
+
+</aside>
+
+Please note that while I claim the proof to be complete, it was not independently verified or formalized in Lean at the time of writing, August 1, 2026, which is an important next step. But the construction is executable, and you can use it to generate a magic hexagon of any desired order yourself.
 
 ## Chapter 4: Reflections
 
@@ -290,13 +312,20 @@ I started this project with AI as a co-pilot and myself very much in the driver'
 
 I am glad that some ideas born in my human brain turned out to be instrumental. Antisymmetry plays a major role in the final construction. The potential fields - well, not so much. Yet their unexpected smoothness remains interesting in every solution I found, and perhaps they still have something to teach us.
 
+---
+
 GPT-5.6 Sol is a remarkably capable mathematical reasoner, but it has a double-edged tendency toward tunnel vision. It can go very deep in a chosen direction. When that direction is right, this is incredibly powerful. When it is wrong, you had better keep an arbiter in the loop - another model or, in my case, a human - to remind it of the bigger picture and notice when progress has quietly stopped.
+
+It was essential that the model had access to Internet, because it looked up the related mathematical papers which I couldn't possibly provide in advance.
+It was one of the reasons why I used the Web interface GPT instead of Codex (another big reason being that I wanted to this to be more of a mental exercise during my time off and not spend a lot of time in front of the computer). But for a serious proof campaign, I would prefer to orchestrate a process with multiple models, remove myself from the loop and give the model access to internet search through a service such as [exa.ai](https://exa.ai/).
+
+---
 
 In software engineering, code review became a bottleneck once LLMs made code generation cheap. Statically typed languages, static analysis and testing suddenly mattered more than ever because they could take some of the growing burden of correctness verification away from humans.
 
 Mathematics now faces a similar problem. AI can produce candidate theories and proofs faster than people can responsibly verify them. This is why Lean and other machine-verifiable proof systems must be an enormous boon to the community, offering a way to scale verification along with generation.
 
-This story began with an interest in number 19 and ended with a construction of magic hexagons for every order. The remaining challenge is to make the proof machine-verifiable - Aristotle has some work to do.
+This story began with an interest in number 19 and ended with a construction of magic hexagons for every order. The remaining challenge is to make the proof machine-verifiable - [Aristotle](https://aristotle.harmonic.fun/) has some work to do.
 
 <style>
   .hexagon-viewer {
@@ -777,6 +806,34 @@ This story began with an interest in number 19 and ended with a construction of 
       height: calc(100svh - 6rem);
     }
   }
+</style>
+
+<style>
+.article-disclaimer {
+    margin: 2.5rem 0;
+    padding: 1.5rem 1.75rem;
+    color: #172554;
+    background: #dbeafe;
+    border: 2px solid #60a5fa;
+    border-left-width: 8px;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 14px rgb(30 64 175 / 12%);
+}
+
+.article-disclaimer h2 {
+    margin: 0 0 0.75rem;
+    color: #1e3a8a;
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+
+.article-disclaimer p {
+    margin: 0;
+}
+
+.article-disclaimer p + p {
+    margin-top: 0.75rem;
+}
 </style>
 
 <script>
