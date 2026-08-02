@@ -291,7 +291,6 @@ I decided to try two AI systems:
 - [GPT-5.6 Sol](https://en.wikipedia.org/wiki/GPT-5.6), the strongest general-purpose model available to me through my personal subscription;
 - [Aristotle](https://aristotle.harmonic.fun/), a Lean-oriented theorem-proving agent.
 
-
 I first gave GPT-5.6 Sol (high) the problem statement, the known solutions, and several additional intuitions. It proposed new hypotheses and possible constructions, then began chopping away, reducing the problem to smaller pieces. The work gained traction. At this stage, I still felt very much in the driver's seat: learning unfamiliar mathematical machinery, checking the arguments, rejecting unproductive directions, and steering a process that I could mostly follow.
 
 Several days of iteration passed. The problem had been reduced to a few key lemmas, so I brought in Aristotle to pursue a formal proof in parallel.
@@ -302,7 +301,7 @@ Still, we hit a wall.
 
 I then employed GPT-5.6 Sol (max), which reasoned for many hours and... also failed to find a proof. Before running out of credits, however, it produced several new ideas. Those ideas became part of the project's shared context and remained available in later conversations.
 
-In one such conversation, while I was once again directing GPT-5.6 Sol toward a proof, it picked up several of those earlier ideas and combined them into what looked like a breakthrough. After checking it computationally, I had a constructive argument for every order $n>800$ divisible by $16$.
+In one such conversation, while I was once again directing GPT-5.6 Sol (high) toward a proof, it picked up several of those earlier ideas and combined them into what looked like a breakthrough. After checking it computationally, I had a constructive argument for every order $n>800$ divisible by $16$.
 
 Once that foothold was established, the work REALLY gained traction. Iteration by iteration, I pushed GPT-5.6 Sol (high) to generalize the construction: first to orders divisible by $8$, then by $4$, then by $2$, and finally to remove the divisibility condition altogether. The proved threshold also fell from $800$ to $114$.
 
