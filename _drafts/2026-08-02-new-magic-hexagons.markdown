@@ -46,7 +46,7 @@ A magic hexagon applies the same idea to a hexagonal grid. Its cells form straig
 <object
   type="image/svg+xml"
   data="/assets/svg/magic-hexagons/Order3-interactive.svg"
-  style="display:block; width:50%; max-width:620px; height:auto; margin:auto;"
+  style="display:block; width:50%; height:auto; margin:auto;"
   aria-label="Interactive order-3 magic hexagon">
 </object>
 
@@ -79,7 +79,7 @@ Second, put $0$ in the center and require that cells opposite each other under a
 <object
   type="image/svg+xml"
   data="/assets/svg/magic-hexagons/antisymmetry-hexagon-interactive.svg"
-  style="display:block; width:50%; max-width:620px; height:auto; margin:auto;"
+  style="display:block; width:50%; height:auto; margin:auto;"
   aria-label="Interactive antisymmetric order-3 magic hexagon">
 </object>
 
@@ -100,15 +100,25 @@ These local alternating rings form a basis: every zero-sum hexagon can be built 
 An order-$n$ zero-sum hexagon therefore has two equivalent representations:
 
 - its visible cell values;
-- an order-$(n-1)$ potential field, recording how much of each local ring it contains.
+- an order-$(n-1)$ _potential field_, recording how much of each local ring it contains.
 
-[**Visualization 3 — Potential fields**]
+The potential field representation also satisfies every line-sum constraint by construction. It does not, however, guarantee that the visible values are distinct and consecutive. Those remain difficult global constraints.
+
+Below you can play with the potential field of the order-3 antisymmetric hexagon. Notice that however you change the potential field, the line sums in te hexagon remain zero. However, making the hexagon magic is a very hard challenge.
+
+<div class="wide-interactive-svg">
+  <object
+    type="image/svg+xml"
+    data="/assets/svg/magic-hexagons/potential-field-interactive.svg"
+    aria-label="Interactive potential field playground"
+  >
+    Interactive potential-field visualization
+  </object>
+</div>
 
 This representation also plays well with antisymmetry. The potential field of an antisymmetric hexagon is itself symmetric.
 
-The potential representation also satisfies every line-sum constraint by construction.It does not, however, guarantee that the visible values are distinct and consecutive. Those remain difficult global conditions.
-
-So instead of searching among arbitrary arrangements and repeatedly repairing broken lines, we can now search entirely inside the space where every line already sums to zero. Which might - or might not - be a smaller search space for the solver.
+The idea is that instead of searching among arbitrary arrangements and repeatedly repairing broken lines, we can now search entirely inside the space where every line already sums to zero. Which might - or might not - be a smaller search space for the solver.
 
 ## Chapter 2: Finding New Hexagons (AI Writes Code)
 
@@ -299,18 +309,18 @@ Then I pushed again, this time for simplicity and determinism. Sure enough, GPT-
 
 It took dozens of long conversations and days of reasoning, but the conjecture was solved. The result is constructive: it does not merely assert that these hexagons exist, but gives an algorithm for building them. Combined with the finite witnesses, it covers every order $n>3$.
 
-Please note that the proof was not formalized in Lean or even in text at the time of writing this post and thus was not independently verified, which will be the natural next step.
+Please note that the proof was not formalized in Lean at the time of writing this post and thus was not independently verified, which will be the natural next step.
 
 <aside class="article-disclaimer" aria-labelledby="article-disclaimer-title">
   <h2 id="article-disclaimer-title">The final conversation</h2>
 
   <p>
     Here is the thread that led to the breakthrough and subsequent simplifications.
-    It shows our back-and forth with GPT-5.6 Sol if you want to peek at the process and describes the solution.
+    It describes the solution and shows our back-and forth with GPT-5.6 Sol if you want to peek at the process.
   </p>
 
   <p>
-    <a href="https://chatgpt.com/share/6a6f47f2-1650-83eb-8246-8662c452a13d" target="_blank" rel="noopener">View the conversation in a new tab</a>
+    <a href="https://chatgpt.com/share/6a6f77e9-3348-83eb-9304-31f87b24de88" target="_blank" rel="noopener">View the conversation in a new tab</a>
   </p>
 
 </aside>
@@ -461,7 +471,9 @@ It was one of the reasons why I used the Web interface GPT instead of Codex, ano
 
   Mathematics now faces a similar problem. AI can produce candidate theories and proofs faster than people can responsibly verify them. Lean and other machine-verifiable proof systems must be an enormous boon to the community, offering a way to scale verification along with generation.
 
-- It's funny how this story began with an interest in number 19 and ended with a construction of magic hexagons for every order. The remaining challenge is to make the proof machine-verifiable - [Aristotle](https://aristotle.harmonic.fun/) has some work to do.
+- I wonder if the techniques discovered in this project can be applied to the other combinatorial problems beyond the hexagons puzzle and serve as a new useful theory. Heffter arrays naturally come to mind...
+
+- It's funny how this story began with an interest in number 19 and ended with a construction of magic hexagons for every order. The remaining challenge is to make the proof machine-verifiable - now [Aristotle](https://aristotle.harmonic.fun/) and [leanprover/comparator](https://github.com/leanprover/comparator) have some work to do.
 
 <style>
   .hexagon-viewer {
@@ -3036,3 +3048,68 @@ It was one of the reasons why I used the Web interface GPT instead of Codex, ano
     preloadAllImages();
   })();
 </script>
+
+
+<style>
+ .wide-interactive-svg {
+  --interactive-width: 50vw;
+  --interactive-max-width: 1250px;
+
+  --interactive-padding: clamp(0.65rem, 1.3vw, 1.25rem);
+
+  --interactive-background-fallback:
+    rgb(127 127 127 / 6%);
+
+  --interactive-background:
+    color-mix(in srgb, currentColor 5%, transparent);
+
+  --interactive-border:
+    color-mix(in srgb, currentColor 10%, transparent);
+
+  position: relative;
+  left: 50%;
+
+  width: min(
+    var(--interactive-width),
+    var(--interactive-max-width),
+    calc(100vw - 1rem)
+  );
+
+  max-width: none;
+  box-sizing: border-box;
+
+  margin: 2rem 0;
+  padding: var(--interactive-padding);
+
+  transform: translateX(-50%);
+
+  border: 1px solid var(--interactive-border);
+  border-radius: 0.9rem;
+
+  background: var(--interactive-background-fallback);
+  background: var(--interactive-background);
+}
+
+.wide-interactive-svg object {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1250 / 860;
+}
+
+@media (max-width: 680px) {
+  .wide-interactive-svg {
+    --interactive-width: calc(100vw - 0.75rem);
+
+    margin: 1.25rem 0;
+    padding: 0.65rem;
+    border-radius: 0.7rem;
+  }
+}
+
+.hexagon-viewer,
+.large-hexagon-viewer,
+.wide-interactive-svg {
+  min-width: 100%;
+}
+  </style>

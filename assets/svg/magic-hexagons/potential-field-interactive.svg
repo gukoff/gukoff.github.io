@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="105 0 1100 770"
+     width="1100" height="770"
+     role="img"
+     aria-labelledby="title desc"
+     id="potential-field-demo">
+  <title id="title">Interactive potential field and magic hexagon</title>
+  <desc id="desc">Edit the potential field on the left. Each step adds or subtracts an alternating six-cell lattice on the magic hexagon on the right. Duplicate values and out-of-range values are highlighted in red.</desc>
+  <style>
+    #potential-field-demo {
+      background: #ffffff;
+      max-width: 100%;
+      height: auto;
+      overflow: visible;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .panel-title {
+      font-size: 28px;
+      font-weight: 700;
+      fill: #1a2533;
+      text-anchor: middle;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      fill: #5b6776;
+      text-anchor: middle;
+    }
+
+    .cell-base { fill: #ffffff; }
+    .cell-base.outer { fill: #edf1f5; }
+    .cell-outline {
+      fill: none;
+      stroke: #2d3946;
+      stroke-width: 2.6;
+      vector-effect: non-scaling-stroke;
+      pointer-events: none;
+    }
+
+    .pot-hit polygon, .button-hit rect {
+      fill: transparent;
+      cursor: pointer;
+      pointer-events: all;
+    }
+    .pot-hit:focus, .button-hit:focus {
+      outline: none;
+    }
+
+    .pot-fill-selected {
+      fill: #eef4ff;
+    }
+
+    .pot-outline-selected {
+      stroke: #4b74d0;
+      stroke-width: 4.2;
+    }
+
+    .big-outline-affected-plus {
+      stroke: #2d9a52;
+      stroke-width: 3.8;
+    }
+    .big-outline-affected-minus {
+      stroke: #c94f4f;
+      stroke-width: 3.8;
+    }
+    .big-outline-gentle {
+      stroke-width: 3.4;
+    }
+
+    .number {
+      fill: #18212d;
+      font-size: 34px;
+      font-weight: 500;
+      text-anchor: middle;
+      dominant-baseline: central;
+      pointer-events: none;
+      stroke: #ffffff;
+      stroke-width: 7;
+      paint-order: stroke fill;
+      vector-effect: non-scaling-stroke;
+    }
+    .number.outer-ghost {
+      fill: #a9b3be;
+      stroke: #edf1f5;
+    }
+    .number.bad {
+      fill: #c83f3f;
+      font-weight: 700;
+    }
+
+    .pm-marker {
+      font-size: 22px;
+      font-weight: 700;
+      text-anchor: middle;
+      dominant-baseline: central;
+      pointer-events: none;
+      opacity: 0;
+    }
+    .pm-plus { fill: #2d9a52; }
+    .pm-minus { fill: #c94f4f; }
+    .pm-visible { opacity: 1; }
+
+    .button-face {
+      fill: #f6f8fb;
+      stroke: #95a2b2;
+      stroke-width: 2;
+    }
+    .button-face.active-plus {
+      fill: #eaf6ee;
+      stroke: #2d9a52;
+    }
+    .button-face.active-minus {
+      fill: #fdeeee;
+      stroke: #c94f4f;
+    }
+    .button-label {
+      font-size: 30px;
+      font-weight: 700;
+      fill: #223040;
+      text-anchor: middle;
+      dominant-baseline: central;
+      pointer-events: none;
+    }
+
+    .instruction {
+      display: none;
+      font-size: 16px;
+      fill: #5a6778;
+      text-anchor: middle;
+    }
+
+    .status-box {
+      fill: #fbfcfe;
+      stroke: #d4dce5;
+      stroke-width: 2;
+      rx: 14;
+      ry: 14;
+    }
+    .status-title {
+      font-size: 18px;
+      font-weight: 700;
+      fill: #1a2533;
+    }
+    .status-line {
+      font-size: 17px;
+      fill: #334155;
+    }
+    .status-line.bad { fill: #b23a3a; }
+    .status-line.good { fill: #2d7b46; }
+
+    .hint-line {
+      display: none;
+      font-size: 16px;
+      fill: #546171;
+    }
+
+    .focus-ring {
+      fill: none;
+      stroke: #7b61ff;
+      stroke-width: 4;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .pot-hit:focus .focus-ring,
+    .button-hit:focus .focus-ring {
+      opacity: 1;
+    }
+  </style>
+  <g id="titles">
+    <text class="panel-title" x="370" y="42">Potential field</text>
+    <text class="subtitle" x="370" y="68">Adjust potentials with + or −</text>
+    <text class="panel-title" x="960" y="42">Magic hexagon</text>
+    <text class="subtitle" x="960" y="68">All lines guaranteed to sum to 0</text>
+  </g>
+  <g id="left-panel">    <polygon class="cell-base outer" points="276.47,109.00 323.24,136.00 323.24,190.00 276.47,217.00 229.70,190.00 229.70,136.00"/>    <polygon class="cell-base outer" points="370.00,109.00 416.77,136.00 416.77,190.00 370.00,217.00 323.23,190.00 323.23,136.00"/>    <polygon class="cell-base outer" points="463.53,109.00 510.30,136.00 510.30,190.00 463.53,217.00 416.76,190.00 416.76,136.00"/>    <polygon class="cell-base outer" points="229.70,190.00 276.47,217.00 276.47,271.00 229.70,298.00 182.93,271.00 182.93,217.00"/>    <polygon class="cell-base" points="323.23,190.00 370.00,217.00 370.00,271.00 323.23,298.00 276.46,271.00 276.46,217.00"/>    <polygon id="pot-fill-0" class="pot-fill-selected" points="323.23,190.00 370.00,217.00 370.00,271.00 323.23,298.00 276.46,271.00 276.46,217.00" visibility="hidden"/>    <polygon class="cell-base" points="416.77,190.00 463.54,217.00 463.54,271.00 416.77,298.00 370.00,271.00 370.00,217.00"/>    <polygon id="pot-fill-1" class="pot-fill-selected" points="416.77,190.00 463.54,217.00 463.54,271.00 416.77,298.00 370.00,271.00 370.00,217.00" visibility="hidden"/>    <polygon class="cell-base outer" points="510.30,190.00 557.07,217.00 557.07,271.00 510.30,298.00 463.53,271.00 463.53,217.00"/>    <polygon class="cell-base outer" points="182.94,271.00 229.71,298.00 229.71,352.00 182.94,379.00 136.17,352.00 136.17,298.00"/>    <polygon class="cell-base" points="276.47,271.00 323.24,298.00 323.24,352.00 276.47,379.00 229.70,352.00 229.70,298.00"/>    <polygon id="pot-fill-2" class="pot-fill-selected" points="276.47,271.00 323.24,298.00 323.24,352.00 276.47,379.00 229.70,352.00 229.70,298.00" visibility="hidden"/>    <polygon class="cell-base" points="370.00,271.00 416.77,298.00 416.77,352.00 370.00,379.00 323.23,352.00 323.23,298.00"/>    <polygon id="pot-fill-3" class="pot-fill-selected" points="370.00,271.00 416.77,298.00 416.77,352.00 370.00,379.00 323.23,352.00 323.23,298.00" visibility="hidden"/>    <polygon class="cell-base" points="463.53,271.00 510.30,298.00 510.30,352.00 463.53,379.00 416.76,352.00 416.76,298.00"/>    <polygon id="pot-fill-4" class="pot-fill-selected" points="463.53,271.00 510.30,298.00 510.30,352.00 463.53,379.00 416.76,352.00 416.76,298.00" visibility="hidden"/>    <polygon class="cell-base outer" points="557.06,271.00 603.83,298.00 603.83,352.00 557.06,379.00 510.29,352.00 510.29,298.00"/>    <polygon class="cell-base outer" points="229.70,352.00 276.47,379.00 276.47,433.00 229.70,460.00 182.93,433.00 182.93,379.00"/>    <polygon class="cell-base" points="323.23,352.00 370.00,379.00 370.00,433.00 323.23,460.00 276.46,433.00 276.46,379.00"/>    <polygon id="pot-fill-5" class="pot-fill-selected" points="323.23,352.00 370.00,379.00 370.00,433.00 323.23,460.00 276.46,433.00 276.46,379.00" visibility="hidden"/>    <polygon class="cell-base" points="416.77,352.00 463.54,379.00 463.54,433.00 416.77,460.00 370.00,433.00 370.00,379.00"/>    <polygon id="pot-fill-6" class="pot-fill-selected" points="416.77,352.00 463.54,379.00 463.54,433.00 416.77,460.00 370.00,433.00 370.00,379.00" visibility="hidden"/>    <polygon class="cell-base outer" points="510.30,352.00 557.07,379.00 557.07,433.00 510.30,460.00 463.53,433.00 463.53,379.00"/>    <polygon class="cell-base outer" points="276.47,433.00 323.24,460.00 323.24,514.00 276.47,541.00 229.70,514.00 229.70,460.00"/>    <polygon class="cell-base outer" points="370.00,433.00 416.77,460.00 416.77,514.00 370.00,541.00 323.23,514.00 323.23,460.00"/>    <polygon class="cell-base outer" points="463.53,433.00 510.30,460.00 510.30,514.00 463.53,541.00 416.76,514.00 416.76,460.00"/>    <polygon class="cell-outline" points="276.47,109.00 323.24,136.00 323.24,190.00 276.47,217.00 229.70,190.00 229.70,136.00"/>    <polygon class="cell-outline" points="370.00,109.00 416.77,136.00 416.77,190.00 370.00,217.00 323.23,190.00 323.23,136.00"/>    <polygon class="cell-outline" points="463.53,109.00 510.30,136.00 510.30,190.00 463.53,217.00 416.76,190.00 416.76,136.00"/>    <polygon class="cell-outline" points="229.70,190.00 276.47,217.00 276.47,271.00 229.70,298.00 182.93,271.00 182.93,217.00"/>    <polygon id="pot-outline-0" class="cell-outline" points="323.23,190.00 370.00,217.00 370.00,271.00 323.23,298.00 276.46,271.00 276.46,217.00"/>    <polygon id="pot-outline-1" class="cell-outline" points="416.77,190.00 463.54,217.00 463.54,271.00 416.77,298.00 370.00,271.00 370.00,217.00"/>    <polygon class="cell-outline" points="510.30,190.00 557.07,217.00 557.07,271.00 510.30,298.00 463.53,271.00 463.53,217.00"/>    <polygon class="cell-outline" points="182.94,271.00 229.71,298.00 229.71,352.00 182.94,379.00 136.17,352.00 136.17,298.00"/>    <polygon id="pot-outline-2" class="cell-outline" points="276.47,271.00 323.24,298.00 323.24,352.00 276.47,379.00 229.70,352.00 229.70,298.00"/>    <polygon id="pot-outline-3" class="cell-outline" points="370.00,271.00 416.77,298.00 416.77,352.00 370.00,379.00 323.23,352.00 323.23,298.00"/>    <polygon id="pot-outline-4" class="cell-outline" points="463.53,271.00 510.30,298.00 510.30,352.00 463.53,379.00 416.76,352.00 416.76,298.00"/>    <polygon class="cell-outline" points="557.06,271.00 603.83,298.00 603.83,352.00 557.06,379.00 510.29,352.00 510.29,298.00"/>    <polygon class="cell-outline" points="229.70,352.00 276.47,379.00 276.47,433.00 229.70,460.00 182.93,433.00 182.93,379.00"/>    <polygon id="pot-outline-5" class="cell-outline" points="323.23,352.00 370.00,379.00 370.00,433.00 323.23,460.00 276.46,433.00 276.46,379.00"/>    <polygon id="pot-outline-6" class="cell-outline" points="416.77,352.00 463.54,379.00 463.54,433.00 416.77,460.00 370.00,433.00 370.00,379.00"/>    <polygon class="cell-outline" points="510.30,352.00 557.07,379.00 557.07,433.00 510.30,460.00 463.53,433.00 463.53,379.00"/>    <polygon class="cell-outline" points="276.47,433.00 323.24,460.00 323.24,514.00 276.47,541.00 229.70,514.00 229.70,460.00"/>    <polygon class="cell-outline" points="370.00,433.00 416.77,460.00 416.77,514.00 370.00,541.00 323.23,514.00 323.23,460.00"/>    <polygon class="cell-outline" points="463.53,433.00 510.30,460.00 510.30,514.00 463.53,541.00 416.76,514.00 416.76,460.00"/>    <text id="pot-num-0" class="number" x="323.23" y="244.00">6</text>    <text id="pot-num-1" class="number" x="416.77" y="244.00">9</text>    <text id="pot-num-2" class="number" x="276.47" y="325.00">7</text>    <text id="pot-num-3" class="number" x="370.00" y="325.00">10</text>    <text id="pot-num-4" class="number" x="463.53" y="325.00">7</text>    <text id="pot-num-5" class="number" x="323.23" y="406.00">9</text>    <text id="pot-num-6" class="number" x="416.77" y="406.00">6</text>    <g id="pot-hit-layer">      <g class="pot-hit" id="pot-hit-0" tabindex="0" role="button" aria-label="Potential cell 6 at q 0, r -1. Select it, then use plus or minus.">
+        <polygon points="323.23,190.00 370.00,217.00 370.00,271.00 323.23,298.00 276.46,271.00 276.46,217.00"/>
+        <polygon class="focus-ring" points="323.23,190.00 370.00,217.00 370.00,271.00 323.23,298.00 276.46,271.00 276.46,217.00"/>
+      </g>      <g class="pot-hit" id="pot-hit-1" tabindex="0" role="button" aria-label="Potential cell 9 at q 1, r -1. Select it, then use plus or minus.">
+        <polygon points="416.77,190.00 463.54,217.00 463.54,271.00 416.77,298.00 370.00,271.00 370.00,217.00"/>
+        <polygon class="focus-ring" points="416.77,190.00 463.54,217.00 463.54,271.00 416.77,298.00 370.00,271.00 370.00,217.00"/>
+      </g>      <g class="pot-hit" id="pot-hit-2" tabindex="0" role="button" aria-label="Potential cell 7 at q -1, r 0. Select it, then use plus or minus.">
+        <polygon points="276.47,271.00 323.24,298.00 323.24,352.00 276.47,379.00 229.70,352.00 229.70,298.00"/>
+        <polygon class="focus-ring" points="276.47,271.00 323.24,298.00 323.24,352.00 276.47,379.00 229.70,352.00 229.70,298.00"/>
+      </g>      <g class="pot-hit" id="pot-hit-3" tabindex="0" role="button" aria-label="Potential cell 10 at q 0, r 0. Select it, then use plus or minus.">
+        <polygon points="370.00,271.00 416.77,298.00 416.77,352.00 370.00,379.00 323.23,352.00 323.23,298.00"/>
+        <polygon class="focus-ring" points="370.00,271.00 416.77,298.00 416.77,352.00 370.00,379.00 323.23,352.00 323.23,298.00"/>
+      </g>      <g class="pot-hit" id="pot-hit-4" tabindex="0" role="button" aria-label="Potential cell 7 at q 1, r 0. Select it, then use plus or minus.">
+        <polygon points="463.53,271.00 510.30,298.00 510.30,352.00 463.53,379.00 416.76,352.00 416.76,298.00"/>
+        <polygon class="focus-ring" points="463.53,271.00 510.30,298.00 510.30,352.00 463.53,379.00 416.76,352.00 416.76,298.00"/>
+      </g>      <g class="pot-hit" id="pot-hit-5" tabindex="0" role="button" aria-label="Potential cell 9 at q -1, r 1. Select it, then use plus or minus.">
+        <polygon points="323.23,352.00 370.00,379.00 370.00,433.00 323.23,460.00 276.46,433.00 276.46,379.00"/>
+        <polygon class="focus-ring" points="323.23,352.00 370.00,379.00 370.00,433.00 323.23,460.00 276.46,433.00 276.46,379.00"/>
+      </g>      <g class="pot-hit" id="pot-hit-6" tabindex="0" role="button" aria-label="Potential cell 6 at q 0, r 1. Select it, then use plus or minus.">
+        <polygon points="416.77,352.00 463.54,379.00 463.54,433.00 416.77,460.00 370.00,433.00 370.00,379.00"/>
+        <polygon class="focus-ring" points="416.77,352.00 463.54,379.00 463.54,433.00 416.77,460.00 370.00,433.00 370.00,379.00"/>
+      </g>    </g>  </g>
+  <g id="right-panel">    <polygon class="cell-base" points="866.47,109.00 913.24,136.00 913.24,190.00 866.47,217.00 819.70,190.00 819.70,136.00"/>    <polygon class="cell-base" points="960.00,109.00 1006.77,136.00 1006.77,190.00 960.00,217.00 913.23,190.00 913.23,136.00"/>    <polygon class="cell-base" points="1053.53,109.00 1100.30,136.00 1100.30,190.00 1053.53,217.00 1006.76,190.00 1006.76,136.00"/>    <polygon class="cell-base" points="819.70,190.00 866.47,217.00 866.47,271.00 819.70,298.00 772.93,271.00 772.93,217.00"/>    <polygon class="cell-base" points="913.23,190.00 960.00,217.00 960.00,271.00 913.23,298.00 866.46,271.00 866.46,217.00"/>    <polygon class="cell-base" points="1006.77,190.00 1053.54,217.00 1053.54,271.00 1006.77,298.00 960.00,271.00 960.00,217.00"/>    <polygon class="cell-base" points="1100.30,190.00 1147.07,217.00 1147.07,271.00 1100.30,298.00 1053.53,271.00 1053.53,217.00"/>    <polygon class="cell-base" points="772.94,271.00 819.71,298.00 819.71,352.00 772.94,379.00 726.17,352.00 726.17,298.00"/>    <polygon class="cell-base" points="866.47,271.00 913.24,298.00 913.24,352.00 866.47,379.00 819.70,352.00 819.70,298.00"/>    <polygon class="cell-base" points="960.00,271.00 1006.77,298.00 1006.77,352.00 960.00,379.00 913.23,352.00 913.23,298.00"/>    <polygon class="cell-base" points="1053.53,271.00 1100.30,298.00 1100.30,352.00 1053.53,379.00 1006.76,352.00 1006.76,298.00"/>    <polygon class="cell-base" points="1147.06,271.00 1193.83,298.00 1193.83,352.00 1147.06,379.00 1100.29,352.00 1100.29,298.00"/>    <polygon class="cell-base" points="819.70,352.00 866.47,379.00 866.47,433.00 819.70,460.00 772.93,433.00 772.93,379.00"/>    <polygon class="cell-base" points="913.23,352.00 960.00,379.00 960.00,433.00 913.23,460.00 866.46,433.00 866.46,379.00"/>    <polygon class="cell-base" points="1006.77,352.00 1053.54,379.00 1053.54,433.00 1006.77,460.00 960.00,433.00 960.00,379.00"/>    <polygon class="cell-base" points="1100.30,352.00 1147.07,379.00 1147.07,433.00 1100.30,460.00 1053.53,433.00 1053.53,379.00"/>    <polygon class="cell-base" points="866.47,433.00 913.24,460.00 913.24,514.00 866.47,541.00 819.70,514.00 819.70,460.00"/>    <polygon class="cell-base" points="960.00,433.00 1006.77,460.00 1006.77,514.00 960.00,541.00 913.23,514.00 913.23,460.00"/>    <polygon class="cell-base" points="1053.53,433.00 1100.30,460.00 1100.30,514.00 1053.53,541.00 1006.76,514.00 1006.76,460.00"/>    <polygon id="big-outline-0" class="cell-outline" points="866.47,109.00 913.24,136.00 913.24,190.00 866.47,217.00 819.70,190.00 819.70,136.00"/>    <polygon id="big-outline-1" class="cell-outline" points="960.00,109.00 1006.77,136.00 1006.77,190.00 960.00,217.00 913.23,190.00 913.23,136.00"/>    <polygon id="big-outline-2" class="cell-outline" points="1053.53,109.00 1100.30,136.00 1100.30,190.00 1053.53,217.00 1006.76,190.00 1006.76,136.00"/>    <polygon id="big-outline-3" class="cell-outline" points="819.70,190.00 866.47,217.00 866.47,271.00 819.70,298.00 772.93,271.00 772.93,217.00"/>    <polygon id="big-outline-4" class="cell-outline" points="913.23,190.00 960.00,217.00 960.00,271.00 913.23,298.00 866.46,271.00 866.46,217.00"/>    <polygon id="big-outline-5" class="cell-outline" points="1006.77,190.00 1053.54,217.00 1053.54,271.00 1006.77,298.00 960.00,271.00 960.00,217.00"/>    <polygon id="big-outline-6" class="cell-outline" points="1100.30,190.00 1147.07,217.00 1147.07,271.00 1100.30,298.00 1053.53,271.00 1053.53,217.00"/>    <polygon id="big-outline-7" class="cell-outline" points="772.94,271.00 819.71,298.00 819.71,352.00 772.94,379.00 726.17,352.00 726.17,298.00"/>    <polygon id="big-outline-8" class="cell-outline" points="866.47,271.00 913.24,298.00 913.24,352.00 866.47,379.00 819.70,352.00 819.70,298.00"/>    <polygon id="big-outline-9" class="cell-outline" points="960.00,271.00 1006.77,298.00 1006.77,352.00 960.00,379.00 913.23,352.00 913.23,298.00"/>    <polygon id="big-outline-10" class="cell-outline" points="1053.53,271.00 1100.30,298.00 1100.30,352.00 1053.53,379.00 1006.76,352.00 1006.76,298.00"/>    <polygon id="big-outline-11" class="cell-outline" points="1147.06,271.00 1193.83,298.00 1193.83,352.00 1147.06,379.00 1100.29,352.00 1100.29,298.00"/>    <polygon id="big-outline-12" class="cell-outline" points="819.70,352.00 866.47,379.00 866.47,433.00 819.70,460.00 772.93,433.00 772.93,379.00"/>    <polygon id="big-outline-13" class="cell-outline" points="913.23,352.00 960.00,379.00 960.00,433.00 913.23,460.00 866.46,433.00 866.46,379.00"/>    <polygon id="big-outline-14" class="cell-outline" points="1006.77,352.00 1053.54,379.00 1053.54,433.00 1006.77,460.00 960.00,433.00 960.00,379.00"/>    <polygon id="big-outline-15" class="cell-outline" points="1100.30,352.00 1147.07,379.00 1147.07,433.00 1100.30,460.00 1053.53,433.00 1053.53,379.00"/>    <polygon id="big-outline-16" class="cell-outline" points="866.47,433.00 913.24,460.00 913.24,514.00 866.47,541.00 819.70,514.00 819.70,460.00"/>    <polygon id="big-outline-17" class="cell-outline" points="960.00,433.00 1006.77,460.00 1006.77,514.00 960.00,541.00 913.23,514.00 913.23,460.00"/>    <polygon id="big-outline-18" class="cell-outline" points="1053.53,433.00 1100.30,460.00 1100.30,514.00 1053.53,541.00 1006.76,514.00 1006.76,460.00"/>    <text id="big-num-0" class="number" x="866.47" y="163.00">-6</text>    <text id="pm-0" class="pm-marker" x="891.47" y="141.00">+</text>    <text id="big-num-1" class="number" x="960.00" y="163.00">-3</text>    <text id="pm-1" class="pm-marker" x="985.00" y="141.00">+</text>    <text id="big-num-2" class="number" x="1053.53" y="163.00">9</text>    <text id="pm-2" class="pm-marker" x="1078.53" y="141.00">+</text>    <text id="big-num-3" class="number" x="819.70" y="244.00">-2</text>    <text id="pm-3" class="pm-marker" x="844.70" y="222.00">+</text>    <text id="big-num-4" class="number" x="913.23" y="244.00">7</text>    <text id="pm-4" class="pm-marker" x="938.23" y="222.00">+</text>    <text id="big-num-5" class="number" x="1006.77" y="244.00">-4</text>    <text id="pm-5" class="pm-marker" x="1031.77" y="222.00">+</text>    <text id="big-num-6" class="number" x="1100.30" y="244.00">-1</text>    <text id="pm-6" class="pm-marker" x="1125.30" y="222.00">+</text>    <text id="big-num-7" class="number" x="772.94" y="325.00">8</text>    <text id="pm-7" class="pm-marker" x="797.94" y="303.00">+</text>    <text id="big-num-8" class="number" x="866.47" y="325.00">-5</text>    <text id="pm-8" class="pm-marker" x="891.47" y="303.00">+</text>    <text id="big-num-9" class="number" x="960.00" y="325.00">0</text>    <text id="pm-9" class="pm-marker" x="985.00" y="303.00">+</text>    <text id="big-num-10" class="number" x="1053.53" y="325.00">5</text>    <text id="pm-10" class="pm-marker" x="1078.53" y="303.00">+</text>    <text id="big-num-11" class="number" x="1147.06" y="325.00">-8</text>    <text id="pm-11" class="pm-marker" x="1172.06" y="303.00">+</text>    <text id="big-num-12" class="number" x="819.70" y="406.00">1</text>    <text id="pm-12" class="pm-marker" x="844.70" y="384.00">+</text>    <text id="big-num-13" class="number" x="913.23" y="406.00">4</text>    <text id="pm-13" class="pm-marker" x="938.23" y="384.00">+</text>    <text id="big-num-14" class="number" x="1006.77" y="406.00">-7</text>    <text id="pm-14" class="pm-marker" x="1031.77" y="384.00">+</text>    <text id="big-num-15" class="number" x="1100.30" y="406.00">2</text>    <text id="pm-15" class="pm-marker" x="1125.30" y="384.00">+</text>    <text id="big-num-16" class="number" x="866.47" y="487.00">-9</text>    <text id="pm-16" class="pm-marker" x="891.47" y="465.00">+</text>    <text id="big-num-17" class="number" x="960.00" y="487.00">3</text>    <text id="pm-17" class="pm-marker" x="985.00" y="465.00">+</text>    <text id="big-num-18" class="number" x="1053.53" y="487.00">6</text>    <text id="pm-18" class="pm-marker" x="1078.53" y="465.00">+</text>  </g>
+  <g id="controls">
+    <text class="instruction" x="310" y="560"></text>
+    <text class="instruction" x="310" y="582"></text>
+
+    <g id="btn-plus" class="button-hit" tabindex="0" role="button" aria-label="Increase the selected potential cell by one">
+      <rect x="207.0" y="563.0" width="86" height="54" rx="12" ry="12" class="button-face"/>
+      <text class="button-label" x="250" y="591">+</text>
+      <rect x="203.0" y="559.0" width="94" height="62" rx="14" ry="14" class="focus-ring"/>
+    </g>
+
+    <g id="btn-minus" class="button-hit" tabindex="0" role="button" aria-label="Decrease the selected potential cell by one">
+      <rect x="327.0" y="563.0" width="86" height="54" rx="12" ry="12" class="button-face"/>
+      <text class="button-label" x="370" y="591">−</text>
+      <rect x="323.0" y="559.0" width="94" height="62" rx="14" ry="14" class="focus-ring"/>
+    </g>
+
+    <g id="btn-reset" class="button-hit" tabindex="0" role="button" aria-label="Reset the potential field to its default values">
+      <rect x="447.0" y="563.0" width="118" height="54" rx="12" ry="12" class="button-face"/>
+      <text class="button-label" x="506" y="591" style="font-size:22px;">Reset</text>
+      <rect x="443.0" y="559.0" width="126" height="62" rx="14" ry="14" class="focus-ring"/>
+    </g>
+
+    <text id="selection-label" class="hint-line" x="310" y="660"></text>
+    <text id="preview-label" class="hint-line" x="310" y="684"></text>
+  </g>
+  <g id="status">
+    <rect class="status-box" x="120" y="638" width="1070" height="108"/>
+    <text class="status-title" x="145" y="674">Current validation</text>
+    <text id="dup-line" class="status-line" x="145" y="706">Duplicates: none</text>
+    <text id="range-line" class="status-line" x="145" y="734">Out of range: none</text>
+  </g>
+  <script><![CDATA[
+    (function () {
+      const baseBig = [-6, -3, 9, -2, 7, -4, -1, 8, -5, 0, 5, -8, 1, 4, -7, 2, -9, 3, 6];
+      const defaultPot = [6, 9, 7, 10, 7, 9, 6];
+      const cycles = [[{"big_index": 5, "sign": 1}, {"big_index": 1, "sign": -1}, {"big_index": 0, "sign": 1}, {"big_index": 3, "sign": -1}, {"big_index": 8, "sign": 1}, {"big_index": 9, "sign": -1}], [{"big_index": 6, "sign": 1}, {"big_index": 2, "sign": -1}, {"big_index": 1, "sign": 1}, {"big_index": 4, "sign": -1}, {"big_index": 9, "sign": 1}, {"big_index": 10, "sign": -1}], [{"big_index": 9, "sign": 1}, {"big_index": 4, "sign": -1}, {"big_index": 3, "sign": 1}, {"big_index": 7, "sign": -1}, {"big_index": 12, "sign": 1}, {"big_index": 13, "sign": -1}], [{"big_index": 10, "sign": 1}, {"big_index": 5, "sign": -1}, {"big_index": 4, "sign": 1}, {"big_index": 8, "sign": -1}, {"big_index": 13, "sign": 1}, {"big_index": 14, "sign": -1}], [{"big_index": 11, "sign": 1}, {"big_index": 6, "sign": -1}, {"big_index": 5, "sign": 1}, {"big_index": 9, "sign": -1}, {"big_index": 14, "sign": 1}, {"big_index": 15, "sign": -1}], [{"big_index": 14, "sign": 1}, {"big_index": 9, "sign": -1}, {"big_index": 8, "sign": 1}, {"big_index": 12, "sign": -1}, {"big_index": 16, "sign": 1}, {"big_index": 17, "sign": -1}], [{"big_index": 15, "sign": 1}, {"big_index": 10, "sign": -1}, {"big_index": 9, "sign": 1}, {"big_index": 13, "sign": -1}, {"big_index": 17, "sign": 1}, {"big_index": 18, "sign": -1}]];
+      const potValues = defaultPot.slice();
+      let selectedPot = null;
+      let previewMode = 'plus'; // 'plus' or 'minus'
+
+      const potFillEls = potValues.map((_, i) => document.getElementById('pot-fill-' + i));
+      const potOutlineEls = potValues.map((_, i) => document.getElementById('pot-outline-' + i));
+      const potNumEls = potValues.map((_, i) => document.getElementById('pot-num-' + i));
+      const potHitEls = potValues.map((_, i) => document.getElementById('pot-hit-' + i));
+      const bigNumEls = baseBig.map((_, i) => document.getElementById('big-num-' + i));
+      const bigOutlineEls = baseBig.map((_, i) => document.getElementById('big-outline-' + i));
+      const pmEls = baseBig.map((_, i) => document.getElementById('pm-' + i));
+      const plusBtn = document.getElementById('btn-plus');
+      const minusBtn = document.getElementById('btn-minus');
+      const resetBtn = document.getElementById('btn-reset');
+      const plusFace = plusBtn.querySelector('.button-face');
+      const minusFace = minusBtn.querySelector('.button-face');
+      const selectionLabel = document.getElementById('selection-label');
+      const previewLabel = document.getElementById('preview-label');
+      const dupLine = document.getElementById('dup-line');
+      const rangeLine = document.getElementById('range-line');
+
+      function computeBigValues() {
+        const values = baseBig.slice();
+        for (let p = 0; p < potValues.length; p++) {
+          const delta = potValues[p] - defaultPot[p];
+          if (delta === 0) continue;
+          for (const item of cycles[p]) {
+            values[item.big_index] += delta * (-item.sign);
+          }
+        }
+        return values;
+      }
+
+      function sortedUnique(arr) {
+        return Array.from(new Set(arr)).sort((a, b) => a - b);
+      }
+
+      function updateValidation(values) {
+        const counts = new Map();
+        for (const v of values) counts.set(v, (counts.get(v) || 0) + 1);
+        const duplicates = sortedUnique(values.filter(v => (counts.get(v) || 0) > 1));
+        const outOfRange = values.filter(v => v < -9 || v > 9);
+        const outUnique = sortedUnique(outOfRange);
+
+        for (let i = 0; i < values.length; i++) {
+          const v = values[i];
+          bigNumEls[i].textContent = String(v);
+          const bad = (counts.get(v) || 0) > 1 || v < -9 || v > 9;
+          bigNumEls[i].classList.toggle('bad', bad);
+        }
+
+        if (duplicates.length === 0) {
+          dupLine.textContent = 'Duplicates: none';
+          dupLine.setAttribute('class', 'status-line good');
+        } else {
+          dupLine.textContent = 'Duplicates: ' + duplicates.join(', ');
+          dupLine.setAttribute('class', 'status-line bad');
+        }
+
+        if (outUnique.length === 0) {
+          rangeLine.textContent = 'Out of range: none';
+          rangeLine.setAttribute('class', 'status-line good');
+        } else {
+          rangeLine.textContent = 'Out of range: ' + outUnique.join(', ');
+          rangeLine.setAttribute('class', 'status-line bad');
+        }
+      }
+
+      function clearBigPreview() {
+        for (let i = 0; i < bigOutlineEls.length; i++) {
+          bigOutlineEls[i].classList.remove('big-outline-affected-plus', 'big-outline-affected-minus', 'big-outline-gentle');
+          pmEls[i].classList.remove('pm-visible', 'pm-plus', 'pm-minus');
+          pmEls[i].textContent = '';
+        }
+      }
+
+      function updateSelectionStyles() {
+        for (let i = 0; i < potValues.length; i++) {
+          const selected = i === selectedPot;
+          potFillEls[i].setAttribute('visibility', selected ? 'visible' : 'hidden');
+          potOutlineEls[i].classList.toggle('pot-outline-selected', selected);
+        }
+      }
+
+      function updatePreview() {
+        clearBigPreview();
+        plusFace.classList.remove('active-plus');
+        minusFace.classList.remove('active-minus');
+        if (previewMode === 'plus') plusFace.classList.add('active-plus');
+        else minusFace.classList.add('active-minus');
+
+        if (selectedPot === null) {
+          selectionLabel.textContent = '';
+          previewLabel.textContent = '';
+          return;
+        }
+
+        selectionLabel.textContent = '';
+        previewLabel.textContent = '';
+
+        for (const item of cycles[selectedPot]) {
+          const idx = item.big_index;
+          const eff = previewMode === 'plus' ? -item.sign : item.sign;
+          const plus = eff > 0;
+          bigOutlineEls[idx].classList.add('big-outline-gentle');
+          bigOutlineEls[idx].classList.add(plus ? 'big-outline-affected-plus' : 'big-outline-affected-minus');
+          pmEls[idx].classList.add('pm-visible', plus ? 'pm-plus' : 'pm-minus');
+          pmEls[idx].textContent = plus ? '+1' : '−1';
+        }
+      }
+
+      function render() {
+        for (let i = 0; i < potValues.length; i++) {
+          potNumEls[i].textContent = String(potValues[i]);
+        }
+        updateSelectionStyles();
+        updatePreview();
+        updateValidation(computeBigValues());
+      }
+
+      function applyDelta(delta) {
+        if (selectedPot === null) return;
+        potValues[selectedPot] += delta;
+        render();
+      }
+
+      function resetAll() {
+        for (let i = 0; i < potValues.length; i++) {
+          potValues[i] = defaultPot[i];
+        }
+        selectedPot = null;
+        previewMode = 'plus';
+        render();
+      }
+
+      function selectPot(i) {
+        selectedPot = i;
+        render();
+      }
+
+      function setPreview(mode) {
+        previewMode = mode;
+        updatePreview();
+      }
+
+      // Potential cell interactions
+      potHitEls.forEach((el, i) => {
+        el.addEventListener('click', (ev) => {
+          ev.preventDefault();
+          selectPot(i);
+        });
+        el.addEventListener('keydown', (ev) => {
+          if (ev.key === 'Enter' || ev.key === ' ') {
+            ev.preventDefault();
+            selectPot(i);
+          } else if (ev.key === '+' || ev.key === '=') {
+            ev.preventDefault();
+            selectPot(i);
+            applyDelta(1);
+          } else if (ev.key === '-' || ev.key === '_') {
+            ev.preventDefault();
+            selectPot(i);
+            applyDelta(-1);
+          }
+        });
+      });
+
+      // Button interactions
+      plusBtn.addEventListener('mouseenter', () => setPreview('plus'));
+      plusBtn.addEventListener('focus', () => setPreview('plus'));
+      plusBtn.addEventListener('click', (ev) => { ev.preventDefault(); setPreview('plus'); applyDelta(1); });
+      plusBtn.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); setPreview('plus'); applyDelta(1); }
+      });
+
+      minusBtn.addEventListener('mouseenter', () => setPreview('minus'));
+      minusBtn.addEventListener('focus', () => setPreview('minus'));
+      minusBtn.addEventListener('click', (ev) => { ev.preventDefault(); setPreview('minus'); applyDelta(-1); });
+      minusBtn.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); setPreview('minus'); applyDelta(-1); }
+      });
+
+      resetBtn.addEventListener('click', (ev) => { ev.preventDefault(); resetAll(); });
+      resetBtn.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); resetAll(); }
+      });
+
+      // Global keyboard shortcuts when something inside the SVG is focused
+      document.addEventListener('keydown', (ev) => {
+        const active = document.activeElement;
+        const inside = active && active.ownerSVGElement && active.ownerSVGElement.id === 'potential-field-demo';
+        if (!inside) return;
+        if (ev.key === '+' || ev.key === '=') {
+          ev.preventDefault();
+          setPreview('plus');
+          applyDelta(1);
+        } else if (ev.key === '-' || ev.key === '_') {
+          ev.preventDefault();
+          setPreview('minus');
+          applyDelta(-1);
+        } else if (ev.key === 'r' || ev.key === 'R') {
+          ev.preventDefault();
+          resetAll();
+        }
+      });
+
+      render();
+    })();
+  ]]></script>
+</svg>
