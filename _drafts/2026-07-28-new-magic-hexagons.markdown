@@ -16,7 +16,8 @@ Someone pointed out that 19 is a twin prime. Someone else replied that 19 is the
 Wait, what is a "magic hexagon"? Let's find out, shall we?
 
 > Recently, we hear a lot about AI miraculously proving and disproving long-standing conjectures, without much explanation of how it was done.
-> This story gives insight into the process of making a mathematical discovery first without, then with the AI.
+>
+> This story gives insight into the process of making such a mathematical discovery.
 
 ## Magic Squares and Magic Hexagons
 
@@ -88,7 +89,7 @@ Consider any hexagon, zero-sum or not. Take the six cells surrounding any interi
 
 Notice that every straight line that intersects this ring pattern receives either no contribution or two opposite contributions: 1 and -1. Its total therefore remains unchanged. Thus you can add any multiple of this pattern without affecting any line sum.
 
-These local alternating rings form a basis - you can build any zero-sum hexagon as a linear combination of these rings. I will omit the proof fr brevity, but it is fairly straightforward - go by induction and "peel" these rings from the hexagon, starting from outer layer.
+These local alternating rings form a basis - you can build any zero-sum hexagon as a linear combination of these rings. I will omit the proof for brevity, but it is fairly straightforward - go by induction and "peel" these rings from the hexagon, starting from outer layer.
 
 [**Visualization 3 — The alternating-ring move**
 
@@ -113,7 +114,7 @@ I've done some due diligence with several optimization rounds: asked to use numb
 
 Then I left it run on my home server for a few days across ~24 CPU cores.
 
-As I hoped, this combination of the optimized search algorithm and the reduced search space worked very well, and soon I discovered the magic hexagons of orders up to n=21.
+As I hoped, this combination of the optimized search algorithm and the reduced search space worked very well, and soon I discovered the magic hexagons of orders up to n=21. Here they are:
 
 <section class="hexagon-viewer" data-hexagon-viewer>
   <div class="hexagon-viewer__stage">
@@ -247,6 +248,55 @@ As I hoped, this combination of the optimized search algorithm and the reduced s
     </div>
   </noscript>
 </section>
+
+I found it very intriguing how the solution fields look chaotic and noisy, while. The potentials resemble terrain maps with broad slopes, ridges, and smooth transitions.
+
+## Chapter 3: Expanding to all orders, with AI
+
+Repeatedly finding solutions for larger and larger orders naturally raised a conjecture that:
+
+> Abnormal asymmetric consecutive magic hexagons exist for all orders n>3
+
+This is a very strong conjecture, given that ony a handful of abnormal hexagons were known before this project, and the additional antisymmetry restriction I imposed.
+
+But inspired by the recent success of AI in mathematics, I was very curious to see how it would approach the problem. Could AI prove if from the get go?
+
+I decided to try two AI solutions:
+
+- GPT-5.6 Sol, which is the strongest model I have available through the personal subscription;
+- Aristotle, a Lean-oriented theorem-proving agent.
+
+First, I fed GPT-5.6 Sol (high) the problem statement, the known solutions, and some additional intuitions I had. GPT-5.6 Sol proposed more hypotheses and potential constructions, and started chopping away, reducing the problem.
+The work took traction, and I felt very much in the driver seat, learning new mathematical constructs and guiding the process I could understand.
+
+Then a few days passed on iterations. The problem was reduced to a few key lemmas, and at this point I also involved Aristotle to pick up the proof and try to advance it in parallel. And after a while, the process stalled. Both agents were optimistic, but clearly stuck, rehashing the same ideas and making no meaningful progress.
+
+I tried weakening the conjecture to a more modest claim that "there are infinitely many abnormal magic hexagons", pursuing new hypotheses and non-constructive proofs. But to no avail, we hit the wall.
+
+I employed GPT-5.6 Sol (max), which after many hours of reasoning... also couldn't find a proof. But it did produce new ideas before running out of credits. Fortunately, these ideas became part of project's "memory", available in all other conversations.
+
+In a different conversation, I was pushing GPT-5.6 Sol (high) for the proof. At some point it picked up the ideas from GPT-5.6 Sol (max), and declared a breakthrough - there was a **constructive proof** of the conjecture, allowing to build magic hexagons of orders n > 800, where 16 | n.
+
+Once this result was established, the process REALLY took traction. Iteratively, I pushed GPT-5.6 Sol (high) to generalize the construction for the values of n divisible by 8, 4, 2, and eventually get rid of the divisibility constraint. The theoretical lower bound was also reduced from 800 to 114, but practically this method produced solutions for all orders n > 3.
+
+Then I pushed more - now for simplicity and determinism of the algorithm. Sure enough, GPT-5.6 Sol (high) did find redundancies in the construction, and produced a simpler deterministic algorithm.
+
+After days of reasoning, the conjecture was solved, and the constructive proof was found. The proof is not formalized in Lean at the time of writing, but it is a constructive proof that allows to build abnormal magic hexagons of all orders n > 3, and you can generate hexagons of any desirable order yourself. 
+
+## Chapter 4: Reflections
+
+I started working with AI as a co-pilot, and I was very much in the driver seat.
+At the end of the process, I was just a passenger, letting the AI do the creative work, and nudging it in the direction that felt right.
+Now I'm glad that some of the ideas born in my human brain were instrumental, and antisymmetry did play a major role in the discovered construction.
+
+The specific model I worked with, GPT-5.6 Sol, is a very capable mathematical reasoner. I found it has a double-edged quality of tunnel visioning on the approach it is considering and can go very deep in any given direction. If the direction is right, it is incredibly powerful. Otherwise, you better have an arbiter in the loop - another model, or, in my case, a human - to remind it of the bigger picture and detect when it's getting stuck.
+
+In software engineering, code review became a bottleneck once code generation became cheap with LLMs.
+Suddenly, static analysis and testing became more important than ever, taking part of the increased burden of correctness verification from humans.
+Mathematicians face the same problem now - anyone can produce new mathematical theory with AI, faster than humans can verify it.
+Lean, enabling machine-verifiable proofs, must be an enormous boon to the community.
+
+
 
 <style>
   .hexagon-viewer {
@@ -1762,41 +1812,3 @@ As I hoped, this combination of the optimized search algorithm and the reduced s
     initialize();
   })();
 </script>
-
-I found it very intriguing how the solution fields look chaotic and noisy, while. The potentials resemble terrain maps with broad slopes, ridges, and smooth transitions.
-
-## Chapter 2: Expanding to all orders, or AI to the rescue
-
-Repeatedly finding solutions for larger and larger orders naturally raises a conjecture that:
-
-> Abnormal consecutive magic hexagons exist for all orders n>3
-
-The computations do not answer it. Twenty consecutive successes are evidence that the phenomenon is not isolated, but they are not a proof.
-
-I am now pursuing the theoretical problem with GPT-5.6 Sol and the Lean-oriented theorem-proving agent Aristotle.
-
-This has already led into substantially deeper mathematics than I expected from a recreational puzzle: modular lifting, finite-field Fourier analysis, character sums, sparse correction systems, and arithmetic in the Eisenstein integers.
-
-The proof is not finished. Some promising constructions can generate highly structured zero-sum hexagons, but making their entries exactly consecutive remains the hard part.
-
-That distinction is important. A computer-discovered object is a result. An apparent pattern across many objects is a conjecture. An infinite construction needs a proof that survives every order in the claimed family.
-
-Whether that proof will close remains to be seen. The computational results stand independently, but the potential fields now offer an additional source of clues about what a general construction might look like.
-
-## What this project taught me
-
-I began with a piece of trivia about the number 19.
-
-The project that followed reinforced three lessons.
-
-The first is that **representation often matters more than raw search power**. Moving from cell values to potential coefficients eliminated the line constraints rather than merely solving them faster.
-
-The second is that **domain-specific optimization can outperform general tools by a wide margin**. CP-SAT was useful for expressing the problem, but the successful solver depended on understanding which moves, invariants, and incremental updates were special to this geometry.
-
-The third is that **LLMs are especially useful in the space between a problem statement and a mature algorithm**. They can traverse mathematical terminology, algorithm design, implementation, and profiling suggestions quickly. Their ideas still need testing, and their claims still need verification, but they can greatly accelerate the exploration.
-
-Most importantly, the project produced something I did not expect to see.
-
-The magic hexagons themselves look like noise. Their hidden coordinates look like landscapes.
-
-Sometimes the right representation does more than make a problem easier to solve. It reveals that the object you were studying has been beautiful all along.
