@@ -35,7 +35,7 @@ You probably know about magic squares. A magic square is a square grid of number
 <object
   type="image/svg+xml"
   data="/assets/svg/magic-hexagons/magic-square-order5-interactive.svg"
-  style="display:block; width:50%; max-width:620px; height:auto; margin:auto;"
+  style="display:block; width:100%; max-width:450px; height:auto; margin:auto;"
   aria-label="Interactive order-5 magic square">
 </object>
 
@@ -46,7 +46,7 @@ A magic hexagon applies the same idea to a hexagonal grid. Its cells form straig
 <object
   type="image/svg+xml"
   data="/assets/svg/magic-hexagons/Order3-interactive.svg"
-  style="display:block; width:50%; height:auto; margin:auto;"
+  style="display:block; width:100%; max-width:450px; height:auto; margin:auto;"
   aria-label="Interactive order-3 magic hexagon">
 </object>
 
@@ -79,7 +79,7 @@ Second, put $0$ in the center and require that cells opposite each other under a
 <object
   type="image/svg+xml"
   data="/assets/svg/magic-hexagons/antisymmetry-hexagon-interactive.svg"
-  style="display:block; width:50%; height:auto; margin:auto;"
+  style="display:block; width:100%; max-width:450px; height:auto; margin:auto;"
   aria-label="Interactive antisymmetric order-3 magic hexagon">
 </object>
 
