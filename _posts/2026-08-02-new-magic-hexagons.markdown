@@ -91,6 +91,14 @@ But once I started thinking about zero-sum hexagons, another structure appeared.
 
 ### Observation: Every zero-sum hexagon is build from the same 6-point ring
 
+<aside class="article-disclaimer" aria-labelledby="article-disclaimer-title">
+  <h2 id="article-disclaimer-title">Quick note</h2>
+
+  <p>
+    This observation is interesting but not essential for what comes next. I you find it hard to follow, feel free to skip this part.
+  </p>
+</aside>
+
 Consider any hexagonal grid, zero-sum or not. Take the six cells surrounding any interior point and add the alternating pattern $$[-1,+1,-1,+1,-1,+1].$$ Leave the central cell unchanged.
 
 Every straight line that intersects this ring receives either no contribution or two opposite contributions, $+1$ and $-1$. Its sum therefore remains unchanged. We can add any multiple of this pattern without changing a single line sum.
@@ -104,7 +112,9 @@ An order-$n$ zero-sum hexagon therefore has two equivalent representations:
 
 The potential field representation also satisfies every line-sum constraint by construction. It does not, however, guarantee that the visible values are distinct and consecutive. Those remain difficult global constraints.
 
-Below you can play with the potential field of the order-3 antisymmetric hexagon. Notice that however you change the potential field, the line sums in te hexagon remain zero. However, making the hexagon magic is a very hard challenge.
+Below you can play with the potential field of the order-3 antisymmetric hexagon. Notice that however you change the potential field, the line sums in te hexagon remain zero. However, making the hexagon "magic" is still a very hard challenge.
+
+(Unfortunately, this playground looks tiny for mobile readers)
 
 <div class="wide-interactive-svg">
   <object
