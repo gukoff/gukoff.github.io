@@ -52,7 +52,7 @@ But finding these solutions is not an easy feat. Unlike with magic squares, ther
 
 So... What makes these solutions truly so hard to find? How about we try?
 
-## Chapter 1: Making Observations, First Without AI
+## Chapter 1: Making Observations (So Far, Without AI)
 
 There is a clear tension between the two independent constraints:
 
@@ -103,7 +103,7 @@ But it does not guarantee that the visible values will be distinct or consecutiv
 
 Instead of searching among arbitrary arrangements and repeatedly repairing broken lines, we can search entirely inside the space where every line already sums to zero.
 
-## Chapter 2: Finding New Hexagons, With Some AI
+## Chapter 2: Finding New Hexagons (With AI For Coding)
 
 Around the same time, I had been helping to presolve problems for the [Midnight Code Cup 2026](https://midnightcodecup.org/), a programming competition in which using LLMs is explicitly encouraged. Many of the tasks in this competition are optimization problems. My main takeaway from that LLMs can be unusually effective at helping develop **domain-specific** solvers, blowing the general-purpose solvers (z3, OR-Tools) out of the water.
 
@@ -251,7 +251,7 @@ As I hoped, this combination of the optimized search algorithm and the reduced s
 
 I found it very intriguing how the solution fields look chaotic and noisy, while. The potentials resemble terrain maps with broad slopes, ridges, and smooth transitions.
 
-## Chapter 3: Expanding to all orders, with AI
+## Chapter 3: Expanding To All Orders (With AI As Mathematician)
 
 Repeatedly finding solutions for larger and larger orders naturally raised a conjecture that:
 
@@ -286,17 +286,16 @@ After days of reasoning, the conjecture was solved, and the constructive proof w
 ## Chapter 4: Reflections
 
 I started working with AI as a co-pilot, and I was very much in the driver seat.
-At the end of the process, I was just a passenger, letting the AI do the creative work, and nudging it in the direction that felt right.
+At the end of the process, I was a passenger, letting the AI do the creative work, and nudging it in the direction that felt right.
 Now I'm glad that some of the ideas born in my human brain were instrumental, and antisymmetry did play a major role in the discovered construction.
+The potential fields - not as much, yet they are still interestingly smooth for all of the solutions I found.
 
-The specific model I worked with, GPT-5.6 Sol, is a very capable mathematical reasoner. I found it has a double-edged quality of tunnel visioning on the approach it is considering and can go very deep in any given direction. If the direction is right, it is incredibly powerful. Otherwise, you better have an arbiter in the loop - another model, or, in my case, a human - to remind it of the bigger picture and detect when it's getting stuck.
+The specific model I worked with, GPT-5.6 Sol, is a very capable mathematical reasoner. I found it has a double-edged quality of tunnel visioning on the approach it is considering. It can go very deep in any given direction. If the direction is right, it is incredibly powerful. Otherwise, you better have an arbiter in the loop - another model, or, in my case, a human - to remind it of the bigger picture and detect when it's getting stuck.
 
 In software engineering, code review became a bottleneck once code generation became cheap with LLMs.
 Suddenly, static analysis and testing became more important than ever, taking part of the increased burden of correctness verification from humans.
 Mathematicians face the same problem now - anyone can produce new mathematical theory with AI, faster than humans can verify it.
 Lean, enabling machine-verifiable proofs, must be an enormous boon to the community.
-
-
 
 <style>
   .hexagon-viewer {
