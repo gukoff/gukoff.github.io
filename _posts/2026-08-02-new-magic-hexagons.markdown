@@ -52,7 +52,7 @@ A magic hexagon applies the same idea to a hexagonal grid. Its cells form straig
 
 Above you can see the only non-trivial normal magic hexagon in existence - apart from its own rotations and reflections. The proof is straightforward. In each of the three directions, the cells are partitioned into $2n-1$ lines. Therefore, the sum of all the numbers must be divisible by $2n-1$. For every order $n>3$, the sum of the numbers from $1$ to $3n^2-3n+1$ fails this divisibility test.
 
-Well, ending the story here would be no fun. To make things more interesting, let's look at the so-called abnormal magic hexagons. Here we relax one constraint: the numbers on the grid must still be consecutive, but they no longer have to start at $1$.
+Well, ending the story here would be no fun. To make things more interesting, let's look at the so-called _abnormal_ magic hexagons. Here we relax one constraint: the numbers on the grid must still be consecutive, but they no longer have to start at $1$.
 
 This small relaxation suddenly allows new solutions to appear.
 
