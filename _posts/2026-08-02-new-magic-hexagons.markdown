@@ -32,6 +32,12 @@ Wait, what is a "magic hexagon"? Let us start there.
 
 You probably know about magic squares. A magic square is a square grid of numbers in which every row, every column, and both main diagonals add up to the same total, known as the magic constant. We also usually require the numbers to be consecutive - typically from $1$ to $n^2$ - and call it a _normal_ magic square. Otherwise, we could simply put the same number into every cell, which would be a very boring way to fill a square.
 
+<aside class="article-disclaimer" aria-labelledby="article-disclaimer-title">
+  <p>
+    <strong>All illustrations on this page are interactive. Click on them!</strong>
+  </p>
+</aside>
+
 <object
   type="image/svg+xml"
   data="/assets/svg/magic-hexagons/magic-square-order5-interactive.svg"
