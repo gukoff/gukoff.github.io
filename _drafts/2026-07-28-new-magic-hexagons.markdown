@@ -262,7 +262,14 @@ I did not yet know whether this smoothness was a clue or merely an artifact of t
 
 Repeatedly finding larger solutions naturally suggested a conjecture:
 
-> Abnormal antisymmetric consecutive magic hexagons exist for every order $n>3$.
+<aside class="article-disclaimer" aria-labelledby="article-disclaimer-title">
+  <h2 id="article-disclaimer-title">Conjecture</h2>
+
+  <p>
+    Abnormal antisymmetric consecutive magic hexagons exist for every order $n>3$
+  </p>
+
+</aside>
 
 This was a strong claim. Before this project, only a handful of abnormal magic hexagons were known. And don't forget I had imposed the additional restriction of antisymmetry.
 
