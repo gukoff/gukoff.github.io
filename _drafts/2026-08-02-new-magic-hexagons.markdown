@@ -126,7 +126,7 @@ Around the same time, I had been helping to pre-solve problems for the [Midnight
 
 So instead of reaching for another generic constraint solver, I went to GPT-5.6 Sol and gave it more freedom with the problem. I pointed out the antisymmetry restriction and the potential-field representation. The model searched for related concepts and connected the problem to Heffter arrays: combinatorial arrangements of signed integers with prescribed zero-sum conditions. The problems are not identical, but the connection suggested better ways to organize values and exchange them while controlling the affected sums.
 
-The resulting program abandoned the generic constraint-solver approach in favor of custom simulated annealing. I then did some due diligence through several rounds of optimization: asked the model to use Numba for the hot loops, identified memory-allocation and random-number-generation bottlenecks with `perf`, and eventually squeezed another 50% of performance out of the program.
+The resulting program abandoned the generic constraint-solver approach in favor of custom simulated annealing. I then did some due diligence through several rounds of optimization: asked the model to use Numba for the hot loops, identified memory-allocation and random-number-generation bottlenecks with `perf`, and eventually squeezed another 50% of performance out of the program. Here is the [end result](https://gist.github.com/gukoff/e62a157d51c86f7f2dab4dfa04aa0f9e).
 
 Then I left it running on my home server for a few days across roughly 24 CPU cores.
 
@@ -307,10 +307,6 @@ At this point it is important to separate the theoretical proof from practical r
 
 Then I pushed again, this time for simplicity and determinism. Sure enough, GPT-5.6 Sol (high) repeatedly found redundancies in the construction and replaced them with a cleaner deterministic algorithm.
 
-It took dozens of long conversations and days of reasoning, but the conjecture was solved. The result is constructive: it does not merely assert that these hexagons exist, but gives an algorithm for building them. Combined with the finite witnesses, it covers every order $n>3$.
-
-Please note that the proof was not formalized in Lean at the time of writing this post and thus was not independently verified, which will be the natural next step.
-
 <aside class="article-disclaimer" aria-labelledby="article-disclaimer-title">
   <h2 id="article-disclaimer-title">The final conversation</h2>
 
@@ -321,6 +317,19 @@ Please note that the proof was not formalized in Lean at the time of writing thi
 
   <p>
     <a href="https://chatgpt.com/share/6a6f77e9-3348-83eb-9304-31f87b24de88" target="_blank" rel="noopener">View the conversation in a new tab</a>
+  </p>
+
+</aside>
+
+It took dozens of long conversations and days of reasoning, but the conjecture was solved. The result is constructive: it does not merely assert that these hexagons exist, but gives an algorithm for building them. Combined with the finite witnesses, it covers every order $n>3$.
+
+Please note that the proof was not formalized in Lean at the time of writing this post and thus was not independently verified, which will be the natural next step.
+
+<aside class="article-disclaimer" aria-labelledby="article-disclaimer-title">
+  <h2 id="article-disclaimer-title">Python implementation</h2>
+
+  <p>
+    Here you can find the tooling and try it yourself: <a href="https://github.com/gukoff/magic-hexagons" target="_blank" rel="noopener">gukoff/magic-hexagons</a>
   </p>
 
 </aside>
