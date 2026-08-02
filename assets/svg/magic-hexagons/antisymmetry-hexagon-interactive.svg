@@ -9,7 +9,7 @@
   <desc id="desc">A hexagon illustrating antisymmetry. The center cell with 0 is always highlighted in grey. Hover with a mouse, focus with a keyboard, or tap a cell to highlight that number and the symmetrically opposite number, which is its negative. One horizontal guide line is shown through each highlighted cell.</desc>
   <style>
     :root {
-      color-scheme: light dark;
+      color-scheme: light;
       --cell: #ffffff;
       --cell-center: #d9dde3;
       --ink: #1c232b;
@@ -19,19 +19,6 @@
       --accent-strong: #3557b8;
       --line: #4f74d6;
       --focus: #8b5cf6;
-    }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --cell: #161a20;
-        --cell-center: #5d6672;
-        --ink: #f4f6f8;
-        --ink-center: #ffffff;
-        --grid: #d6dbe1;
-        --accent: #82aef3;
-        --accent-strong: #a8c5ff;
-        --line: #82aef3;
-        --focus: #c4a7ff;
-      }
     }
 
     #antisymmetry-hexagon {

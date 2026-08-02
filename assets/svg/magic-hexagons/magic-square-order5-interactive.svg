@@ -12,7 +12,7 @@
   </metadata>
   <style>
     :root {
-      color-scheme: light dark;
+      color-scheme: light;
       --cell: #ffffff;
       --ink: #1c232b;
       --grid: #28313a;
@@ -21,18 +21,6 @@
       --line-diag1: #24956a;
       --line-diag2: #d18a2e;
       --focus: #8b5cf6;
-    }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --cell: #161a20;
-        --ink: #f4f6f8;
-        --grid: #d6dbe1;
-        --line-row: #ff817a;
-        --line-col: #73a9ea;
-        --line-diag1: #63c99d;
-        --line-diag2: #f0b15b;
-        --focus: #c4a7ff;
-      }
     }
 
     #magic-square-order5 {

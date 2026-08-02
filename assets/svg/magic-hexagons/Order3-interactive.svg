@@ -14,7 +14,7 @@
   </metadata>
   <style>
     :root {
-      color-scheme: light dark;
+      color-scheme: light;
       --cell: #ffffff;
       --ink: #1c232b;
       --grid: #28313a;
@@ -22,17 +22,6 @@
       --line-b: #3478c5;
       --line-c: #24956a;
       --focus: #8b5cf6;
-    }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --cell: #161a20;
-        --ink: #f4f6f8;
-        --grid: #d6dbe1;
-        --line-a: #ff817a;
-        --line-b: #73a9ea;
-        --line-c: #63c99d;
-        --focus: #c4a7ff;
-      }
     }
 
     #magic-hexagon-order3 {
