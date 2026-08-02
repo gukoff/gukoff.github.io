@@ -13,9 +13,10 @@ What is so special about the number 19?
 This question came up in the conversation of YSDA alumni last month on the occasion of the school turning 19 years old.
 Someone pointed out that 19 is a twin prime. Someone else replied that 19 is the number of cells in the only non-trivial magic hexagon.
 
-Wait, a "magic hexagon"? Let's find out, shall we?
+Wait, what is a "magic hexagon"? Let's find out, shall we?
 
-To foreshadow, this is a story about making a mathematical discovery - first without, then with the AI.
+> Recently, we hear a lot about AI miraculously proving and disproving long-standing conjectures, without much explanation of how it was done.
+> This story gives insight into the process of making a mathematical discovery first without, then with the AI.
 
 ## Magic Squares and Magic Hexagons
 
@@ -50,14 +51,15 @@ But finding these solutions is not an easy feat. Unlike with magic squares, ther
 
 So... What makes these solutions truly so hard to find? How about we try?
 
-## Chapter 1: Making Observations
+## Chapter 1: Making Observations, First Without AI
 
 There is a clear tension between the two independent constraints:
 
 1. The numbers are consecutive
 2. The line sums are equal (and lines have different lengths!)
 
-The prior art solutions that I found showed that people tried optimizing different search algorthims. This made me think that the next step should in optimizing the search space itself.
+The prior art solutions that I found showed that people tried out different search algorithms and likely optimized them well.
+This made me think that if I'm looking to advance the field, I should instead focus on optimizing the search space.
 
 ### Observation 1: Antisymmetric hexagons have much simpler constraints
 
@@ -73,18 +75,18 @@ Second, put the 0 in the middle of the grid, and require that the cells opposite
   aria-label="Interactive antisymmetric order-3 magic hexagon">
 </object>
 
-Notice how this makes many constraints disappear. The lines crossing the center sum to 0 automatically because all numbers cancel out. The other lines are the opposites of their mirrored lines, so if one sums to 0, the other sums to 0 automatically a well.
+Notice how this makes many constraints disappear. The lines crossing the center sum to 0 automatically because all numbers cancel out. The other lines are the opposites of their mirrored lines, so if one sums to 0, the other sums to 0 automatically too.
 
-But while simplifying the constraints, we also introduce the risk that no  solutions satisfy them.
+It's important to notice that while simplifying the constraints, we also introduce the risk that no solutions satisfy them.
 It was simply a plausible place to search.
 
-But once I looked at zero-sum hexagons, another structure appeared.
+But once I started thinking about the zero-sum hexagons, another structure appeared.
 
-### Observation 2: Every zero-sum hexagon is a repetirion of the same 6-point ring
+### Observation 2: Every zero-sum hexagon is a repetition of the same 6-point ring
 
-Consider any hexagon. Take the six cells surrounding any interior point and add the alternating pattern $$[-1,+1,-1,+1,-1,+1]$$. Leave the central cell unchanged.
+Consider any hexagon, zero-sum or not. Take the six cells surrounding any interior point and add the alternating pattern $$[-1,+1,-1,+1,-1,+1]$$. Leave the central cell unchanged.
 
-Notice that every straight line that intersects this pattern receives either no contribution or two opposite contributions. Its total therefore remains unchanged. Thus you can add any multiple of this pattern without affecting any line sum.
+Notice that every straight line that intersects this ring pattern receives either no contribution or two opposite contributions: 1 and -1. Its total therefore remains unchanged. Thus you can add any multiple of this pattern without affecting any line sum.
 
 These local alternating rings form a basis - you can build any zero-sum hexagon as a linear combination of these rings. I will omit the proof fr brevity, but it is fairly straightforward - go by induction and "peel" these rings from the hexagon, starting from outer layer.
 
@@ -95,22 +97,23 @@ An order-(n) zero-sum hexagon therefore has two equivalent representations:
 * its visible cell values;
 * an order-((n-1)) potential field describing how much of each local ring it contains.
 
-This representation does not guarantee that the visible values will be distinct or consecutive. Those remain difficult global conditions.
-
-But it solves all line-sum constraints by construction.
+This second representation solves all line-sum constraints by construction.
+But it does not guarantee that the visible values will be distinct or consecutive. Those remain difficult global conditions.
 
 Instead of searching among arbitrary arrangements and repeatedly repairing broken lines, we can search entirely inside the space where every line already sums to zero.
 
-## Chapter 2: Looking in the reduced search space
+## Chapter 2: Finding New Hexagons, With Some AI
 
-Around the same time, I had been helping to presolve problems for the Midnight Code Cup, a programming competition in which using LLMs is explicitly encouraged. Many of the tasks in this competition are optimization problems. My main takeaway from that LLMs can be unusually effective at helping develop **domain-specific** solvers.
+Around the same time, I had been helping to presolve problems for the [Midnight Code Cup 2026](https://midnightcodecup.org/), a programming competition in which using LLMs is explicitly encouraged. Many of the tasks in this competition are optimization problems. My main takeaway from that LLMs can be unusually effective at helping develop **domain-specific** solvers, blowing the general-purpose solvers (z3, OR-Tools) out of the water.
 
-Not long ago, my first reaction would be to feed this problem to a general constraint solver such as OR-Tools. Now, I went to GPT-5.6, and gave it the problem, the antisymmetry restriction, and the potential-field representation. It additionally connected the structure to **Heffter arrays**: combinatorial arrangements of signed integers with prescribed zero-sum conditions. The problems are not identical, but the connection suggested better ways to organize values and exchange them while controlling the affected sums.
+So instead of employing a generic constraint solver, I went to GPT-5.6 Sol, and gave it more freedom with the problem. I did pint out the antisymmetry restriction, and the potential-field representation. The model searched for the related concepts on the Internet and followed up by additionally connecting the structure to **Heffter arrays**: combinatorial arrangements of signed integers with prescribed zero-sum conditions. The problems are not identical, but the connection suggested better ways to organize values and exchange them while controlling the affected sums.
 
-The resulting program abandoned the generic constraint-solver approach in favor of custom simulated annealing. I've done some due diligence with several optimization rounds: asked to use numba for the hot loops, identified memory allocation/randomization bottlenecks with `perf`, and soone we squeezed another 50% of performance from the program.
+The resulting program abandoned the generic constraint-solver approach in favor of custom simulated annealing.
+I've done some due diligence with several optimization rounds: asked to use numba for the hot loops, identified memory allocation/randomization bottlenecks with `perf`, and soon we squeezed another 50% of performance from the program.
 
 Then I left it run on my home server for a few days across ~24 CPU cores.
-This combination of the optimized search agorithm and the reduced search space worked very well, and soon I discovered the magic hexagons of orders up to n=21.
+
+As I hoped, this combination of the optimized search algorithm and the reduced search space worked very well, and soon I discovered the magic hexagons of orders up to n=21.
 
 <section class="hexagon-viewer" data-hexagon-viewer>
   <div class="hexagon-viewer__stage">
