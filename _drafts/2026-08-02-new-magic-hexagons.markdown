@@ -10,9 +10,9 @@ mathjax: "yes"
 
 What is so special about the number 19?
 
-This question came up in a conversation among YSDA alumni last month, on the occasion of the school turning 19 years old. Someone pointed out that 19 is a twin prime. Someone else replied that 19 is the number of cells in the only non-trivial normal magic hexagon.
+The question came up last month in a conversation among YSDA alumni, when the school turned 19. Someone pointed out that 19 is a twin prime. Someone else replied that 19 is the number of cells in the only non-trivial normal magic hexagon.
 
-Wait, what is a "magic hexagon"? Let's find out, shall we?
+Wait, what is a "magic hexagon"? Let us start there.
 
 <aside class="article-disclaimer" aria-labelledby="article-disclaimer-title">
   <h2 id="article-disclaimer-title">A note on AI-assisted mathematics</h2>
@@ -30,7 +30,7 @@ Wait, what is a "magic hexagon"? Let's find out, shall we?
 
 ## Magic Squares and Magic Hexagons
 
-You probably know about magic squares. A magic square is a square grid of numbers in which every row, every column, and both main diagonals add up to the same total, known as the magic constant. We also usually require the numbers to be consecutive - typically from $1$ to $n^2$. Otherwise, we could just put the same number into every cell, which is a very boring way to fill a square.
+You probably know about magic squares. A magic square is a square grid of numbers in which every row, every column, and both main diagonals add up to the same total, known as the magic constant. We also usually require the numbers to be consecutive - typically from $1$ to $n^2$ - and call it a _normal_ magic square. Otherwise, we could simply put the same number into every cell, which would be a very boring way to fill a square.
 
 <object
   type="image/svg+xml"
@@ -39,9 +39,9 @@ You probably know about magic squares. A magic square is a square grid of number
   aria-label="Interactive order-5 magic square">
 </object>
 
-Magic squares have been known for millennia and are very well studied. By now, we have algorithms for constructing normal magic squares of every order $n>2$.
+Magic squares have been known for millennia and are now very well understood. We have algorithms for constructing normal magic squares of every order $n>2$.
 
-A magic hexagon applies the same idea to a hexagonal grid. Its cells form straight lines in three directions, and every such line must have the same sum. As with squares, a magic hexagon is called normal if it contains the consecutive numbers from $1$ to $3n^2-3n+1$, the total number of cells in a hexagon of order $n$.
+A magic hexagon applies the same idea to a hexagonal grid. Its cells form straight lines in three directions, and every such line must have the same sum. As with squares, a magic hexagon is called _normal_ if it contains the consecutive numbers from $1$ to $3n^2-3n+1$, the total number of cells in a hexagon of order $n$.
 
 <object
   type="image/svg+xml"
@@ -50,13 +50,13 @@ A magic hexagon applies the same idea to a hexagonal grid. Its cells form straig
   aria-label="Interactive order-3 magic hexagon">
 </object>
 
-Above you can see the only non-trivial normal magic hexagon in existence - apart from its rotations and reflections. The proof is straightforward. In each of the three directions, the cells are partitioned into $2n-1$ lines. Therefore, the sum of all the numbers must be divisible by $2n-1$. For every order $n>3$, the sum of the numbers from $1$ to $3n^2-3n+1$ fails this divisibility test.
+Above you can see the only non-trivial normal magic hexagon in existence - apart from its own rotations and reflections. The proof is straightforward. In each of the three directions, the cells are partitioned into $2n-1$ lines. Therefore, the sum of all the numbers must be divisible by $2n-1$. For every order $n>3$, the sum of the numbers from $1$ to $3n^2-3n+1$ fails this divisibility test.
 
 Well, ending the story here would be no fun. To make things more interesting, let's look at the so-called abnormal magic hexagons. Here we relax one constraint: the numbers on the grid must still be consecutive, but they no longer have to start at $1$.
 
 This small relaxation suddenly allows new solutions to appear.
 
-But finding them is not easy. Unlike with magic squares, there was no formulaic construction or deterministic algorithm. The only known approach was to wander through a brutally large search space. The largest known solution as of July 2026 was a hexagon of order $n=9$, found by Klaus Meffert in 2024.
+Finding them, however, is not easy. Unlike with magic squares, there was no formulaic construction or deterministic algorithm. The only known approach was to wander through a brutally large search space of possible arrangements. According to [Wikipedia](https://en.wikipedia.org/wiki/Magic_hexagon), as of July 2026, the largest known solution was a hexagon of order $n=9$, found by Klaus Meffert in 2024.
 
 So... what makes these solutions so hard to find? And how about we try?
 
@@ -85,11 +85,11 @@ Second, put $0$ in the center and require that cells opposite each other under a
 
 Notice how many constraints disappear. Every line through the center sums to zero automatically because its values cancel in opposite pairs. Every other line has an antipodal line with the sum of antipodal opposite numbers. If one of them sums to zero, so does the other.
 
-Of course, simplifying the constraints introduces a risk: perhaps no solutions satisfy the extra symmetry at all. At this point, antisymmetry was not a theorem. It was simply a plausible place to search.
+Of course, simplifying the constraints introduces a risk: perhaps no solutions satisfy the extra symmetry at all. At this point, antisymmetry was simply a plausible place to search, following the [drunkard's principle](https://en.wikipedia.org/wiki/Streetlight_effect).
 
 But once I started thinking about zero-sum hexagons, another structure appeared.
 
-### Observation: Every zero-sum hexagon is a repetition of the same 6-point ring
+### Observation: Every zero-sum hexagon is build from the same 6-point ring
 
 Consider any hexagonal grid, zero-sum or not. Take the six cells surrounding any interior point and add the alternating pattern $$[-1,+1,-1,+1,-1,+1].$$ Leave the central cell unchanged.
 
@@ -291,21 +291,24 @@ I decided to try two AI systems:
 - [GPT-5.6 Sol](https://en.wikipedia.org/wiki/GPT-5.6), the strongest general-purpose model available to me through my personal subscription;
 - [Aristotle](https://aristotle.harmonic.fun/), a Lean-oriented theorem-proving agent.
 
-First, I gave GPT-5.6 Sol (high) the problem statement, the known solutions, and several additional intuitions. It proposed more hypotheses and possible constructions, then started reducing the problem to smaller pieces.The work gained traction. I still felt very much in the driver's seat: learning unfamiliar mathematical machinery, checking the arguments, and steering a process I could mostly follow.
 
-Then several days of iteration passed. The problem had been reduced to a few key lemmas, so I also brought in Aristotle to pursue a formal proof in parallel. Eventually, the process stalled. Both agents remained optimistic, but they were clearly stuck, rehashing the same ideas without making meaningful progress.
+I first gave GPT-5.6 Sol (high) the problem statement, the known solutions, and several additional intuitions. It proposed new hypotheses and possible constructions, then began chopping away, reducing the problem to smaller pieces. The work gained traction. At this stage, I still felt very much in the driver's seat: learning unfamiliar mathematical machinery, checking the arguments, rejecting unproductive directions, and steering a process that I could mostly follow.
 
-I weakened the conjecture to the more modest claim that infinitely many abnormal magic hexagons exist. We explored new hypotheses and even non-constructive approaches. Still, we hit a wall.
+Several days of iteration passed. The problem had been reduced to a few key lemmas, so I brought in Aristotle to pursue a formal proof in parallel.
 
-I then employed GPT-5.6 Sol (max), which reasoned for many hours and... also failed to find a proof. But before running out of credits, it produced several new ideas. Fortunately, those ideas became part of the project's shared memory and were available in later conversations.
+Eventually, the process stalled. Both agents remained optimistic, but they were clearly stuck, rehashing the same ideas without making meaningful progress. I weakened the conjecture to the more modest claim that infinitely many abnormal magic hexagons exist. We explored new hypotheses and even non-constructive approaches
 
-In one of those conversations, while I was once again pushing GPT-5.6 Sol (high) toward a proof, it picked up the ideas left by that run and returned with what looked like a breakthrough. After checking the construction computationally, I had a constructive proof for every order $n>800$ divisible by $16$.
+Still, we hit a wall.
+
+I then employed GPT-5.6 Sol (max), which reasoned for many hours and... also failed to find a proof. Before running out of credits, however, it produced several new ideas. Those ideas became part of the project's shared context and remained available in later conversations.
+
+In one such conversation, while I was once again directing GPT-5.6 Sol toward a proof, it picked up several of those earlier ideas and combined them into what looked like a breakthrough. After checking it computationally, I had a constructive argument for every order $n>800$ divisible by $16$.
 
 Once that foothold was established, the work REALLY gained traction. Iteration by iteration, I pushed GPT-5.6 Sol (high) to generalize the construction: first to orders divisible by $8$, then by $4$, then by $2$, and finally to remove the divisibility condition altogether. The proved threshold also fell from $800$ to $114$.
 
-At this point it is important to separate the theoretical proof from practical results. The bound of 114 is the number that makes it easier to reason about it in that particular proof. The technique itself, as I verified, enables magic hexagon construction for every order $n>3$.
+The threshold of $114$ is important to interpret correctly. It is a convenient bound under which the proof's inequalities and combinatorial choices are easy to justify theoretically. It does not appear to be a fundamental limitation of the construction, because in practice, the same method succeeds well below that threshold.
 
-Then I pushed again, this time for simplicity and determinism. Sure enough, GPT-5.6 Sol (high) repeatedly found redundancies in the construction and replaced them with a cleaner deterministic algorithm.
+Once the general construction existed, I pushed again, this time for simplicity and determinism. It was clear the initial construction contained many special cases, auxiliary choices, and pieces of machinery inherited from previous attempts. Sure enough, GPT-5.6 Sol (high) repeatedly found redundancies in the construction and replaced them with a cleaner deterministic algorithm.
 
 <aside class="article-disclaimer" aria-labelledby="article-disclaimer-title">
   <h2 id="article-disclaimer-title">The final conversation</h2>
@@ -321,15 +324,17 @@ Then I pushed again, this time for simplicity and determinism. Sure enough, GPT-
 
 </aside>
 
-It took dozens of long conversations and days of reasoning, but the conjecture was solved. The result is constructive: it does not merely assert that these hexagons exist, but gives an algorithm for building them. Combined with the finite witnesses, it covers every order $n>3$.
+It took dozens of long conversations and days of reasoning, but the conjecture was solved. And the result is constructive: it does not merely assert that these hexagons exist, but gives an algorithm for building them, starting from relatively low orders. Combined with the finite witnesses up to $n=21$ I found with bruteforce before, it covers every order $n>3$.
 
-Please note that the proof was not formalized in Lean at the time of writing this post and thus was not independently verified, which will be the natural next step.
+It is important to note that the proof was not formalized in Lean at the time of writing this post and was not independently verified. This will be the natural next step.
 
 <aside class="article-disclaimer" aria-labelledby="article-disclaimer-title">
   <h2 id="article-disclaimer-title">Python implementation</h2>
 
   <p>
-    Here you can find the tooling and try it yourself: <a href="https://github.com/gukoff/magic-hexagons" target="_blank" rel="noopener">gukoff/magic-hexagons</a>
+    The hexagon construction kit is available in the
+    <a href="https://github.com/gukoff/magic-hexagons" target="_blank" rel="noopener">gukoff/magic-hexagons</a>
+    repository.
   </p>
 
 </aside>
@@ -471,18 +476,18 @@ And here are some hexagons of much larger orders, generated by the construction.
 
   I am glad that some ideas born in my human brain turned out to be instrumental. Antisymmetry plays a major role in the final construction, and the potential fields - well, not so much. Yet their smoothness remains interesting, and perhaps there's more to discover.
 
-- GPT-5.6 Sol is a remarkably capable mathematical reasoner, but it has a double-edged tendency toward tunnel vision. It can go very deep in a chosen direction. When that direction is right, this is incredibly powerful. When it is wrong, you had better keep an arbiter in the loop - another model or, in my case, a human - to remind it of a bigger picture and notice when progress has stalled.
+- GPT-5.6 Sol is a remarkably capable mathematical reasoner, but it has a double-edged tendency toward tunnel vision. It can go very deep in a chosen direction. When that direction is right, this is incredibly powerful. When it is wrong, you had better keep an arbiter in the loop - another model or, in my case, a human - to remind it of the bigger picture and notice when meaningful progress has stopped.
 
-- It was essential that the model had access to Internet, because it looked up the related mathematical papers which I couldn't possibly provide in advance.
-It was one of the reasons why I used the Web interface GPT instead of Codex, another big reason being that I wanted to keep it a mental exercise during my time off and not spend a lot of time in front of the computer. But for a serious proof campaign, I would go for an orchestration with multiple models, removing myself from the loop and giving the models access to internet search through a service such as [exa.ai](https://exa.ai/).
+- It was essential that the model had access to Internet. It found related papers and mathematical concepts that I could not have anticipated and supplied in advance.
+That was one reason I used the ChatGPT web interface rather than Codex. Another was personal: I wanted this project to remain primarily a mental exercise during my time off, rather than turning into another software-engineering project that kept me in front of a computer. For a serious proof campaign, however, I would use a more systematic setup: several models working in parallel, explicit roles for proposing and criticizing arguments, persistent shared context, and access to internet search through a service such as [exa.ai](https://exa.ai/).
 
 - In software engineering, code review became a bottleneck once LLMs made code generation cheap. Statically typed languages, static analysis and testing suddenly mattered more than ever because they could take some of the growing burden of correctness verification away from humans.
 
   Mathematics now faces a similar problem. AI can produce candidate theories and proofs faster than people can responsibly verify them. Lean and other machine-verifiable proof systems must be an enormous boon to the community, offering a way to scale verification along with generation.
 
-- I wonder if the techniques discovered in this project can be applied to the other combinatorial problems beyond the hexagons puzzle and serve as a new useful theory. Heffter arrays naturally come to mind...
+- I wonder if the techniques discovered during this project can be applied to other combinatorial construction problems and developed into something more general than a solution to one hexagonal puzzle. Heffter arrays naturally come to mind.
 
-- It's funny how this story began with an interest in number 19 and ended with a construction of magic hexagons for every order. The remaining challenge is to make the proof machine-verifiable - now [Aristotle](https://aristotle.harmonic.fun/) and [leanprover/comparator](https://github.com/leanprover/comparator) have some work to do.
+- It's funny how this story began with an interest in number 19 and ended with a construction of magic hexagons for every order greater than $3$. The remaining challenge is to make the proof machine-verifiable - now [Aristotle](https://aristotle.harmonic.fun/) and [leanprover/comparator](https://github.com/leanprover/comparator) have some work to do.
 
 <style>
   .hexagon-viewer {
