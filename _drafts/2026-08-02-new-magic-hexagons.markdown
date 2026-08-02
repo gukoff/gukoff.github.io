@@ -306,6 +306,7 @@ Please note that the proof was not formalized in Lean or even in text at the tim
 
   <p>
     Here is the thread that led to the breakthrough and subsequent simplifications.
+    It shows our back-and forth with GPT-5.6 Sol if you want to peek at the process and describes the solution.
   </p>
 
   <p>
