@@ -101,7 +101,7 @@ But once I started thinking about zero-sum hexagons, another structure appeared.
   <h2 id="article-disclaimer-title">Quick note</h2>
 
   <p>
-    This observation is interesting but not essential for what comes next. I you find it hard to follow, feel free to skip this part.
+    This observation is interesting but not essential for what comes next. If you find it hard to follow, feel free to skip this part.
   </p>
 </aside>
 
@@ -125,7 +125,7 @@ An order-$n$ zero-sum hexagon therefore has two equivalent representations:
 
 The potential field representation also satisfies every line-sum constraint by construction. It does not, however, guarantee that the visible values are distinct and consecutive. Those remain difficult global constraints.
 
-Below you can play with the potential field of the order-3 antisymmetric hexagon. Notice that however you change the potential field, the line sums in te hexagon remain zero. However, making the hexagon "magic" is still a very hard challenge.
+Below you can play with the potential field of the order-3 antisymmetric hexagon. Notice that however you change the potential field, the line sums in the hexagon remain zero. However, making the hexagon "magic" is still a very hard challenge.
 
 (Unfortunately, this playground looks tiny for mobile readers)
 
@@ -292,7 +292,7 @@ The cell values look chaotic and noisy. Their potential fields do not. They rese
 
 I did not yet know whether this smoothness was a clue or merely an artifact of the search. Either way, it was difficult to look at those landscapes and not suspect that some larger structure was hiding underneath.
 
-## Chapter 3: Finding All Hexagons (AI Runs The Show)
+## Chapter 3: Finding All Hexagons (AI Runs the Show)
 
 Repeatedly finding larger solutions naturally suggested a conjecture:
 
@@ -318,7 +318,7 @@ I first gave GPT-5.6 Sol (high) the problem statement, the known solutions, and 
 
 Several days of iteration passed. The problem had been reduced to a few key lemmas, so I brought in Aristotle to pursue a formal proof in parallel.
 
-Eventually, the process stalled. Both agents remained optimistic, but they were clearly stuck, rehashing the same ideas without making meaningful progress. I weakened the conjecture to the more modest claim that infinitely many abnormal magic hexagons exist. We explored new hypotheses and even non-constructive approaches
+Eventually, the process stalled. Both agents remained optimistic, but they were clearly stuck, rehashing the same ideas without making meaningful progress. I weakened the conjecture to the more modest claim that infinitely many abnormal magic hexagons exist. We explored new hypotheses and even non-constructive approaches.
 
 Still, we hit a wall.
 
@@ -346,7 +346,7 @@ Once the general construction existed, I pushed again, this time for simplicity 
 
 </aside>
 
-It took dozens of long conversations and days of reasoning, but the conjecture was solved. And the result is constructive: it does not merely assert that these hexagons exist, but gives an algorithm for building them, starting from relatively low orders. Combined with the finite witnesses up to $n=21$ I found with bruteforce before, it covers every order $n>3$.
+It took dozens of long conversations and days of reasoning, but the conjecture was solved. And the result is constructive: it does not merely assert that these hexagons exist, but gives an algorithm for building them, starting from relatively low orders. Combined with the finite witnesses up to $n=21$ I found using brute force before, it covers every order $n>3$.
 
 It is important to note that the proof was not formalized in Lean at the time of writing this post and was not independently verified. This will be the natural next step.
 
