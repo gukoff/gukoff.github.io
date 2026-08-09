@@ -1,0 +1,174 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 560" width="620" height="560" role="img" aria-labelledby="title desc" id="alternating-ring-order3">
+  <title id="title">Alternating ring preserves the line sums</title>
+  <desc id="desc">An order-3 hexagonal grid. The six cells around the center carry alternating plus one and minus one. Only the three parallel lines in one direction are drawn; the other two directions behave the same by symmetry. Each shown line passes through exactly one plus one and one minus one, so its contribution is zero.</desc>
+
+  <style>
+    #alternating-ring-order3 {
+      max-width: 100%;
+      height: auto;
+      overflow: visible;
+      user-select: none;
+    }
+
+    .cell-base {
+      fill: #ffffff;
+    }
+
+    .cell-base.center {
+      fill: #d9dde3;
+    }
+
+    .guide-line {
+      fill: none;
+      stroke: #4f74d6;
+      stroke-width: 5;
+      stroke-linecap: round;
+      opacity: .38;
+      vector-effect: non-scaling-stroke;
+    }
+
+    .cell-outline {
+      fill: none;
+      stroke: #28313a;
+      stroke-width: 2.6;
+      vector-effect: non-scaling-stroke;
+    }
+
+    .cell-outline.center {
+      stroke-width: 3.2;
+    }
+
+    .cell-outline.pos {
+      stroke: #1f8f45;
+      stroke-width: 4.1;
+    }
+
+    .cell-outline.neg {
+      stroke: #c53a32;
+      stroke-width: 4.1;
+    }
+
+    .ring-wash.pos {
+      fill: #39b867;
+      opacity: .18;
+    }
+
+    .ring-wash.neg {
+      fill: #e85c55;
+      opacity: .18;
+    }
+
+    .number {
+      fill: #1c232b;
+      font: 500 34px/1 Arial, Helvetica, sans-serif;
+      text-anchor: middle;
+      dominant-baseline: central;
+      stroke: #ffffff;
+      stroke-width: 7;
+      paint-order: stroke fill;
+      vector-effect: non-scaling-stroke;
+    }
+
+    .number.pos {
+      fill: #1f8f45;
+      font-weight: 700;
+    }
+
+    .number.neg {
+      fill: #c53a32;
+      font-weight: 700;
+    }
+
+    .number.center {
+      fill: #111418;
+      stroke: #d9dde3;
+      font-weight: 700;
+    }
+
+    .caption {
+      fill: #59636f;
+      font: 500 19px/1.25 Arial, Helvetica, sans-serif;
+      text-anchor: middle;
+    }
+
+    .equation-pos {
+      fill: #1f8f45;
+      font-weight: 700;
+    }
+
+    .equation-neg {
+      fill: #c53a32;
+      font-weight: 700;
+    }
+
+    .equation-note {
+      fill: #4f74d6;
+      font-weight: 700;
+    }
+</style>
+  <g id="base-cells">
+    <polygon class="cell-base" points="216.47,44.00 263.23,71.00 263.23,125.00 216.47,152.00 169.70,125.00 169.70,71.00" />
+    <polygon class="cell-base" points="310.00,44.00 356.77,71.00 356.77,125.00 310.00,152.00 263.23,125.00 263.23,71.00" />
+    <polygon class="cell-base" points="403.53,44.00 450.30,71.00 450.30,125.00 403.53,152.00 356.77,125.00 356.77,71.00" />
+    <polygon class="cell-base" points="169.70,125.00 216.47,152.00 216.47,206.00 169.70,233.00 122.94,206.00 122.94,152.00" />
+    <polygon class="cell-base" points="263.23,125.00 310.00,152.00 310.00,206.00 263.23,233.00 216.47,206.00 216.47,152.00" />
+    <polygon class="cell-base" points="356.77,125.00 403.53,152.00 403.53,206.00 356.77,233.00 310.00,206.00 310.00,152.00" />
+    <polygon class="cell-base" points="450.30,125.00 497.06,152.00 497.06,206.00 450.30,233.00 403.53,206.00 403.53,152.00" />
+    <polygon class="cell-base" points="122.94,206.00 169.70,233.00 169.70,287.00 122.94,314.00 76.17,287.00 76.17,233.00" />
+    <polygon class="cell-base" points="216.47,206.00 263.23,233.00 263.23,287.00 216.47,314.00 169.70,287.00 169.70,233.00" />
+    <polygon class="cell-base center" points="310.00,206.00 356.77,233.00 356.77,287.00 310.00,314.00 263.23,287.00 263.23,233.00" />
+    <polygon class="cell-base" points="403.53,206.00 450.30,233.00 450.30,287.00 403.53,314.00 356.77,287.00 356.77,233.00" />
+    <polygon class="cell-base" points="497.06,206.00 543.83,233.00 543.83,287.00 497.06,314.00 450.30,287.00 450.30,233.00" />
+    <polygon class="cell-base" points="169.70,287.00 216.47,314.00 216.47,368.00 169.70,395.00 122.94,368.00 122.94,314.00" />
+    <polygon class="cell-base" points="263.23,287.00 310.00,314.00 310.00,368.00 263.23,395.00 216.47,368.00 216.47,314.00" />
+    <polygon class="cell-base" points="356.77,287.00 403.53,314.00 403.53,368.00 356.77,395.00 310.00,368.00 310.00,314.00" />
+    <polygon class="cell-base" points="450.30,287.00 497.06,314.00 497.06,368.00 450.30,395.00 403.53,368.00 403.53,314.00" />
+    <polygon class="cell-base" points="216.47,368.00 263.23,395.00 263.23,449.00 216.47,476.00 169.70,449.00 169.70,395.00" />
+    <polygon class="cell-base" points="310.00,368.00 356.77,395.00 356.77,449.00 310.00,476.00 263.23,449.00 263.23,395.00" />
+    <polygon class="cell-base" points="403.53,368.00 450.30,395.00 450.30,449.00 403.53,476.00 356.77,449.00 356.77,395.00" />
+  </g>
+  <g id="affected-lines" pointer-events="none">
+    <line class="guide-line" data-family="r" data-offset="-1" x1="122.93" y1="179.00" x2="497.07" y2="179.00" />
+    <line class="guide-line" data-family="r" data-offset="0" x1="76.17" y1="260.00" x2="543.83" y2="260.00" />
+    <line class="guide-line" data-family="r" data-offset="1" x1="122.93" y1="341.00" x2="497.07" y2="341.00" />
+    </g>
+  <g id="ring-washes" pointer-events="none">
+    <polygon class="ring-wash pos" points="263.23,125.00 310.00,152.00 310.00,206.00 263.23,233.00 216.47,206.00 216.47,152.00" />
+    <polygon class="ring-wash neg" points="356.77,125.00 403.53,152.00 403.53,206.00 356.77,233.00 310.00,206.00 310.00,152.00" />
+    <polygon class="ring-wash pos" points="403.53,206.00 450.30,233.00 450.30,287.00 403.53,314.00 356.77,287.00 356.77,233.00" />
+    <polygon class="ring-wash neg" points="356.77,287.00 403.53,314.00 403.53,368.00 356.77,395.00 310.00,368.00 310.00,314.00" />
+    <polygon class="ring-wash pos" points="263.23,287.00 310.00,314.00 310.00,368.00 263.23,395.00 216.47,368.00 216.47,314.00" />
+    <polygon class="ring-wash neg" points="216.47,206.00 263.23,233.00 263.23,287.00 216.47,314.00 169.70,287.00 169.70,233.00" />
+  </g>
+  <g id="outlines" pointer-events="none">
+    <polygon class="cell-outline" points="216.47,44.00 263.23,71.00 263.23,125.00 216.47,152.00 169.70,125.00 169.70,71.00" />
+    <polygon class="cell-outline" points="310.00,44.00 356.77,71.00 356.77,125.00 310.00,152.00 263.23,125.00 263.23,71.00" />
+    <polygon class="cell-outline" points="403.53,44.00 450.30,71.00 450.30,125.00 403.53,152.00 356.77,125.00 356.77,71.00" />
+    <polygon class="cell-outline" points="169.70,125.00 216.47,152.00 216.47,206.00 169.70,233.00 122.94,206.00 122.94,152.00" />
+    <polygon class="cell-outline pos" points="263.23,125.00 310.00,152.00 310.00,206.00 263.23,233.00 216.47,206.00 216.47,152.00" />
+    <polygon class="cell-outline neg" points="356.77,125.00 403.53,152.00 403.53,206.00 356.77,233.00 310.00,206.00 310.00,152.00" />
+    <polygon class="cell-outline" points="450.30,125.00 497.06,152.00 497.06,206.00 450.30,233.00 403.53,206.00 403.53,152.00" />
+    <polygon class="cell-outline" points="122.94,206.00 169.70,233.00 169.70,287.00 122.94,314.00 76.17,287.00 76.17,233.00" />
+    <polygon class="cell-outline neg" points="216.47,206.00 263.23,233.00 263.23,287.00 216.47,314.00 169.70,287.00 169.70,233.00" />
+    <polygon class="cell-outline center" points="310.00,206.00 356.77,233.00 356.77,287.00 310.00,314.00 263.23,287.00 263.23,233.00" />
+    <polygon class="cell-outline pos" points="403.53,206.00 450.30,233.00 450.30,287.00 403.53,314.00 356.77,287.00 356.77,233.00" />
+    <polygon class="cell-outline" points="497.06,206.00 543.83,233.00 543.83,287.00 497.06,314.00 450.30,287.00 450.30,233.00" />
+    <polygon class="cell-outline" points="169.70,287.00 216.47,314.00 216.47,368.00 169.70,395.00 122.94,368.00 122.94,314.00" />
+    <polygon class="cell-outline pos" points="263.23,287.00 310.00,314.00 310.00,368.00 263.23,395.00 216.47,368.00 216.47,314.00" />
+    <polygon class="cell-outline neg" points="356.77,287.00 403.53,314.00 403.53,368.00 356.77,395.00 310.00,368.00 310.00,314.00" />
+    <polygon class="cell-outline" points="450.30,287.00 497.06,314.00 497.06,368.00 450.30,395.00 403.53,368.00 403.53,314.00" />
+    <polygon class="cell-outline" points="216.47,368.00 263.23,395.00 263.23,449.00 216.47,476.00 169.70,449.00 169.70,395.00" />
+    <polygon class="cell-outline" points="310.00,368.00 356.77,395.00 356.77,449.00 310.00,476.00 263.23,449.00 263.23,395.00" />
+    <polygon class="cell-outline" points="403.53,368.00 450.30,395.00 450.30,449.00 403.53,476.00 356.77,449.00 356.77,395.00" />
+  </g>
+  <g id="numbers" pointer-events="none">
+    <text class="number pos" x="263.23" y="179.00">+1</text>
+    <text class="number neg" x="356.77" y="179.00">−1</text>
+    <text class="number neg" x="216.47" y="260.00">−1</text>
+    <text class="number center" x="310.00" y="260.00">0</text>
+    <text class="number pos" x="403.53" y="260.00">+1</text>
+    <text class="number pos" x="263.23" y="341.00">+1</text>
+    <text class="number neg" x="356.77" y="341.00">−1</text>
+  </g>
+
+  <text class="caption" x="310" y="515"><tspan>Each shown line gets </tspan><tspan class="equation-pos">+1</tspan><tspan> and </tspan><tspan class="equation-neg">−1</tspan><tspan>, so the change is 0.</tspan></text><text class="caption" x="310" y="540"><tspan>The other two line directions follow by </tspan><tspan class="equation-note">symmetry</tspan><tspan>.</tspan></text></svg>

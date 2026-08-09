@@ -95,7 +95,7 @@ Of course, simplifying the constraints introduces a risk: perhaps no solutions s
 
 But once I started thinking about zero-sum hexagons, another structure appeared.
 
-### Observation: Every zero-sum hexagon is build from the same 6-point ring
+### Observation: Every zero-sum hexagon is built from the same 6-point ring
 
 <aside class="article-disclaimer" aria-labelledby="article-disclaimer-title">
   <h2 id="article-disclaimer-title">Quick note</h2>
@@ -108,6 +108,13 @@ But once I started thinking about zero-sum hexagons, another structure appeared.
 Consider any hexagonal grid, zero-sum or not. Take the six cells surrounding any interior point and add the alternating pattern $$[-1,+1,-1,+1,-1,+1].$$ Leave the central cell unchanged.
 
 Every straight line that intersects this ring receives either no contribution or two opposite contributions, $+1$ and $-1$. Its sum therefore remains unchanged. We can add any multiple of this pattern without changing a single line sum.
+
+<object
+  type="image/svg+xml"
+  data="/assets/svg/magic-hexagons/alternating-ring-order3-clear.svg"
+  style="display:block; width:100%; max-width:450px; height:auto; margin:auto;"
+  aria-label="Alternating ring that doesn't change line sums">
+</object>
 
 These local alternating rings form a basis: every zero-sum hexagon can be built as a unique linear combination of them. I will omit the proof for brevity, but the idea is fairly straightforward. Starting at the outer layer, choose ring coefficients that cancel its cells, then peel the layer away and continue inward by induction.
 
