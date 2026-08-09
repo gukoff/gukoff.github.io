@@ -300,7 +300,7 @@ Repeatedly finding larger solutions naturally suggested a conjecture:
   <h2 id="article-disclaimer-title">Conjecture</h2>
 
   <p>
-    Abnormal antisymmetric consecutive magic hexagons exist for every order $n>3$.
+    Abnormal antisymmetric consecutive magic hexagons exist for every order $n  \geq 3$.
   </p>
 
 </aside>
